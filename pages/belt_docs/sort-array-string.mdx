@@ -12,13 +12,13 @@ This is a specialized module for `Belt.SortArray`, the docs in that module also 
 
 ## element
 
-```
+```re sig
 type element = string;
 ```
 
 ## strictlySortedLength
 
-```
+```re sig
 let strictlySortedLength: array(element) => int;
 ```
 
@@ -28,7 +28,7 @@ Returns `+n` means increasing order `-n` means negative order.
 
 ## isSorted
 
-```
+```re sig
 let isSorted: array(element) => bool;
 ```
 
@@ -36,7 +36,7 @@ let isSorted: array(element) => bool;
 
 ## stableSortInPlace
 
-```
+```re sig
 let stableSortInPlace: array(element) => unit;
 ```
 
@@ -44,7 +44,7 @@ The same as `Belt.SortArray.stableSortInPlaceBy` except the comparator is fixed.
 
 ## stableSort
 
-```
+```re sig
 let stableSort: array(element) => array(element);
 ```
 
@@ -52,7 +52,7 @@ The same as `Belt.SortArray.stableSortBy` except the comparator is fixed.
 
 ## binarySearch
 
-```
+```re sig
 let binarySearch: (array(element), element) => int;
 ```
 
