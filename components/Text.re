@@ -130,6 +130,8 @@ module Md = {
           ~metastring: option(string),
           ~children,
         ) => {
+      let flavourContext = BeltDocsFlavour.useContext();
+
       let lang =
         switch (className) {
         | None => "re"
@@ -140,6 +142,7 @@ module Md = {
           | _ => "none"
           }
         };
+
       let langClass = "lang-" ++ lang;
       let base = {
         "className":
@@ -153,13 +156,23 @@ module Md = {
          the markdown, otherwise we will just pass children down
          without any modification */
       let codeElement =
-        switch (lang) {
-        | "re"
-        | "reason" =>
+        switch (flavourContext.flavour) {
+        | Reason
+        | OCaml =>
+          let raw = children->Obj.magic;
+
+          let value =
+            try (flavourContext.refmt(~lang, raw)) {
+            | error =>
+              Js.log3("Error when parsing ReasonML", raw, error);
+              raw;
+            };
+
           let highlighted =
-            HighlightJs.(
-              highlight(~lang, ~value=children->Obj.magic)->valueGet
-            );
+            HighlightJs.highlight(~lang, ~value)->HighlightJs.valueGet;
+
+          Js.log(flavourContext.flavour);
+
           let finalProps =
             Js.Obj.assign(
               base,
@@ -189,7 +202,9 @@ module Md = {
           Js.String.split(" ", metastring)->Belt.List.fromArray;
 
         if (Belt.List.has(metaSplits, "example", (==))) {
-          <CodeExample> codeElement </CodeExample>;
+          <CodeExample lang={flavourContext.flavour}>
+            codeElement
+          </CodeExample>;
         } else {
           codeElement;
         };

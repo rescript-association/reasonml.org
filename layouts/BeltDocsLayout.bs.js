@@ -2,11 +2,13 @@
 
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
+import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as React$1 from "@mdx-js/react";
+import * as BeltDocsFlavour from "./BeltDocsFlavour.bs.js";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
 require('../styles/main.css')
@@ -115,22 +117,47 @@ var Md = {
   components: components
 };
 
+function BeltDocsLayout$FlavourSwitch(Props) {
+  var flavourContext = BeltDocsFlavour.useContext(/* () */0);
+  var match = flavourContext[/* flavour */0] === /* Reason */0;
+  var match$1 = flavourContext[/* flavour */0] === /* OCaml */1;
+  return React.createElement("div", {
+              className: "flavour-switch"
+            }, React.createElement("span", {
+                  className: match ? "active" : "",
+                  onClick: (function (param) {
+                      return Curry._1(flavourContext[/* setFlavour */1], /* Reason */0);
+                    })
+                }, "Reason"), React.createElement("span", {
+                  className: match$1 ? "active" : "",
+                  onClick: (function (param) {
+                      return Curry._1(flavourContext[/* setFlavour */1], /* OCaml */1);
+                    })
+                }, "OCaml"));
+}
+
+var FlavourSwitch = {
+  make: BeltDocsLayout$FlavourSwitch
+};
+
 var link = "no-underline text-inherit hover:text-white";
 
 function BeltDocsLayout$Navigation(Props) {
   return React.createElement("nav", {
-              className: "p-2 flex items-center text-sm bg-bs-purple text-white-80"
-            }, React.createElement(Link.default, {
-                  href: "/belt_docs",
-                  children: React.createElement("a", {
-                        className: "flex items-center w-2/3"
-                      }, React.createElement("img", {
-                            className: "h-12",
-                            src: "https://res.cloudinary.com/dmm9n7v9f/image/upload/v1568788825/Reason%20Association/reasonml.org/bucklescript_bqxwee.svg"
-                          }), React.createElement("span", {
-                            className: "text-2xl ml-2 font-montserrat text-white-80 hover:text-white"
-                          }, Util.ReactStuff.s("Belt")))
-                }), React.createElement("div", {
+              className: "p-2 flex justify-between items-center text-sm bg-bs-purple text-white-80"
+            }, React.createElement("div", {
+                  className: "flex items-center"
+                }, React.createElement(Link.default, {
+                      href: "/belt_docs",
+                      children: React.createElement("a", {
+                            className: "flex items-center w-2/3"
+                          }, React.createElement("img", {
+                                className: "h-12",
+                                src: "https://res.cloudinary.com/dmm9n7v9f/image/upload/v1568788825/Reason%20Association/reasonml.org/bucklescript_bqxwee.svg"
+                              }), React.createElement("span", {
+                                className: "text-2xl ml-2 font-montserrat text-white-80 hover:text-white"
+                              }, Util.ReactStuff.s("Belt")))
+                    }), React.createElement(BeltDocsLayout$FlavourSwitch, { })), React.createElement("div", {
                   className: "flex w-1/3 justify-end"
                 }, React.createElement(Link.default, {
                       href: "/",
@@ -506,19 +533,21 @@ function BeltDocsLayout(Props) {
   var minWidth = {
     minWidth: "20rem"
   };
-  return React.createElement("div", {
-              className: "mb-32"
-            }, React.createElement("div", {
-                  className: "max-w-4xl w-full lg:w-3/4 text-gray-900 font-base"
-                }, React.createElement(BeltDocsLayout$Navigation, { }), React.createElement("main", {
-                      className: "flex mt-12 mx-4",
-                      style: minWidth
-                    }, React.createElement(BeltDocsLayout$Sidebar, { }), React.createElement(React$1.MDXProvider, {
-                          components: components$1,
-                          children: React.createElement("div", {
-                                className: "pl-8 w-3/4"
-                              }, children)
-                        }))));
+  return React.createElement(BeltDocsFlavour.Provider.make, {
+              children: React.createElement("div", {
+                    className: "mb-32"
+                  }, React.createElement("div", {
+                        className: "max-w-4xl w-full lg:w-3/4 text-gray-900 font-base"
+                      }, React.createElement(BeltDocsLayout$Navigation, { }), React.createElement("main", {
+                            className: "flex mt-12 mx-4",
+                            style: minWidth
+                          }, React.createElement(BeltDocsLayout$Sidebar, { }), React.createElement(React$1.MDXProvider, {
+                                components: components$1,
+                                children: React.createElement("div", {
+                                      className: "pl-8 w-3/4"
+                                    }, children)
+                              }))))
+            });
 }
 
 var Link$1 = 0;
@@ -528,6 +557,7 @@ var make = BeltDocsLayout;
 export {
   Link$1 as Link,
   Md ,
+  FlavourSwitch ,
   Navigation ,
   Sidebar ,
   make ,

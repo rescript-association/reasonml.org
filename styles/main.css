@@ -2,10 +2,40 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import './_hljs.css';
-@import './_markdown.css';
+@import "./_hljs.css";
+@import "./_markdown.css";
 @import "./_fonts.css";
 
 body {
   @apply font-overpass bg-white;
+}
+
+.flavour-switch {
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.2em;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  cursor: pointer;
+  z-index: 100;
+  border: 1px solid #fff;
+  background: #a1639f;
+  color: #fff;
+  margin-left: 20px;
+  align-items: center;
+  height: 35px;
+}
+
+.flavour-switch > span {
+  padding: 10px;
+  height: 100%;
+}
+
+.flavour-switch > span.active {
+  background: #fff;
+  color: #a1639f;
+  box-shadow: 0 0 10px #fff;
 }

@@ -94,23 +94,48 @@ module Md = {
     );
 };
 
+module FlavourSwitch = {
+  open BeltDocsFlavour;
+  [@react.component]
+  let make = () => {
+    let flavourContext = useContext();
+
+    <div className="flavour-switch">
+      <span
+        className={flavourContext.flavour == Flavour.Reason ? "active" : ""}
+        onClick={_ => flavourContext.setFlavour(Flavour.Reason)}>
+        {React.string("Reason")}
+      </span>
+      <span
+        className={flavourContext.flavour == Flavour.OCaml ? "active" : ""}
+        onClick={_ => flavourContext.setFlavour(Flavour.OCaml)}>
+        {React.string("OCaml")}
+      </span>
+    </div>;
+  };
+};
+
 module Navigation = {
   let link = "no-underline text-inherit hover:text-white";
   [@react.component]
   let make = () =>
-    <nav className="p-2 flex items-center text-sm bg-bs-purple text-white-80">
-      <Link href="/belt_docs">
-        <a className="flex items-center w-2/3">
-          <img
-            className="h-12"
-            src="https://res.cloudinary.com/dmm9n7v9f/image/upload/v1568788825/Reason%20Association/reasonml.org/bucklescript_bqxwee.svg"
-          />
-          <span
-            className="text-2xl ml-2 font-montserrat text-white-80 hover:text-white">
-            "Belt"->s
-          </span>
-        </a>
-      </Link>
+    <nav
+      className="p-2 flex justify-between items-center text-sm bg-bs-purple text-white-80">
+      <div className="flex items-center">
+        <Link href="/belt_docs">
+          <a className="flex items-center w-2/3">
+            <img
+              className="h-12"
+              src="https://res.cloudinary.com/dmm9n7v9f/image/upload/v1568788825/Reason%20Association/reasonml.org/bucklescript_bqxwee.svg"
+            />
+            <span
+              className="text-2xl ml-2 font-montserrat text-white-80 hover:text-white">
+              "Belt"->s
+            </span>
+          </a>
+        </Link>
+        <FlavourSwitch />
+      </div>
       <div className="flex w-1/3 justify-end">
         <Link href="/">
           <a className={link ++ " mx-2"}> "ReasonML"->s </a>
@@ -224,15 +249,17 @@ module Sidebar = {
 [@react.component]
 let make = (~components=Md.components, ~children) => {
   let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-  <div className="mb-32">
-    <div className="max-w-4xl w-full lg:w-3/4 text-gray-900 font-base">
-      <Navigation />
-      <main style=minWidth className="flex mt-12 mx-4">
-        <Sidebar />
-        <Mdx.Provider components>
-          <div className="pl-8 w-3/4"> children </div>
-        </Mdx.Provider>
-      </main>
+  <BeltDocsFlavour.Provider>
+    <div className="mb-32">
+      <div className="max-w-4xl w-full lg:w-3/4 text-gray-900 font-base">
+        <Navigation />
+        <main style=minWidth className="flex mt-12 mx-4">
+          <Sidebar />
+          <Mdx.Provider components>
+            <div className="pl-8 w-3/4"> children </div>
+          </Mdx.Provider>
+        </main>
+      </div>
     </div>
-  </div>;
+  </BeltDocsFlavour.Provider>;
 };

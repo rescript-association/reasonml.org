@@ -1,6 +1,7 @@
 
 
 import * as Util from "../common/Util.bs.js";
+import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Caml_obj from "bs-platform/lib/es6/caml_obj.js";
 import * as Belt_List from "bs-platform/lib/es6/belt_List.js";
@@ -8,6 +9,8 @@ import * as ReactDOMRe from "reason-react/src/ReactDOMRe.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as CodeExample from "./CodeExample.bs.js";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
+import * as BeltDocsFlavour from "../layouts/BeltDocsFlavour.bs.js";
+import * as Caml_js_exceptions from "bs-platform/lib/es6/caml_js_exceptions.js";
 import * as Highlight from "highlight.js/lib/highlight";
 
 var inline = "no-underline border-b hover:text-main-lighten-20 hover:border-primary-dark-10 border-primary-lighten-50 text-inherit";
@@ -149,6 +152,7 @@ function Text$Md$Code(Props) {
   var className = Props.className;
   var metastring = Props.metastring;
   var children = Props.children;
+  var flavourContext = BeltDocsFlavour.useContext(/* () */0);
   var lang;
   if (className !== undefined) {
     var match = className.split("-");
@@ -171,18 +175,22 @@ function Text$Md$Code(Props) {
     className: langClass + " font-mono block overflow-x-scroll leading-tight hljs",
     metastring: metastring
   };
+  var match$2 = flavourContext[/* flavour */0];
   var codeElement;
-  var exit = 0;
-  switch (lang) {
-    case "re" :
-    case "reason" :
-        exit = 1;
-        break;
-    default:
-      codeElement = ReactDOMRe.createElementVariadic("code", Caml_option.some(base), children);
-  }
-  if (exit === 1) {
-    var highlighted = Highlight.highlight(lang, children).value;
+  if (match$2 >= 2) {
+    codeElement = ReactDOMRe.createElementVariadic("code", Caml_option.some(base), children);
+  } else {
+    var value;
+    try {
+      value = Curry._2(flavourContext[/* refmt */2], lang, children);
+    }
+    catch (raw_error){
+      var error = Caml_js_exceptions.internalToOCamlException(raw_error);
+      console.log("Error when parsing ReasonML", children, error);
+      value = children;
+    }
+    var highlighted = Highlight.highlight(lang, value).value;
+    console.log(flavourContext[/* flavour */0]);
     var finalProps = Object.assign(base, {
           dangerouslySetInnerHTML: {
             __html: highlighted
@@ -194,7 +202,8 @@ function Text$Md$Code(Props) {
     var metaSplits = Belt_List.fromArray(metastring.split(" "));
     if (Belt_List.has(metaSplits, "example", Caml_obj.caml_equal)) {
       return React.createElement(CodeExample.make, {
-                  children: codeElement
+                  children: codeElement,
+                  lang: flavourContext[/* flavour */0]
                 });
     } else {
       return codeElement;
