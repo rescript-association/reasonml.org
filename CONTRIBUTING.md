@@ -23,11 +23,12 @@ Before you start any work or submit any PRs, make sure to check our [issue
 tracker](https://github.com/reason-association/reasonml.org/issues) for any
 issues or discussions on the topic.
 
-If you can't find any relevant issues, feel free to create a new one to start
-a discussion, or contact @ryyppy / @nikgraf on the [Reason
-Discord](https://discord.gg/reasonml) channel for quick feedback. Issues
-currently in the works will be assigned to the responsible person to prevent
-confusion and duplicate work.
+If you can't find any relevant issues, feel free to create a new one to start a
+discussion, or contact @ryyppy / @nikgraf on the [Reason
+Discord](https://discord.gg/reasonml) channel for quick feedback. We usually
+assign issues to a responsible person to prevent confusion and duplicate
+work, so always double check if an issue is currently being worked on, or talk
+to the current assignee to take over the task.
 
 **Always make sure to get feedback from the core maintainers before starting any work**
 
