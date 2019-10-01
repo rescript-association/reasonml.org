@@ -94,27 +94,6 @@ module Md = {
     );
 };
 
-module FlavourSwitch = {
-  open BeltDocsFlavour;
-  [@react.component]
-  let make = () => {
-    let flavourContext = useContext();
-
-    <div className="flavour-switch">
-      <span
-        className={flavourContext.flavour == Flavour.Reason ? "active" : ""}
-        onClick={_ => flavourContext.setFlavour(Flavour.Reason)}>
-        {React.string("Reason")}
-      </span>
-      <span
-        className={flavourContext.flavour == Flavour.OCaml ? "active" : ""}
-        onClick={_ => flavourContext.setFlavour(Flavour.OCaml)}>
-        {React.string("OCaml")}
-      </span>
-    </div>;
-  };
-};
-
 module Navigation = {
   let link = "no-underline text-inherit hover:text-white";
   [@react.component]
@@ -134,7 +113,7 @@ module Navigation = {
             </span>
           </a>
         </Link>
-        <FlavourSwitch />
+        <SyntaxSwitch />
       </div>
       <div className="flex w-1/3 justify-end">
         <Link href="/">
@@ -249,7 +228,7 @@ module Sidebar = {
 [@react.component]
 let make = (~components=Md.components, ~children) => {
   let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-  <BeltDocsFlavour.Provider>
+  <BeltDocsSyntax.Provider>
     <div className="mb-32">
       <div className="max-w-4xl w-full lg:w-3/4 text-gray-900 font-base">
         <Navigation />
@@ -261,5 +240,5 @@ let make = (~components=Md.components, ~children) => {
         </main>
       </div>
     </div>
-  </BeltDocsFlavour.Provider>;
+  </BeltDocsSyntax.Provider>;
 };

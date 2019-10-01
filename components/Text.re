@@ -130,7 +130,7 @@ module Md = {
           ~metastring: option(string),
           ~children,
         ) => {
-      let flavourContext = BeltDocsFlavour.useContext();
+      let syntaxContext = BeltDocsSyntax.useContext();
 
       let lang =
         switch (className) {
@@ -156,13 +156,15 @@ module Md = {
          the markdown, otherwise we will just pass children down
          without any modification */
       let codeElement =
-        switch (flavourContext.flavour) {
-        | Reason
-        | OCaml =>
+        switch (lang) {
+        | "re"
+        | "reason"
+        | "ml"
+        | "ocaml" =>
           let raw = children->Obj.magic;
 
           let value =
-            try (flavourContext.refmt(~lang, raw)) {
+            try (syntaxContext.refmt(~lang, ~meta=?metastring, raw)) {
             | error =>
               Js.log3("Error when parsing ReasonML", raw, error);
               raw;
@@ -170,8 +172,6 @@ module Md = {
 
           let highlighted =
             HighlightJs.highlight(~lang, ~value)->HighlightJs.valueGet;
-
-          Js.log(flavourContext.flavour);
 
           let finalProps =
             Js.Obj.assign(
@@ -182,11 +182,13 @@ module Md = {
                 },
               },
             );
+
           ReactDOMRe.createElementVariadic(
             "code",
             ~props=ReactDOMRe.objToDOMProps(finalProps),
             [||],
           );
+
         | _ =>
           ReactDOMRe.createElementVariadic(
             "code",
@@ -202,7 +204,7 @@ module Md = {
           Js.String.split(" ", metastring)->Belt.List.fromArray;
 
         if (Belt.List.has(metaSplits, "example", (==))) {
-          <CodeExample lang={flavourContext.flavour}>
+          <CodeExample syntax={syntaxContext.syntax}>
             codeElement
           </CodeExample>;
         } else {
