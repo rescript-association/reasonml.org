@@ -7,6 +7,14 @@ Please make sure to check out our [Code of Conduct](CODE_OF_CONDUCT.md) and
 make sure to follow it in all your interactions within this project and the
 ReasonML community.
 
+## Ways to contribute
+
+- Writing docs for Belt (later on BuckleScript, Reason, ReasonReact)
+- Joining in discussions on our [issue tracker](https://github.com/reason-association/reasonml.org/issues)
+- Give feedback for improvements (incomplete / missing docs, bad wording,
+  search user experience / design, etc.)
+- Advanced: Help building platform features (design system, automatic testing, markdown parsing, etc.)
+
 ## How to get started?
 
 ### Find an issue
@@ -54,7 +62,7 @@ resource for others to understand technical decisions later on.
 ### Communication Channels
 
 - [Issue Tracker](https://github.com/reason-association/reasonml.org/issues)
-- [ReasonML Discord Chat](https://discord.gg/reasonml)
+- [ReasonML Discord Chat](https://discord.gg/reasonml) -> [#docs](https://discord.gg/fscQAnj) Channel
 - [ReasonML Discourse (General / mostly unrelated discussions)](https://reasonml.chat)
 
 ## Working on the reasonml.org codebase
