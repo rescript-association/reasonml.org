@@ -23,6 +23,26 @@ let indexData:
   "require('../index_data/belt_api_index.json')"
 ];
 
+let searchIndex:
+  array(
+    Js.t({
+      .
+      "href": string,
+      "moduleName": string,
+      "content":
+        array(
+          Js.t({
+            .
+            "belt": string,
+            "signature": string,
+            "js": array(string),
+          }),
+        ),
+    }),
+  ) = [%raw
+  "require('../index_data/belt_search_index.json')"
+];
+
 /*
     We use some custom markdown styling for the Belt docs to make
     it easier on the eyes
@@ -110,10 +130,82 @@ let package: {. "dependencies": {. "bs-platform": string}} = [%raw
   "require('../package.json')"
 ];
 
+let fuseOpts =
+  Fuse.Options.t(
+    ~shouldSort=true,
+    ~includeMatches=true,
+    ~includeScore=true,
+    ~threshold=0.4,
+    ~location=0,
+    ~distance=100,
+    ~maxPatternLength=32,
+    ~minMatchCharLength=1,
+    ~keys=[|"content.reason", "content.js"|],
+    (),
+  );
+
+module Searchbar = {
+  module ResultRow = {
+    [@react.component]
+    let make = () => {
+      <div> "Result"->s </div>;
+    };
+  };
+
+  [@react.component]
+  let make = () => {
+    let (results, setResults) = React.useState(() => None);
+
+    Js.log2("results:", results);
+
+    <div className="relative w-3/5 ml-6 ">
+      <div
+        className="flex px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3">
+        <img
+          src="/static/ic_search_small.svg"
+          className="mr-3"
+          ariaHidden=true
+        />
+        <input
+          type_="text"
+          className="bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2"
+          placeholder="Search for Belt functions, modules, types..."
+          onChange={evt => {
+            open ReactEvent.Form;
+            preventDefault(evt);
+            let value = target(evt)##value;
+            if (value === "") {
+              setResults(_ => None);
+            } else {
+              let matches =
+                Fuse.(make(searchIndex, fuseOpts)->search(value));
+
+              switch (matches) {
+              | [||] => ()
+              | arr => setResults(_ => Some(arr))
+              };
+            };
+          }}
+        />
+      </div>
+      <div className="absolute bg-blue-700 w-full">
+        {switch (results) {
+         | None => React.null
+         | Some(results) =>
+           Belt.Array.mapWithIndex(results, (i, _r) =>
+             <div key={string_of_int(i)}> <ResultRow /> </div>
+           )
+           ->ate
+         }}
+      </div>
+    </div>;
+  };
+};
+
 module Navigation = {
   let link = "no-underline text-inherit hover:text-white";
   [@react.component]
-  let make = () =>
+  let make = () => {
     <nav
       id="header"
       className="fixed z-10 top-0 p-2 w-full h-16 shadow flex items-center text-ghost-white text-sm bg-bs-purple">
@@ -128,19 +220,7 @@ module Navigation = {
           </span>
         </a>
       </Link>
-      <div
-        className="ml-6 flex w-3/5 px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3">
-        <img
-          src="/static/ic_search_small.svg"
-          className="mr-3"
-          ariaHidden=true
-        />
-        <input
-          type_="text"
-          className="bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2"
-          placeholder="Search not ready yet..."
-        />
-      </div>
+      <Searchbar />
       <div className="flex mx-4 text-ghost-white justify-between ml-auto">
         <Link href="/"> <a className=link> "ReasonML"->s </a> </Link>
         <a
@@ -159,6 +239,7 @@ module Navigation = {
         </a>
       </div>
     </nav>;
+  };
 };
 
 module Sidebar = {

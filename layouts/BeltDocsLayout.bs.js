@@ -5,6 +5,7 @@ import * as Util from "../common/Util.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
+import * as FuseJs from "fuse.js";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
@@ -24,6 +25,8 @@ hljs.registerLanguage('reason', reasonHighlightJs);
 ;
 
 var indexData = (require('../index_data/belt_api_index.json'));
+
+var searchIndex = (require('../index_data/belt_search_index.json'));
 
 function BeltDocsLayout$Md$Anchor(Props) {
   var id = Props.id;
@@ -127,6 +130,80 @@ var Md = {
 
 var $$package = (require('../package.json'));
 
+var fuseOpts = {
+  shouldSort: true,
+  includeMatches: true,
+  includeScore: true,
+  threshold: 0.4,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: /* array */[
+    "content.reason",
+    "content.js"
+  ]
+};
+
+function BeltDocsLayout$Searchbar$ResultRow(Props) {
+  return React.createElement("div", undefined, Util.ReactStuff.s("Result"));
+}
+
+var ResultRow = {
+  make: BeltDocsLayout$Searchbar$ResultRow
+};
+
+function BeltDocsLayout$Searchbar(Props) {
+  var match = React.useState((function () {
+          return ;
+        }));
+  var setResults = match[1];
+  var results = match[0];
+  console.log("results:", results);
+  return React.createElement("div", {
+              className: "relative w-3/5 ml-6 "
+            }, React.createElement("div", {
+                  className: "flex px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3"
+                }, React.createElement("img", {
+                      "aria-hidden": true,
+                      className: "mr-3",
+                      src: "/static/ic_search_small.svg"
+                    }), React.createElement("input", {
+                      className: "bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2",
+                      placeholder: "Search for Belt functions, modules, types...",
+                      type: "text",
+                      onChange: (function (evt) {
+                          evt.preventDefault();
+                          var value = evt.target.value;
+                          if (value === "") {
+                            return Curry._1(setResults, (function (param) {
+                                          return ;
+                                        }));
+                          } else {
+                            var matches = new FuseJs(searchIndex, fuseOpts).search(value);
+                            if (matches.length !== 0) {
+                              return Curry._1(setResults, (function (param) {
+                                            return matches;
+                                          }));
+                            } else {
+                              return /* () */0;
+                            }
+                          }
+                        })
+                    })), React.createElement("div", {
+                  className: "absolute bg-blue-700 w-full"
+                }, results !== undefined ? Util.ReactStuff.ate(Belt_Array.mapWithIndex(results, (function (i, _r) {
+                              return React.createElement("div", {
+                                          key: String(i)
+                                        }, React.createElement(BeltDocsLayout$Searchbar$ResultRow, { }));
+                            }))) : null));
+}
+
+var Searchbar = {
+  ResultRow: ResultRow,
+  make: BeltDocsLayout$Searchbar
+};
+
 var link = "no-underline text-inherit hover:text-white";
 
 function BeltDocsLayout$Navigation(Props) {
@@ -144,17 +221,7 @@ function BeltDocsLayout$Navigation(Props) {
                               })), React.createElement("span", {
                             className: "text-xl ml-2 font-black text-white"
                           }, Util.ReactStuff.s("Belt")))
-                }), React.createElement("div", {
-                  className: "ml-6 flex w-3/5 px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3"
-                }, React.createElement("img", {
-                      "aria-hidden": true,
-                      className: "mr-3",
-                      src: "/static/ic_search_small.svg"
-                    }), React.createElement("input", {
-                      className: "bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2",
-                      placeholder: "Search not ready yet...",
-                      type: "text"
-                    })), React.createElement("div", {
+                }), React.createElement(BeltDocsLayout$Searchbar, { }), React.createElement("div", {
                   className: "flex mx-4 text-ghost-white justify-between ml-auto"
                 }, React.createElement(Link.default, {
                       href: "/",
@@ -661,8 +728,11 @@ var make = BeltDocsLayout;
 export {
   Link$1 as Link,
   indexData ,
+  searchIndex ,
   Md ,
   $$package ,
+  fuseOpts ,
+  Searchbar ,
   Navigation ,
   Sidebar ,
   make ,
