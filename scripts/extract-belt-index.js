@@ -71,6 +71,10 @@ const toBeltDocsPath = filepath => {
 
 const BELT_MD_DIR = path.join(__dirname, "../pages/belt_docs");
 const INDEX_FILE = path.join(__dirname, "../index_data/belt_api_index.json");
+const SEARCH_INDEX_FILE = path.join(
+  __dirname,
+  "../index_data/belt_search_index.json"
+);
 const files = glob.sync(`${BELT_MD_DIR}/*.md?(x)`);
 
 const processFile = filepath => {
@@ -104,4 +108,23 @@ const index = result.reduce((acc, data) => {
   return acc;
 }, {});
 
+const searchIndex = result.map(data => {
+  const { moduleName, headers } = data;
+
+  const content = headers.map(header => {
+    return {
+      reason: header,
+      signature: "",
+      js: []
+    };
+  });
+
+  return {
+    moduleName,
+    href: "/" + data.href,
+    content
+  };
+});
+
 fs.writeFileSync(INDEX_FILE, JSON.stringify(index), "utf8");
+fs.writeFileSync(SEARCH_INDEX_FILE, JSON.stringify(searchIndex), "utf8");
