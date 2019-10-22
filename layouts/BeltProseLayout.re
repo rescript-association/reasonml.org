@@ -22,7 +22,7 @@ of H2 nodes.
 module Md = {
   module Anchor = {
     [@react.component]
-    let make = (~id: string) => {
+[@dead "Md.Anchor.make"]     let make = (~id: string) => {
       let style =
         ReactDOMRe.Style.make(~position="absolute", ~top="-7rem", ());
       <span style={ReactDOMRe.Style.make(~position="relative", ())}>
@@ -38,7 +38,7 @@ module Md = {
 
   module H2 = {
     [@react.component]
-    let make = (~children) => {
+[@dead "Md.H2.make"]     let make = (~children) => {
       <>
         // Here we know that children is always a string (## headline)
         <h2
@@ -52,21 +52,21 @@ module Md = {
 
   module Pre = {
     [@react.component]
-    let make = (~children) => {
+[@dead "Md.Pre.make"]     let make = (~children) => {
       <pre className="mt-2 mb-4 block"> children </pre>;
     };
   };
 
   module P = {
     [@react.component]
-    let make = (~children) => {
+[@dead "Md.P.make"]     let make = (~children) => {
       <p className="text-base mt-3 leading-4 text-main-lighten-15">
         children
       </p>;
     };
   };
 
-  let components =
+[@dead "Md.components"]   let components =
     Mdx.Components.t(
       ~p=P.make,
       ~li=Md.Li.make,
@@ -86,9 +86,9 @@ module Md = {
 };
 
 module Navigation = {
-  let link = "no-underline text-inherit hover:text-white";
+[@dead "Navigation.link"]   let link = "no-underline text-inherit hover:text-white";
   [@react.component]
-  let make = () =>
+[@dead "Navigation.make"]   let make = () =>
     <nav className="p-2 flex items-center text-sm bg-bs-purple text-white-80">
       <Link href="/belt_docs">
         <a className="flex items-center w-2/3">
@@ -120,6 +120,6 @@ module Navigation = {
 module Sidebar = BeltDocsLayout.Sidebar;
 
 [@react.component]
-let make = (~children) => {
+[@dead "make"] let make = (~children) => {
   <BeltDocsLayout components=Md.components> children </BeltDocsLayout>;
 };

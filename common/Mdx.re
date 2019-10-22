@@ -46,7 +46,7 @@ module Components = {
   /* Sets our preferred branded styles
      We most likely will never need a different ~components
      option on our website. */
-  let default =
+[@dead "Components.default"]   let default =
     t(
       ~p=Md.P.make,
       ~li=Md.Li.make,

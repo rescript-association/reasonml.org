@@ -30,7 +30,7 @@ let indexData:
 module Md = {
   module Anchor = {
     [@react.component]
-    let make = (~id: string) => {
+[@dead "Md.Anchor.make"]     let make = (~id: string) => {
       let style =
         ReactDOMRe.Style.make(~position="absolute", ~top="-7rem", ());
       <span className="relative">
@@ -106,14 +106,14 @@ module Md = {
 };
 
 // Retrieve package.json to access the version of bs-platform.
-let package: {. "dependencies": {. "bs-platform": string}} = [%raw
+[@dead "package"] let package: {. "dependencies": {. "bs-platform": string}} = [%raw
   "require('../package.json')"
 ];
 
 module Navigation = {
-  let link = "no-underline text-inherit hover:text-white";
+[@dead "Navigation.link"]   let link = "no-underline text-inherit hover:text-white";
   [@react.component]
-  let make = () =>
+[@dead "Navigation.make"]   let make = () =>
     <nav
       id="header"
       className="fixed z-10 top-0 p-2 w-full h-16 shadow flex items-center text-ghost-white text-sm bg-bs-purple">
@@ -173,9 +173,9 @@ module Sidebar = {
     items: array(navItem),
   };
 
-  let overviewNavs = [|{name: "Introduction", href: "/belt_docs"}|];
+[@dead "Sidebar.overviewNavs"]   let overviewNavs = [|{name: "Introduction", href: "/belt_docs"}|];
 
-  let setNavs = [|
+[@dead "Sidebar.setNavs"]   let setNavs = [|
     {name: "HashSet", href: "/belt_docs/hash-set"},
     {name: "HashSetInt", href: "/belt_docs/hash-set-int"},
     {name: "HashSetString", href: "/belt_docs/hash-set-string"},
@@ -185,7 +185,7 @@ module Sidebar = {
     {name: "SetString", href: "/belt_docs/set-string"},
   |];
 
-  let mapNavs = [|
+[@dead "Sidebar.mapNavs"]   let mapNavs = [|
     {name: "HashMap", href: "/belt_docs/hash-map"},
     {name: "HashMapInt", href: "/belt_docs/hash-map-int"},
     {name: "HashMapString", href: "/belt_docs/hash-map-string"},
@@ -195,7 +195,7 @@ module Sidebar = {
     {name: "MapString", href: "/belt_docs/map-string"},
   |];
 
-  let mutableCollectionsNavs = [|
+[@dead "Sidebar.mutableCollectionsNavs"]   let mutableCollectionsNavs = [|
     {name: "MutableMap", href: "/belt_docs/mutable-map"},
     {name: "MutableMapInt", href: "/belt_docs/mutable-map-int"},
     {name: "MutableMapString", href: "/belt_docs/mutable-map-string"},
@@ -206,7 +206,7 @@ module Sidebar = {
     {name: "MutableStack", href: "/belt_docs/mutable-stack"},
   |];
 
-  let basicNavs = [|
+[@dead "Sidebar.basicNavs"]   let basicNavs = [|
     {name: "List", href: "/belt_docs/list"},
     {name: "Array", href: "/belt_docs/array"},
     {name: "Float", href: "/belt_docs/float"},
@@ -217,15 +217,15 @@ module Sidebar = {
     {name: "Result", href: "/belt_docs/result"},
   |];
 
-  let sortNavs = [|
+[@dead "Sidebar.sortNavs"]   let sortNavs = [|
     {name: "SortArray", href: "/belt_docs/sort-array"},
     {name: "SortArrayInt", href: "/belt_docs/sort-array-int"},
     {name: "SortArrayString", href: "/belt_docs/sort-array-string"},
   |];
 
-  let utilityNavs = [|{name: "Debug", href: "/belt_docs/debug"}|];
+[@dead "Sidebar.utilityNavs"]   let utilityNavs = [|{name: "Debug", href: "/belt_docs/debug"}|];
 
-  let categories = [|
+[@dead "Sidebar.categories"]   let categories = [|
     {name: "Overview", items: overviewNavs},
     {name: "Basics", items: basicNavs},
     {name: "Set", items: setNavs},
@@ -237,7 +237,7 @@ module Sidebar = {
 
   module NavUl = {
     [@react.component]
-    let make =
+[@dead "Sidebar.NavUl.make"]     let make =
         (
           ~isItemActive: navItem => bool=_nav => false,
           ~isHidden=false,
@@ -264,7 +264,7 @@ module Sidebar = {
     };
   };
 
-  let categoryToElement =
+[@dead "Sidebar.categoryToElement"]   let categoryToElement =
       (~isItemActive: option(navItem => bool)=?, category: category)
       : React.element => {
     <div key={category.name} className="my-12">
@@ -275,7 +275,7 @@ module Sidebar = {
 
   module ModuleContent = {
     [@react.component]
-    let make =
+[@dead "Sidebar.ModuleContent.make"]     let make =
         (~isItemActive=?, ~headers: array(string), ~moduleName: string) => {
       let (collapsed, setCollapsed) = React.useState(() => false);
       let items =
@@ -304,7 +304,7 @@ module Sidebar = {
 
   // subitems: list of functions inside given module (defined by route)
   [@react.component]
-  let make = (~route: string) => {
+[@dead "Sidebar.make"]   let make = (~route: string) => {
     let headers =
       Belt.Option.(
         Js.Dict.get(indexData, route)
@@ -347,7 +347,7 @@ module Sidebar = {
 };
 
 [@react.component]
-let make = (~components=Md.components, ~children) => {
+[@dead "make"] let make = (~components=Md.components, ~children) => {
   let router = Next.Router.useRouter();
 
   let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());

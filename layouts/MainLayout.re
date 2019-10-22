@@ -6,7 +6,7 @@ module Link = Next.Link;
 
 module Navigation = {
   [@react.component]
-  let make = () =>
+[@dead "Navigation.make"]   let make = () =>
     <nav className="p-2 flex items-center text-sm">
       <Link href="/">
         <a className="flex items-center w-2/3">
@@ -34,7 +34,7 @@ module Navigation = {
 };
 
 [@react.component]
-let make = (~children) => {
+[@dead "make"] let make = (~children) => {
   let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
   <div className="mb-32">
     <div className="max-w-4xl w-full lg:w-3/4 text-gray-900 font-base">

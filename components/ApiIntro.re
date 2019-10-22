@@ -1,4 +1,4 @@
 [@react.component]
-let make = (~children) => {
+[@dead "make"] let make = (~children) => {
   <div className="my-10"> children </div>;
 };

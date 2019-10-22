@@ -1,21 +1,21 @@
 type rawModule;
 type parsedMdxModule = {
-  id: string, /* Id, which is also part of the Url */
-  filepath: string,
+[@dead "parsedMdxModule.id"]   id: string, /* Id, which is also part of the Url */
+[@dead "parsedMdxModule.filepath"]   filepath: string,
 };
 
 [@bs.deriving abstract]
 type webpackCtx = {keys: unit => array(string)};
 
-let getMdxModule: (webpackCtx, string) => rawModule = [%raw
+[@dead "getMdxModule"] let getMdxModule: (webpackCtx, string) => rawModule = [%raw
   (ctx, filepath) => "{ return ctx(filepath); }"
 ];
 
-let beltCtx: webpackCtx = [%raw
+[@dead "beltCtx"] let beltCtx: webpackCtx = [%raw
   "require.context('../pages/belt_docs', true, /^\.\/.*\.mdx$/)"
 ];
 
-let toMdxModules = (ctx: webpackCtx): array(parsedMdxModule) =>
+[@dead "toMdxModules"] let toMdxModules = (ctx: webpackCtx): array(parsedMdxModule) =>
   ctx
   ->keysGet()
   ->Belt.Array.map(filepath => {
@@ -33,6 +33,6 @@ let toMdxModules = (ctx: webpackCtx): array(parsedMdxModule) =>
       {id, filepath: correctedFilepath};
     });
 
-let getAllBeltModules = () => {
+[@dead "getAllBeltModules"] let getAllBeltModules = () => {
   beltCtx->toMdxModules;
 };
