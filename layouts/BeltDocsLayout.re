@@ -252,7 +252,12 @@ module Sidebar = {
                isItemActive(m)
                  ? " bg-bs-purple-lighten-95 text-bs-pink rounded -ml-1 px-2 font-bold block "
                  : "";
-             <li key={m.name} className={hidden ++ " leading-5 w-4/5"}>
+             <li
+               key={m.name}
+               className={hidden ++ " leading-5 w-4/5"}
+               // to make non-interactive elements (like div, span or li) tab-able
+               // see https://developer.mozilla.org/en-US/docs/Web/Accessibility/Keyboard-navigable_JavaScript_widgets
+               tabIndex=0>
                <a href={m.href} className={"hover:text-bs-purple " ++ active}>
                  m.name->s
                </a>
