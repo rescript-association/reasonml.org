@@ -4,13 +4,13 @@ import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
 import * as React from "react";
 import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
-import * as ApiLayout from "./ApiLayout.bs.js";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
 import * as Navigation from "../components/Navigation.bs.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as Router from "next/router";
 import * as React$1 from "@mdx-js/react";
+import * as SidebarLayout from "./SidebarLayout.bs.js";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
 require('../styles/main.css')
@@ -519,7 +519,7 @@ function JsDocsLayout$Docs(Props) {
               return data.moduleName;
             })), "?");
   var match$1 = route !== "/js_docs";
-  var collapsibleSection = match$1 ? React.createElement(ApiLayout.Sidebar.CollapsibleSection.make, {
+  var collapsibleSection = match$1 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
           headers: headers,
           moduleName: moduleName
         }) : null;
@@ -531,11 +531,10 @@ function JsDocsLayout$Docs(Props) {
                   style: minWidth
                 }, React.createElement(Navigation.ApiDocs.make, {
                       route: router.route,
-                      theme: /* JS */16585,
                       versionInfo: "v" + $$package.dependencies["bs-platform"]
                     }), React.createElement("div", {
                       className: "flex mt-12"
-                    }, React.createElement(ApiLayout.Sidebar.make, {
+                    }, React.createElement(SidebarLayout.Sidebar.make, {
                           categories: categories,
                           route: router.route,
                           children: collapsibleSection
@@ -556,7 +555,7 @@ var Docs = {
 function JsDocsLayout$Prose(Props) {
   var children = Props.children;
   return React.createElement(JsDocsLayout$Docs, {
-              components: ApiLayout.ApiMd.components,
+              components: SidebarLayout.ApiMd.components,
               children: children
             });
 }

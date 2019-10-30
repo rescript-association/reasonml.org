@@ -110,7 +110,7 @@ let package: {. "dependencies": {. "bs-platform": string}} = [%raw
   "require('../package.json')"
 ];
 
-module Sidebar = ApiLayout.Sidebar;
+module Sidebar = SidebarLayout.Sidebar;
 module NavItem = Sidebar.NavItem;
 module Category = Sidebar.Category;
 
@@ -243,7 +243,6 @@ module Docs = {
     <div>
       <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
         <Navigation.ApiDocs
-          theme=`JS
           route={router##route}
           versionInfo={"v" ++ package##dependencies##"bs-platform"}
         />
@@ -266,6 +265,6 @@ module Prose = {
   [@genType]
   [@react.component]
   let make = (~children) => {
-    <Docs components=ApiLayout.ApiMd.components> children </Docs>;
+    <Docs components=SidebarLayout.ApiMd.components> children </Docs>;
   };
 };

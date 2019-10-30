@@ -2,28 +2,22 @@ open Util.ReactStuff;
 module Link = Next.Link;
 
 let link = "no-underline text-inherit hover:text-white text-white-80";
-let activeLink = "no-underline text-inherit font-bold text-white";
+let activeLink = "text-inherit font-bold text-fire-80 underline";
 
 let linkOrActiveLink = (~target, ~route) =>
   target === route ? activeLink : link;
 
 [@react.component]
-let make = (~route="/", ~theme=`Reason) => {
-  let theme = ColorTheme.toCN(theme);
+let make = (~route="/") => {
   <nav
     id="header"
-    className={
-      "fixed z-10 top-0 p-2 w-full h-16 bg-t-primary shadow flex items-center text-ghost-white text-sm "
-      ++ theme
-    }>
+    className="fixed z-10 top-0 p-2 w-full h-16 bg-night-dark shadow flex items-center text-show-light text-sm">
     <Link href="/">
       <a className="flex items-center pl-10 w-1/5">
-        <span className="text-xl ml-2 font-black text-white">
-          "Reason"->s
-        </span>
+        <img src="/static/reason_logo.svg" className="h-10" />
       </a>
     </Link>
-    <div className="flex mx-4 text-ghost-white justify-between ml-auto">
+    <div className="flex mx-4 text-white-80 justify-between ml-auto">
       <Link href="/api">
         <a className={linkOrActiveLink(~target="/api", ~route)}> "API"->s </a>
       </Link>
@@ -37,7 +31,7 @@ let make = (~route="/", ~theme=`Reason) => {
       />
       <input
         type_="text"
-        className="bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2"
+        className="bg-transparent placeholder-white-80 block focus:outline-none w-full ml-2"
         placeholder="Search not ready yet..."
       />
     </div>
@@ -58,20 +52,13 @@ let make = (~route="/", ~theme=`Reason) => {
  */
 module ApiDocs = {
   [@react.component]
-  let make = (~route: string, ~theme=`Reason, ~versionInfo=?) => {
-    let theme = ColorTheme.toCN(theme);
-
+  let make = (~route: string, ~versionInfo=?) => {
     <nav
       id="header"
-      className={
-        "fixed z-10 top-0 p-2 w-full h-16 bg-t-primary shadow flex items-center text-ghost-white text-sm "
-        ++ theme
-      }>
+      className="fixed z-10 top-0 p-2 w-full h-16 bg-night-dark shadow flex items-center text-white-80 text-sm">
       <Link href="/">
-        <a className="flex items-center pl-10 w-1/5">
-          <span className="text-xl ml-2 font-black text-white">
-            "Reason"->s
-          </span>
+        <a className="flex items-center pl-10">
+          <img src="/static/reason_logo.svg" className="h-10" />
         </a>
       </Link>
       <div
@@ -83,11 +70,11 @@ module ApiDocs = {
         />
         <input
           type_="text"
-          className="bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2"
+          className="bg-transparent placeholder-white-80 block focus:outline-none w-full ml-2"
           placeholder="Search not ready yet..."
         />
       </div>
-      <div className="flex mx-4 text-ghost-white justify-between ml-auto">
+      <div className="flex mx-4 text-white-80 justify-between ml-auto">
         <Link href="/api">
           <a className={linkOrActiveLink(~target="/api", ~route)}>
             "API"->s

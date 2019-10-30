@@ -26,7 +26,7 @@ let package: {. "dependencies": {. "bs-platform": string}} = [%raw
   "require('../package.json')"
 ];
 
-module Sidebar = ApiLayout.Sidebar;
+module Sidebar = SidebarLayout.Sidebar;
 module NavItem = Sidebar.NavItem;
 module Category = Sidebar.Category;
 
@@ -95,7 +95,7 @@ let categories = [|
 module Docs = {
   [@genType]
   [@react.component]
-  let make = (~components=ApiLayout.ApiMd.components, ~children) => {
+  let make = (~components=SidebarLayout.ApiMd.components, ~children) => {
     let router = Next.Router.useRouter();
     let route = router##route;
 
@@ -125,7 +125,6 @@ module Docs = {
     <div>
       <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
         <Navigation.ApiDocs
-          theme=`JS
           route
           versionInfo={"v" ++ package##dependencies##"bs-platform"}
         />
@@ -148,6 +147,6 @@ module Prose = {
   [@genType]
   [@react.component]
   let make = (~children) => {
-    <Docs components=ApiLayout.Prose.Md.components> children </Docs>;
+    <Docs components=SidebarLayout.Prose.Md.components> children </Docs>;
   };
 };

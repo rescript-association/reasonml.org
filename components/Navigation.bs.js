@@ -3,11 +3,10 @@
 import * as Util from "../common/Util.bs.js";
 import * as React from "react";
 import * as Link from "next/link";
-import * as ColorTheme from "../common/ColorTheme.bs.js";
 
 var link = "no-underline text-inherit hover:text-white text-white-80";
 
-var activeLink = "no-underline text-inherit font-bold text-white";
+var activeLink = "text-inherit font-bold text-fire-80 underline";
 
 function linkOrActiveLink(target, route) {
   var match = target === route;
@@ -21,21 +20,19 @@ function linkOrActiveLink(target, route) {
 function Navigation(Props) {
   var match = Props.route;
   var route = match !== undefined ? match : "/";
-  var match$1 = Props.theme;
-  var theme = match$1 !== undefined ? match$1 : /* Reason */825328612;
-  var theme$1 = ColorTheme.toCN(theme);
   return React.createElement("nav", {
-              className: "fixed z-10 top-0 p-2 w-full h-16 bg-t-primary shadow flex items-center text-ghost-white text-sm " + theme$1,
+              className: "fixed z-10 top-0 p-2 w-full h-16 bg-night-dark shadow flex items-center text-show-light text-sm",
               id: "header"
             }, React.createElement(Link.default, {
                   href: "/",
                   children: React.createElement("a", {
                         className: "flex items-center pl-10 w-1/5"
-                      }, React.createElement("span", {
-                            className: "text-xl ml-2 font-black text-white"
-                          }, Util.ReactStuff.s("Reason")))
+                      }, React.createElement("img", {
+                            className: "h-10",
+                            src: "/static/reason_logo.svg"
+                          }))
                 }), React.createElement("div", {
-                  className: "flex mx-4 text-ghost-white justify-between ml-auto"
+                  className: "flex mx-4 text-white-80 justify-between ml-auto"
                 }, React.createElement(Link.default, {
                       href: "/api",
                       children: React.createElement("a", {
@@ -48,7 +45,7 @@ function Navigation(Props) {
                       className: "mr-3",
                       src: "/static/ic_search_small.svg"
                     }), React.createElement("input", {
-                      className: "bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2",
+                      className: "bg-transparent placeholder-white-80 block focus:outline-none w-full ml-2",
                       placeholder: "Search not ready yet...",
                       type: "text"
                     })), React.createElement("a", {
@@ -61,20 +58,18 @@ function Navigation(Props) {
 
 function Navigation$ApiDocs(Props) {
   var route = Props.route;
-  var match = Props.theme;
-  var theme = match !== undefined ? match : /* Reason */825328612;
   var versionInfo = Props.versionInfo;
-  var theme$1 = ColorTheme.toCN(theme);
   return React.createElement("nav", {
-              className: "fixed z-10 top-0 p-2 w-full h-16 bg-t-primary shadow flex items-center text-ghost-white text-sm " + theme$1,
+              className: "fixed z-10 top-0 p-2 w-full h-16 bg-night-dark shadow flex items-center text-white-80 text-sm",
               id: "header"
             }, React.createElement(Link.default, {
                   href: "/",
                   children: React.createElement("a", {
-                        className: "flex items-center pl-10 w-1/5"
-                      }, React.createElement("span", {
-                            className: "text-xl ml-2 font-black text-white"
-                          }, Util.ReactStuff.s("Reason")))
+                        className: "flex items-center pl-10"
+                      }, React.createElement("img", {
+                            className: "h-10",
+                            src: "/static/reason_logo.svg"
+                          }))
                 }), React.createElement("div", {
                   className: "ml-6 flex w-3/5 px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3"
                 }, React.createElement("img", {
@@ -82,11 +77,11 @@ function Navigation$ApiDocs(Props) {
                       className: "mr-3",
                       src: "/static/ic_search_small.svg"
                     }), React.createElement("input", {
-                      className: "bg-transparent placeholder-ghost-white block focus:outline-none w-full ml-2",
+                      className: "bg-transparent placeholder-white-80 block focus:outline-none w-full ml-2",
                       placeholder: "Search not ready yet...",
                       type: "text"
                     })), React.createElement("div", {
-                  className: "flex mx-4 text-ghost-white justify-between ml-auto"
+                  className: "flex mx-4 text-white-80 justify-between ml-auto"
                 }, React.createElement(Link.default, {
                       href: "/api",
                       children: React.createElement("a", {

@@ -9,7 +9,7 @@ let make = (~code: string, ~lang) => {
       "code",
       ~props=
         ReactDOMRe.objToDOMProps({
-          "className": "hljs lang-" ++ lang,
+          "className": "wrap hljs lang-" ++ lang,
           "dangerouslySetInnerHTML": {
             "__html": highlighted,
           },
@@ -18,9 +18,9 @@ let make = (~code: string, ~lang) => {
     );
 
   <div
-    className="flex flex-col rounded-lg bg-main-black py-3 px-3 mt-10 overflow-x-auto text-lighter-grey">
+    className="flex flex-col rounded-lg bg-night-dark py-3 px-3 mt-10 overflow-x-auto text-snow-dark">
     <div
-      className="font-montserrat text-sm mb-3 font-bold text-primary-dark-10">
+      className="font-montserrat text-sm mb-3 font-bold text-fire">
       {Js.String2.toUpperCase(lang)->s}
     </div>
     <div className="pl-5 text-base pb-4"> children </div>

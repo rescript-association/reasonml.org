@@ -10,15 +10,15 @@ function CodeExample(Props) {
   var lang = Props.lang;
   var highlighted = Highlight.highlight(lang, code).value;
   var children = ReactDOMRe.createElementVariadic("code", {
-        className: "hljs lang-" + lang,
+        className: "wrap hljs lang-" + lang,
         dangerouslySetInnerHTML: {
           __html: highlighted
         }
       }, /* array */[]);
   return React.createElement("div", {
-              className: "flex flex-col rounded-lg bg-main-black py-3 px-3 mt-10 overflow-x-auto text-lighter-grey"
+              className: "flex flex-col rounded-lg bg-night-dark py-3 px-3 mt-10 overflow-x-auto text-snow-dark"
             }, React.createElement("div", {
-                  className: "font-montserrat text-sm mb-3 font-bold text-primary-dark-10"
+                  className: "font-montserrat text-sm mb-3 font-bold text-fire"
                 }, Util.ReactStuff.s(lang.toUpperCase())), React.createElement("div", {
                   className: "pl-5 text-base pb-4"
                 }, children));

@@ -16,7 +16,7 @@ function MainLayout(Props) {
   return React.createElement("div", {
               className: "mb-32"
             }, React.createElement("div", {
-                  className: "max-w-4xl w-full lg:w-3/4 text-gray-900 font-base"
+                  className: "max-w-4xl w-full lg:w-3/4 text-night font-base"
                 }, React.createElement(Navigation.make, { }), React.createElement("main", {
                       className: "mt-24 mx-4 max-w-lg",
                       style: minWidth

@@ -8,7 +8,7 @@ let make = (~code, ~lang) => {
     "code",
     ~props=
       ReactDOMRe.objToDOMProps({
-        "className": "font-bold hljs sig lang-" ++ lang,
+        "className": "text-xl text-night-dark hljs sig lang-" ++ lang,
         "dangerouslySetInnerHTML": {
           "__html": highlighted,
         },

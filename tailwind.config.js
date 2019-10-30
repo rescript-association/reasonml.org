@@ -1,62 +1,72 @@
+/*
+ *
+ * Color naming convention:
+ *
+ * Color with opacity:
+ * --------
+ * grey-80 => grey with 80% opacity
+ *
+ * Solid Color:
+ * --------
+ * grey => grey with RGB value
+ *
+ * Categorizing colors w/ modifiers:
+ * --------
+ *
+ * night
+ *  night-lighter -> even lighter version
+ *  night-light -> lighter version (obviously)
+ *  night -> base color
+ *  night-dark -> darker version
+ *  night-darker -> even darker version
+ *
+ *  -> If we run out of modifiers, we need to define a new
+ *     color name!
+ *
+ * In case with opacity:
+ * night-80
+ *  night-80-lighter
+ *  night-80-light
+ *  night-80
+ *  night-80-dark
+ *  night-80-darker
+ *
+ *
+ */
 module.exports = {
   theme: {
     extend: {
       colors: {
-        //Accent Colors
-        "dark-blue": "#363687",
-
-        info: {
-          blue: "#376fdd",
-          "blue-lighten-85": "rgba(55, 111, 221, 0.15)",
-          "blue-lighten-90": "rgba(55, 111, 221, 0.1)",
-          "blue-lighten-95": "rgba(55, 111, 221, 0.05)"
+        snow: {
+          dark: "#EAEBED",
+          default: "#F4F4F5",
+        },
+        night: {
+          dark: "#0A0D2F",
+          default: "#3E4057",
+          light: "#727489",
+        },
+        fire: {
+          default: "#DF4B37",
+          '80': "rgba(223, 75, 55, 0.8)",
+        },
+        sky: {
+          default: "#376FDD",
+        },
+        gold: {
+          default: "#E0AC00",
+        },
+        berry: {
+          default: "#AB5EA3"
         },
 
-        // Background Colors
-        sand: "#f4f1e6",
-        "sand-lighten-20": "rgba(249, 246, 243, 0.8)",
-
-        yellow: "#fef8d1",
-
-        "leaf-green": "#7fba3b",
-        "dark-green": "#5c6e5a",
-        
         t: {
           primary: "var(--color-text-primary)",
-          "primary-lighten": "var(--color-text-primary-lighten)",
+          "primary-lighten": "var(--color-text-primary-lighten)"
         },
 
-        // Primary Color
-        primary: {
-          default: "#f9543e",
-          "dark-10": "#df4b37",
-          "dark-5": "#ec4f3a",
-          "lighten-90": "rgb(249, 84, 62, 0.1)",
-          "lighten-50": "rgb(249, 84, 62, 0.5)"
-        },
-
-        "highlight-grey": "#E7E7EA",
         "light-grey": "rgba(245, 245, 245, 0.5)",
         "light-grey-20": "rgba(245, 245, 245, 0.2)",
-        "lighter-grey": "#f2f2f2",
-        "teal": "#38bcd5",
-        main: {
-          // Text Colors
-          black: "#23242e",
-          "lighten-10": "rgba(35, 36, 46, 0.90)",
-          "lighten-15": "rgba(35,36,46,.85)",
-          "lighten-20": "rgba(35, 36, 46, 0.80)",
-          "lighten-50": "rgba(35, 36, 46, 0.5)",
-          "lighten-65": "rgba(35, 36, 46, 0.35)",
-          "lighten-90": "rgba(35, 36, 46, 0.1)",
-          "lighten-95": "rgba(35, 36, 46, 0.05)"
-        },
-
-        bs: {
-          pink: "#C732B8",
-          purple: "rgb(171, 94, 163)",
-          "purple-lighten-95": "rgba(171, 94, 163, 0.15)"
-        },
         "ghost-white": "#F8F7F9",
         "white-80": "rgba(255,255,255,0.8)"
       }
@@ -72,15 +82,16 @@ module.exports = {
      convenience */
     fontSize: {
       xs: ".75rem", // 12px
-      sm: ".875rem", // 14px
+      sm: ".8125rem", // 13px
       base: "1rem", // 16px
-      lg: "1.125rem", // 18px
-      xl: "1.25rem", // 20px
+      lg: "1.0625rem", // 17px
+      xl: "1.3125rem", // 21px
       "2xl": "1.5rem", // 24px
       "3xl": "2rem", // 32px
       "4xl": "2.125rem", // 34px
       "5xl": "2.25rem", // 36px
-      "6xl": "2.625rem" // 42px
+      "6xl": "2.625rem", // 42px
+      "7xl": "4.875rem" // 78px
     },
     fontWeight: {
       hairline: 100,
@@ -98,14 +109,14 @@ module.exports = {
       tight: 1.25,
       normal: 1.875,
       loose: 2,
-      "1": 1.25,
+      "1": 1.15,
       "2": 1.3,
       "3": 1.4,
       "4": 1.5,
       "5": 1.75
     },
     letterSpacing: {
-      tight: "-0.05em",
+      tight: "-0.03em",
       normal: "0",
       wide: "0.075em"
     },
