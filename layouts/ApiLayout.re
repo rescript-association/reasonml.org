@@ -16,9 +16,7 @@ module MainMd = {
   module P = {
     [@react.component]
     let make = (~children) => {
-      <p className="text-xl mt-3 leading-4 text-main-lighten-15">
-        children
-      </p>;
+      <p className="text-xl mt-3 leading-4 text-night-dark"> children </p>;
     };
   };
 
@@ -59,10 +57,20 @@ module Category = {
     };
     [@react.component]
     let make = (~card: t) => {
+      let element =
+        <>
+          <img src={card.src} className="w-full mb-2" />
+          <h3 className="font-overpass font-black text-3xl text-night-dark">
+            card.title->s
+          </h3>
+          <div className="text-base leading-5 text-night"> card.descr->s </div>
+        </>;
+
       <div className="w-1/4">
-        <img src={card.src} className="w-full" />
-        <h3 className="font-overpass font-black text-3xl text-night-dark"> card.title->s </h3>
-        <div className="text-base leading-5 text-main-lighten-15"> card.descr->s </div>
+        {switch (card.href) {
+         | Some(href) => <Link href> <a> element </a> </Link>
+         | None => <div className="opacity-50" title="Not available yet"> element </div>
+         }}
       </div>;
     };
   };
@@ -75,7 +83,9 @@ module Category = {
   [@react.component]
   let make = (~category: t) => {
     <div className="border-t border-snow-dark pt-8">
-      <h2 className="font-black text-6xl text-night-dark"> category.name->s </h2>
+      <h2 className="mb-8 font-black text-6xl text-night-dark">
+        category.name->s
+      </h2>
       <div className="flex flex-wrap justify-between">
         {Belt.Array.map(category.cards, card => <Card key={card.title} card />)
          ->ate}
@@ -102,7 +112,7 @@ let categories: array(Category.t) = [|
       },
       {
         title: "Node Module",
-        descr: "Rudimentary Bindings for NodeJS APIs",
+        descr: "Simple Bindings for the NodeJS API",
         src: "/static/api-img-nodejs.svg",
         href: None,
       },

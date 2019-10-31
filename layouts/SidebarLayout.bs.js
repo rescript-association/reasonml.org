@@ -2,6 +2,7 @@
 
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
+import * as Caret from "../components/Caret.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
@@ -62,6 +63,17 @@ var InvisibleAnchor = {
   make: SidebarLayout$ApiMd$InvisibleAnchor
 };
 
+function SidebarLayout$ApiMd$H1(Props) {
+  var children = Props.children;
+  return React.createElement("h1", {
+              className: "text-6xl tracking-tight leading-1 font-overpass font-black text-night-dark"
+            }, children);
+}
+
+var H1 = {
+  make: SidebarLayout$ApiMd$H1
+};
+
 function SidebarLayout$ApiMd$H2(Props) {
   var children = Props.children;
   return React.createElement(React.Fragment, undefined, React.createElement(SidebarLayout$ApiMd$InvisibleAnchor, {
@@ -100,7 +112,7 @@ var P = {
 var components = {
   p: SidebarLayout$ApiMd$P,
   li: $$Text.Md.Li.make,
-  h1: $$Text.H1.make,
+  h1: SidebarLayout$ApiMd$H1,
   h2: SidebarLayout$ApiMd$H2,
   h3: $$Text.H3.make,
   h4: $$Text.H4.make,
@@ -116,6 +128,7 @@ var components = {
 var ApiMd = {
   Anchor: Anchor,
   InvisibleAnchor: InvisibleAnchor,
+  H1: H1,
   H2: H2,
   Pre: Pre,
   P: P,
@@ -135,13 +148,13 @@ function SidebarLayout$Sidebar$NavItem(Props) {
             }, Util.ReactStuff.ate(Belt_Array.map(items, (function (m) {
                         var hidden = isHidden ? "hidden" : "block";
                         var match = Curry._1(isItemActive, m);
-                        var active = match ? " bg-t-primary-lighten text-t-primary rounded -ml-1 px-2 font-bold block " : "";
+                        var active = match ? " bg-primary-5 text-primary-dark rounded -ml-2 px-2 font-bold block " : "";
                         return React.createElement("li", {
                                     key: m[/* name */0],
                                     className: hidden + " leading-5 w-4/5",
                                     tabIndex: 0
                                   }, React.createElement("a", {
-                                        className: "hover:text-t-primary" + active,
+                                        className: "block text-night hover:text-primary " + active,
                                         href: m[/* href */1]
                                       }, Util.ReactStuff.s(m[/* name */0])));
                       }))));
@@ -162,7 +175,7 @@ function SidebarLayout$Sidebar$Category(Props) {
   }
   return React.createElement("div", {
               key: category[/* name */0],
-              className: "my-12"
+              className: "my-12 pl-10"
             }, React.createElement($$Text.Overline.make, {
                   children: Util.ReactStuff.s(category[/* name */0])
                 }), React.createElement(SidebarLayout$Sidebar$NavItem, tmp));
@@ -170,6 +183,32 @@ function SidebarLayout$Sidebar$Category(Props) {
 
 var Category = {
   make: SidebarLayout$Sidebar$Category
+};
+
+function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
+  var match = Props.isItemActive;
+  var isItemActive = match !== undefined ? match : (function (_nav) {
+        return false;
+      });
+  var items = Props.items;
+  return React.createElement("ul", {
+              className: "mt-2 text-night"
+            }, Util.ReactStuff.ate(Belt_Array.map(items, (function (m) {
+                        var match = Curry._1(isItemActive, m);
+                        var active = match ? " bg-primary-5 text-primary-dark -ml-1 px-2 font-bold block " : "";
+                        return React.createElement("li", {
+                                    key: m[/* name */0],
+                                    className: "leading-5 w-4/5",
+                                    tabIndex: 0
+                                  }, React.createElement("a", {
+                                        className: "block pl-3 border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" + active,
+                                        href: m[/* href */1]
+                                      }, Util.ReactStuff.s(m[/* name */0])));
+                      }))));
+}
+
+var NavUl = {
+  make: SidebarLayout$Sidebar$CollapsibleSection$NavUl
 };
 
 function SidebarLayout$Sidebar$CollapsibleSection(Props) {
@@ -190,18 +229,24 @@ function SidebarLayout$Sidebar$CollapsibleSection(Props) {
                     "#" + header
                   ]);
         }));
-  var tmp = {
-    isHidden: collapsed,
-    items: items
-  };
-  if (isItemActive !== undefined) {
-    tmp.isItemActive = Caml_option.valFromOption(isItemActive);
+  var direction = collapsed ? /* Down */759637122 : /* Up */19067;
+  var tmp;
+  if (collapsed) {
+    tmp = null;
+  } else {
+    var tmp$1 = {
+      items: items
+    };
+    if (isItemActive !== undefined) {
+      tmp$1.isItemActive = Caml_option.valFromOption(isItemActive);
+    }
+    tmp = React.createElement(SidebarLayout$Sidebar$CollapsibleSection$NavUl, tmp$1);
   }
   return React.createElement("div", {
-              className: "my-12"
+              className: "py-8 pl-10 pr-4 border-b border-snow-dark"
             }, React.createElement($$Text.Overline.make, {
                   children: React.createElement("a", {
-                        className: "cursor-pointer hover:text-berry",
+                        className: "flex justify-between items-center cursor-pointer text-primary hover:text-primary font-overpass font-black text-night-dark text-xl",
                         href: "#",
                         onClick: (function (evt) {
                             evt.preventDefault();
@@ -209,13 +254,16 @@ function SidebarLayout$Sidebar$CollapsibleSection(Props) {
                                           return !isCollapsed;
                                         }));
                           })
-                      }, React.createElement("span", {
-                            className: "hidden hover:block"
-                          }, Util.ReactStuff.s(collapsed ? "v" : "^")), Util.ReactStuff.s(moduleName))
-                }), React.createElement(SidebarLayout$Sidebar$NavItem, tmp));
+                      }, Util.ReactStuff.s(moduleName), React.createElement("span", {
+                            className: "ml-2 block h-2 w-4 text-primary"
+                          }, React.createElement(Caret.make, {
+                                direction: direction
+                              })))
+                }), tmp);
 }
 
 var CollapsibleSection = {
+  NavUl: NavUl,
   make: SidebarLayout$Sidebar$CollapsibleSection
 };
 
@@ -228,16 +276,18 @@ function SidebarLayout$Sidebar(Props) {
     return navItem[/* href */1] === route;
   };
   return React.createElement("div", {
-              className: "pl-2 flex w-full justify-center h-auto overflow-y-visible block bg-light-grey",
+              className: "flex w-64 h-auto overflow-y-visible block bg-white-80",
               style: {
                 maxWidth: "17.5rem"
               }
-            }, React.createElement("nav", {
-                  className: "relative w-48 sticky h-screen block overflow-y-auto scrolling-touch pb-32",
+            }, React.createElement("aside", {
+                  className: "relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-32",
                   style: {
-                    top: "4rem"
+                    top: "3rem"
                   }
-                }, children, React.createElement("div", undefined, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
+                }, React.createElement("div", {
+                      className: "bg-primary-5"
+                    }, children), React.createElement("div", undefined, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
                                 return React.createElement("div", {
                                             key: category[/* name */0]
                                           }, React.createElement(SidebarLayout$Sidebar$Category, {
@@ -308,12 +358,12 @@ function SidebarLayout$Docs(Props) {
                 }, React.createElement(Navigation.ApiDocs.make, {
                       route: router.route
                     }), React.createElement("div", {
-                      className: "flex mt-12"
+                      className: "flex"
                     }, React.createElement(SidebarLayout$Sidebar, {
                           categories: categories,
                           route: router.route
                         }), React.createElement("main", {
-                          className: "pt-12 w-4/5 static min-h-screen overflow-visible"
+                          className: "pt-12 static min-h-screen overflow-visible"
                         }, React.createElement(React$1.MDXProvider, {
                               components: components$1,
                               children: React.createElement("div", {
@@ -387,7 +437,7 @@ var P$1 = {
 var components$1 = {
   p: SidebarLayout$Prose$Md$P,
   li: $$Text.Md.Li.make,
-  h1: $$Text.H1.make,
+  h1: SidebarLayout$ApiMd$H1,
   h2: SidebarLayout$Prose$Md$H2,
   h3: $$Text.H3.make,
   h4: $$Text.H4.make,

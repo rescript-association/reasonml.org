@@ -34,9 +34,7 @@ module ApiMd = {
       let style =
         ReactDOMRe.Style.make(~position="absolute", ~top="-7rem", ());
       <span className="relative">
-        <a
-          className="mr-2 hover:cursor-pointer"
-          href={"#" ++ id}>
+        <a className="mr-2 hover:cursor-pointer" href={"#" ++ id}>
           {j|#|j}->s
         </a>
         <a style id />
@@ -50,6 +48,16 @@ module ApiMd = {
       let style =
         ReactDOMRe.Style.make(~position="absolute", ~top="-1rem", ());
       <span className="relative" ariaHidden=true> <a id style /> </span>;
+    };
+  };
+
+  module H1 = {
+    [@react.component]
+    let make = (~children) => {
+      <h1
+        className="text-6xl tracking-tight leading-1 font-overpass font-black text-night-dark">
+        children
+      </h1>;
     };
   };
 
@@ -126,7 +134,7 @@ module Sidebar = {
              let hidden = isHidden ? "hidden" : "block";
              let active =
                isItemActive(m)
-                 ? {j| bg-t-primary-lighten text-t-primary rounded -ml-1 px-2 font-bold block |j}
+                 ? {j| bg-primary-5 text-primary-dark rounded -ml-2 px-2 font-bold block |j}
                  : "";
              <li
                key={m.name}
@@ -136,7 +144,7 @@ module Sidebar = {
                tabIndex=0>
                <a
                  href={m.href}
-                 className={{j|hover:text-t-primary|j} ++ active}>
+                 className={"block text-night hover:text-primary " ++ active}>
                  m.name->s
                </a>
              </li>;
@@ -155,7 +163,7 @@ module Sidebar = {
 
     [@react.component]
     let make = (~isItemActive: option(NavItem.t => bool)=?, ~category: t) => {
-      <div key={category.name} className="my-12">
+      <div key={category.name} className="my-12 pl-10">
         <Overline> category.name->s </Overline>
         <NavItem ?isItemActive items={category.items} />
       </div>;
@@ -163,30 +171,72 @@ module Sidebar = {
   };
 
   module CollapsibleSection = {
+    module NavUl = {
+      // Navigation point information
+      type t = {
+        name: string,
+        href: string,
+      };
+
+      [@react.component]
+      let make = (~isItemActive: t => bool=_nav => false, ~items: array(t)) => {
+        <ul className="mt-2 text-night">
+          {Belt.Array.map(
+             items,
+             m => {
+               let active =
+                 isItemActive(m)
+                   ? {j| bg-primary-5 text-primary-dark -ml-1 px-2 font-bold block |j}
+                   : "";
+               <li
+                 key={m.name}
+                 className="leading-5 w-4/5"
+                 // to make non-interactive elements (like div, span or li) tab-able
+                 // see https://developer.mozilla.org/en-US/docs/Web/Accessibility/Keyboard-navigable_JavaScript_widgets
+                 tabIndex=0>
+                 <a
+                   href={m.href}
+                   className={"block pl-3 border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" ++ active}>
+                   m.name->s
+                 </a>
+               </li>;
+             },
+           )
+           ->ate}
+        </ul>;
+      };
+    };
     [@react.component]
     let make =
         (~isItemActive=?, ~headers: array(string), ~moduleName: string) => {
       let (collapsed, setCollapsed) = React.useState(() => false);
       let items =
         Belt.Array.map(headers, header =>
-          NavItem.{name: header, href: "#" ++ header}
+          NavUl.{name: header, href: "#" ++ header}
         );
-      <div className="my-12">
+
+      let direction = collapsed ? `Down : `Up;
+
+      <div className="py-8 pl-10 pr-4 border-b border-snow-dark">
         <Overline>
           <a
-            className="cursor-pointer hover:text-berry"
+            className="flex justify-between items-center cursor-pointer text-primary hover:text-primary font-overpass font-black text-night-dark text-xl"
             href="#"
             onClick={evt => {
               ReactEvent.Mouse.preventDefault(evt);
               setCollapsed(isCollapsed => !isCollapsed);
             }}>
-            <span className="hidden hover:block">
-              {collapsed ? "v" : "^"}->s
-            </span>
             moduleName->s
+            <span className="ml-2 block h-2 w-4 text-primary">
+              <Caret direction />
+            </span>
           </a>
         </Overline>
-        <NavItem ?isItemActive items isHidden=collapsed />
+        {if (!collapsed) {
+           <NavUl ?isItemActive items />;
+         } else {
+           React.null;
+         }}
       </div>;
     };
   };
@@ -200,12 +250,12 @@ module Sidebar = {
     };
 
     <div
-      className="pl-2 flex w-full justify-center h-auto overflow-y-visible block bg-light-grey"
+      className="flex w-64 h-auto overflow-y-visible block bg-white-80"
       style={Style.make(~maxWidth="17.5rem", ())}>
-      <nav
-        className="relative w-48 sticky h-screen block overflow-y-auto scrolling-touch pb-32"
-        style={Style.make(~top="4rem", ())}>
-        children
+      <aside
+        className="relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-32"
+        style={Style.make(~top="3rem", ())}>
+        <div className="bg-primary-5"> children </div>
         <div>
           {categories
            ->Belt.Array.map(category =>
@@ -215,7 +265,7 @@ module Sidebar = {
              )
            ->ate}
         </div>
-      </nav>
+      </aside>
     </div>;
   };
 };
@@ -243,9 +293,9 @@ module Docs = {
     <div>
       <div className={"text-night max-w-4xl w-full " ++ theme} style=minWidth>
         <Navigation.ApiDocs route={router##route} />
-        <div className="flex mt-12">
+        <div className="flex">
           <Sidebar categories route={router##route} />
-          <main className="pt-12 w-4/5 static min-h-screen overflow-visible">
+          <main className="pt-12 static min-h-screen overflow-visible">
             <Mdx.Provider components>
               <div className="pl-8 max-w-md mb-32 text-lg"> children </div>
             </Mdx.Provider>
@@ -270,9 +320,7 @@ module Prose = {
         let style =
           ReactDOMRe.Style.make(~position="absolute", ~top="-7rem", ());
         <span style={ReactDOMRe.Style.make(~position="relative", ())}>
-          <a
-            className="mr-2 hover:cursor-pointer"
-            href={"#" ++ id}>
+          <a className="mr-2 hover:cursor-pointer" href={"#" ++ id}>
             {j|#|j}->s
           </a>
           <a style id />
@@ -304,9 +352,7 @@ module Prose = {
     module P = {
       [@react.component]
       let make = (~children) => {
-        <p className="text-base mt-3 leading-4 text-night">
-          children
-        </p>;
+        <p className="text-base mt-3 leading-4 text-night"> children </p>;
       };
     };
 
@@ -314,7 +360,7 @@ module Prose = {
       Mdx.Components.t(
         ~p=P.make,
         ~li=Md.Li.make,
-        ~h1=H1.make,
+        ~h1=ApiMd.H1.make,
         ~h2=H2.make,
         ~h3=H3.make,
         ~h4=H4.make,

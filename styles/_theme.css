@@ -1,11 +1,14 @@
 /* purgecss start ignore */
 .theme-reason {
-  --color-text-primary: #f9543e;
-  --color-text-primary-lighten: rgb(249, 84, 62, 0.1);
+  --color-text-primary-dark: theme('colors.fire.default');
+  --color-text-primary: theme('colors.fire.default');
+  --color-text-primary-light: theme('colors.fire.40');
 }
 
 .theme-js {
-  --color-text-primary: rgb(171, 94, 163);
-  --color-text-primary-lighten: rgba(171, 94, 163, 0.15)
+  --color-text-primary-dark: theme('colors.berry.default'); 
+  --color-text-primary: theme('colors.berry.default'); 
+  --color-text-primary-light: theme('colors.berry.default');
+  --color-text-primary-5: theme('colors.berry.5');
 }
 /* purgecss end ignore */

@@ -3,6 +3,7 @@
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
 import * as React from "react";
+import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
 import * as Navigation from "../components/Navigation.bs.js";
@@ -23,7 +24,7 @@ hljs.registerLanguage('reason', reasonHighlightJs);
 function ApiLayout$MainMd$P(Props) {
   var children = Props.children;
   return React.createElement("p", {
-              className: "text-xl mt-3 leading-4 text-main-lighten-15"
+              className: "text-xl mt-3 leading-4 text-night-dark"
             }, children);
 }
 
@@ -66,16 +67,24 @@ var MainMd = {
 
 function ApiLayout$Category$Card(Props) {
   var card = Props.card;
+  var element = React.createElement(React.Fragment, undefined, React.createElement("img", {
+            className: "w-full mb-2",
+            src: card[/* src */3]
+          }), React.createElement("h3", {
+            className: "font-overpass font-black text-3xl text-night-dark"
+          }, Util.ReactStuff.s(card[/* title */0])), React.createElement("div", {
+            className: "text-base leading-5 text-night"
+          }, Util.ReactStuff.s(card[/* descr */1])));
+  var match = card[/* href */2];
   return React.createElement("div", {
               className: "w-1/4"
-            }, React.createElement("img", {
-                  className: "w-full",
-                  src: card[/* src */3]
-                }), React.createElement("h3", {
-                  className: "font-overpass font-black text-3xl text-night-dark"
-                }, Util.ReactStuff.s(card[/* title */0])), React.createElement("div", {
-                  className: "text-base leading-5 text-main-lighten-15"
-                }, Util.ReactStuff.s(card[/* descr */1])));
+            }, match !== undefined ? React.createElement(Link.default, {
+                    href: match,
+                    children: React.createElement("a", undefined, element)
+                  }) : React.createElement("div", {
+                    className: "opacity-50",
+                    title: "Not available yet"
+                  }, element));
 }
 
 var Card = {
@@ -87,7 +96,7 @@ function ApiLayout$Category(Props) {
   return React.createElement("div", {
               className: "border-t border-snow-dark pt-8"
             }, React.createElement("h2", {
-                  className: "font-black text-6xl text-night-dark"
+                  className: "mb-8 font-black text-6xl text-night-dark"
                 }, Util.ReactStuff.s(category[/* name */0])), React.createElement("div", {
                   className: "flex flex-wrap justify-between"
                 }, Util.ReactStuff.ate(Belt_Array.map(category[/* cards */1], (function (card) {
@@ -138,7 +147,7 @@ var categories = /* array */[/* record */Caml_chrome_debugger.record([
             "src"
           ], [
             "Node Module",
-            "Rudimentary Bindings for NodeJS APIs",
+            "Simple Bindings for the NodeJS API",
             undefined,
             "/static/api-img-nodejs.svg"
           ])
@@ -177,12 +186,12 @@ function ApiLayout(Props) {
                                           })))))))));
 }
 
-var Link = 0;
+var Link$1 = 0;
 
 var make = ApiLayout;
 
 export {
-  Link ,
+  Link$1 as Link,
   MainMd ,
   Category ,
   categories ,

@@ -37,38 +37,50 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        snow: {
-          dark: "#EAEBED",
-          default: "#F4F4F5",
-        },
         night: {
           dark: "#0A0D2F",
           default: "#3E4057",
           light: "#727489",
+          "10": "rgba(62, 64, 87, 0.10)"
+        },
+        snow: {
+          dark: "#EAEBED",
+          default: "#F4F4F5"
+        },
+        white: {
+          default: "#FFFFFF",
+          "80": "rgba(255,255,255,0.8)"
         },
         fire: {
           default: "#DF4B37",
-          '80': "rgba(223, 75, 55, 0.8)",
-        },
-        sky: {
-          default: "#376FDD",
+          "80": "rgba(223, 75, 55, 0.8)",
+          "40": "rgba(223, 75, 55, 0.4)"
         },
         gold: {
+          light: "#FFC833",
           default: "#E0AC00",
+          dark: "#C19400",
+          "15": "rgba(224, 172, 0, 0.15)",
+          "5": "rgba(224, 172, 0, 0.05)"
+        },
+        sky: {
+          default: "#376FDD"
         },
         berry: {
-          default: "#AB5EA3"
+          default: "#AB5EA3",
+          "40": "rgba(171, 94, 163, 0.40)",
+          "15": "rgba(171, 94, 163, 0.15)",
+          "5": "rgba(171, 94, 163, 0.05)"
         },
-
-        t: {
-          primary: "var(--color-text-primary)",
-          "primary-lighten": "var(--color-text-primary-lighten)"
+        primary: {
+          dark: "var(--color-text-primary-dark)",
+          default: "var(--color-text-primary)",
+          light: "var(--color-text-primary-light)",
+          "5": "var(--color-text-primary-5)",
         },
-
         "light-grey": "rgba(245, 245, 245, 0.5)",
         "light-grey-20": "rgba(245, 245, 245, 0.2)",
-        "ghost-white": "#F8F7F9",
-        "white-80": "rgba(255,255,255,0.8)"
+        "ghost-white": "#F8F7F9"
       }
     },
     screens: {
@@ -163,7 +175,8 @@ module.exports = {
     color: ["hover"],
     cursor: ["hover"],
     width: ["responsive"],
-    border: ["hover"]
+    border: ["hover"],
+    padding: ["hover"],
   },
   plugins: []
 };
