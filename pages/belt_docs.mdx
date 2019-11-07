@@ -20,15 +20,18 @@ use
 
 ## Motivation
 
-Belt improves over the OCaml standard library as follows:
+Belt aims to improve the user experience for Reason developers targeting
+JavaScript as well as for JavaScript developers learning Reason,
+since the original OCaml standard library was not written with JS in mind.
 
-- Consistent naming convention familiar to JS developers:
-  - camelCase
-  - arguments order (see section "Pipe First" below)  
-- Exceptions:
-  - Only functions suffixed with "Exn" will throw exceptions.
-  - Other functions with an optional result will just return `option('a)`.
+To achieve this, Belt provides:
+
+- A consistent naming convention familiar to JS developers ([camelCase](https://en.wikipedia.org/wiki/Camel_case))
+- A consistent argument order familiar to JS Developers (see [Pipe First](#Pipe%20First))  
+- Safety by default: A Belt function will never throw exceptions, unless it is
+  indicated explicitly in the function name (suffix "Exn").
 - Better performance and smaller code size running on the JS platform
+- Ready for [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
 
 ## Usage
 
