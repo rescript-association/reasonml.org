@@ -79,8 +79,7 @@ let greaterThan2UniqueAndSorted =
   ->Belt.Array.keep(x => x > 2)
   /* convert to and from set to make values unique */
   ->Belt.Set.Int.fromArray
-  ->Belt.Set.Int.toArray
-  ->Belt.SortArray.stableSortBy((-));
+  ->Belt.Set.Int.toArray; /* output is already sorted */
 
 Js.log2("result", greaterThan2UniqueAndSorted);
 ```
