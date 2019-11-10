@@ -3,14 +3,54 @@ export default Prose.make;
 
 # Js
 
-This library provides bindings and necessary support for JS FFI.
-It contains all bindings into Js namespace.
+The [Js](/js_docs) module mostly contains Reason bindings to *standard JavaScript APIs*
+like [console.log](https://developer.mozilla.org/en-US/docs/Web/API/Console/log),
+or the JavaScript
+[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String),
+[Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date), and
+[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+classes.
+
+When a correpsonding module is available in the [Belt](belt_docs) standard library,
+it is recommended to use the Belt version rather than the Js version.
+For example, you should prefer [Belt.Array](belt_docs/array) to [Js.Array](js_docs/array).
+
+## Pipe First vs. Pipe Last
+
+Reason provides two different pipe operators:
+
+- *Pipe First* `->`, meant for use with *Data-First APIs*
+- *Pipe Last* `|>`, meant for use with *Data-Last APIs*
+
+For more information about the data-first and data-last argument orders and the
+trade-offs between them, see
+[this blog post](https://www.javierchavarri.com/data-first-and-data-last-a-comparison/).
+
+Most Reason APIs targeting JavaScript, like the [Belt](belt_docs) standard library,
+follow the data-first convention and are therefore meant for use with the Pipe First operator `->`.
+
+In the [Js](/js_docs) namespace, however, for historical reasons, there are some
+remaining modules that are still using the data-last convention. These modules
+*are currently being migrated to use data-first*.
+
+While this migration is ongoing, some modules have two versions existing in parallel:
+
+- `Js.Xxx`: data-last version
+- `Js.Xxx2`: data-first version
+
+When the migration is finished, the data-last versions will be deprecated and eventually
+removed. It is therefore recommended to use the data-first versions now.
+
+Example for the two versions existing in parallel:
 
 ```re example
-[|1, 2, 3, 4|]
-->Js.Array2.map(x => x + 1)
-->Js.Array2.reduce((+), 0)
-->Js.log;
+/* Data-last version of the String API (don't use!) */
+Js.log("2019-11-10" |> Js.String.split("-"));
+Js.log("Reason" |> Js.String.startsWith("Re"));
+
+/* Data-first version of the String API (recommended) */
+Js.log("2019-11-10"->Js.String2.split("-"));
+Js.log("Reason"->Js.String2.startsWith("Re"));
 ```
 
 ## Object
