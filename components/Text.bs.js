@@ -48,7 +48,7 @@ var Box = {
 function Text$H1(Props) {
   var children = Props.children;
   return React.createElement("h1", {
-              className: "text-7xl tracking-tight leading-1 font-overpass font-black text-night-dark"
+              className: "text-6xl md:text-7xl tracking-tight leading-1 font-overpass font-black text-night-dark"
             }, children);
 }
 

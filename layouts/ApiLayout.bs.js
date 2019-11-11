@@ -2,6 +2,7 @@
 
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
+import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
@@ -157,6 +158,10 @@ var categories = /* array */[/* record */Caml_chrome_debugger.record([
 function ApiLayout(Props) {
   var children = Props.children;
   var router = Router.useRouter();
+  var match = React.useState((function () {
+          return false;
+        }));
+  var setIsOpen = match[1];
   var theme = ColorTheme.toCN(/* Reason */825328612);
   var minWidth = {
     minWidth: "20rem"
@@ -165,6 +170,12 @@ function ApiLayout(Props) {
                   className: "max-w-4xl w-full " + theme,
                   style: minWidth
                 }, React.createElement(Navigation.make, {
+                      isOpen: match[0],
+                      toggle: (function (param) {
+                          return Curry._1(setIsOpen, (function (prev) {
+                                        return !prev;
+                                      }));
+                        }),
                       route: router.route
                     }), React.createElement("div", {
                       className: "flex mt-16"
@@ -179,7 +190,8 @@ function ApiLayout(Props) {
                                       }, children)
                                 }), React.createElement("div", undefined, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
                                             return React.createElement("div", {
-                                                        key: category[/* name */0]
+                                                        key: category[/* name */0],
+                                                        className: "pb-16"
                                                       }, React.createElement(ApiLayout$Category, {
                                                             category: category
                                                           }));

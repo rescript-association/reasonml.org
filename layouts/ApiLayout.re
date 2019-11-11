@@ -69,7 +69,10 @@ module Category = {
       <div className="w-1/4">
         {switch (card.href) {
          | Some(href) => <Link href> <a> element </a> </Link>
-         | None => <div className="opacity-50" title="Not available yet"> element </div>
+         | None =>
+           <div className="opacity-50" title="Not available yet">
+             element
+           </div>
          }}
       </div>;
     };
@@ -124,12 +127,17 @@ let categories: array(Category.t) = [|
 [@react.component]
 let make = (~children) => {
   let router = Next.Router.useRouter();
+  let (isOpen, setIsOpen) = React.useState(() => false);
 
   let theme = ColorTheme.toCN(`Reason);
   let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
   <div>
     <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
-      <Navigation route={router##route} />
+      <Navigation
+        isOpen
+        toggle={() => setIsOpen(prev => !prev)}
+        route={router##route}
+      />
       <div className="flex mt-16">
         <main
           className="pt-12 flex justify-center w-4/5 static min-h-screen overflow-visible">
@@ -139,7 +147,9 @@ let make = (~children) => {
             </Mdx.Provider>
             <div>
               {Belt.Array.map(categories, category =>
-                 <div key={category.name}> <Category category /> </div>
+                 <div key={category.name} className="pb-16">
+                   <Category category />
+                 </div>
                )
                ->ate}
             </div>

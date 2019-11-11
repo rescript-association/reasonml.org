@@ -26,7 +26,7 @@ module H1 = {
   [@react.component]
   let make = (~children) => {
     <h1
-      className="text-7xl tracking-tight leading-1 font-overpass font-black text-night-dark">
+      className="text-6xl md:text-7xl tracking-tight leading-1 font-overpass font-black text-night-dark">
       children
     </h1>;
   };
