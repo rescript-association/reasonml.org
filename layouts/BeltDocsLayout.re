@@ -14,7 +14,6 @@ module Link = Next.Link;
 let indexData:
   Js.Dict.t({
     .
-    "signatures": array(string),
     "moduleName": string,
     "headers": array(string),
   }) = [%raw

@@ -89,7 +89,6 @@ const createIndex = result => {
   return result.reduce((acc, data) => {
     const { signatures = [], moduleName, headers } = data;
     acc["/" + data.href] = {
-      signatures,
       moduleName,
       headers
     };
