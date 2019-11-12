@@ -5,6 +5,7 @@ import * as Util from "../common/Util.bs.js";
 import * as Caret from "../components/Caret.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
+import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
 import * as Navigation from "../components/Navigation.bs.js";
@@ -153,10 +154,12 @@ function SidebarLayout$Sidebar$NavItem(Props) {
                                     key: m[/* name */0],
                                     className: hidden + " leading-5 w-4/5",
                                     tabIndex: 0
-                                  }, React.createElement("a", {
-                                        className: "block text-night hover:text-primary " + active,
-                                        href: m[/* href */1]
-                                      }, Util.ReactStuff.s(m[/* name */0])));
+                                  }, React.createElement(Link.default, {
+                                        href: m[/* href */1],
+                                        children: React.createElement("a", {
+                                              className: "block text-night hover:text-primary " + active
+                                            }, Util.ReactStuff.s(m[/* name */0]))
+                                      }));
                       }))));
 }
 
@@ -471,10 +474,10 @@ var Prose = {
   make: SidebarLayout$Prose
 };
 
-var Link = 0;
+var Link$1 = 0;
 
 export {
-  Link ,
+  Link$1 as Link,
   ApiMd ,
   Sidebar ,
   Docs ,
