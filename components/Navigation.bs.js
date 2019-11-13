@@ -6,8 +6,9 @@ import * as Caret from "./Caret.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
+import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 
-var link = "no-underline block text-inherit hover:text-white text-white-80";
+var link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80";
 
 var activeLink = "text-inherit font-bold text-fire-80 border-b border-fire-80";
 
@@ -22,44 +23,65 @@ function linkOrActiveLink(target, route) {
 
 function Navigation$CollapsibleLink(Props) {
   var title = Props.title;
-  var route = Props.route;
-  var href = Props.href;
+  var onStateChange = Props.onStateChange;
+  var id = Props.id;
+  var state = Props.state;
+  var match = Props.active;
+  var active = match !== undefined ? match : false;
   var children = Props.children;
-  var match = React.useState((function () {
-          return false;
-        }));
-  var setOpen = match[1];
-  var isOpen = match[0];
-  var onClick = function (param) {
-    return Curry._1(setOpen, (function (prev) {
-                  return !prev;
-                }));
+  var onClick = function (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    return Curry._2(onStateChange, id, state >= 2 ? /* KeepOpen */0 : /* Closed */2);
   };
+  var onMouseEnter = function (evt) {
+    evt.preventDefault();
+    return Curry._2(onStateChange, id, /* HoverOpen */1);
+  };
+  var isOpen = state < 2;
   var direction = isOpen ? /* Up */19067 : /* Down */759637122;
   return React.createElement("div", {
-              className: "font-bold sm:font-normal relative"
+              className: "font-bold sm:font-normal relative",
+              onMouseEnter: onMouseEnter
             }, React.createElement("div", {
                   className: "flex items-center"
-                }, React.createElement(Link.default, {
-                      href: href,
-                      children: React.createElement("a", {
-                            className: linkOrActiveLink(href, route) + " font-bold"
-                          }, Util.ReactStuff.s(title))
-                    }), React.createElement("div", {
-                      className: "hover:cursor-pointer hover:text-white ml-2 w-3 h-2",
+                }, React.createElement("a", {
+                      className: (
+                        active ? activeLink : link
+                      ) + (" font-bold" + (
+                          isOpen ? " text-white" : ""
+                        )),
                       onClick: onClick
-                    }, React.createElement(Caret.make, {
-                          direction: direction
-                        }))), React.createElement("div", {
+                    }, Util.ReactStuff.s(title), React.createElement("span", {
+                          className: "fill-current inline-block ml-2 w-3 h-2"
+                        }, React.createElement(Caret.make, {
+                              direction: direction
+                            })))), React.createElement("div", {
                   className: (
                     isOpen ? "block" : "hidden"
-                  ) + " sm:fixed sm:left-0 sm:border-night sm:border-t sm:mt-5 bg-night-dark w-full"
+                  ) + " sm:fixed sm:left-0 sm:border-night sm:border-t sm:mt-5 bg-night-dark w-full h-16"
                 }, children));
 }
 
 var CollapsibleLink = {
   make: Navigation$CollapsibleLink
 };
+
+function useOutsideClick (outerRef,trigger){{
+      function handleClickOutside(event) {
+        if (outerRef.current && !outerRef.current.contains(event.target)) {
+          trigger();
+        }
+      }
+
+      React.useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      });
+
+    }};
 
 function Navigation(Props) {
   var match = Props.isOpen;
@@ -71,23 +93,53 @@ function Navigation(Props) {
   var match$2 = Props.route;
   var route = match$2 !== undefined ? match$2 : "/";
   var minWidth = "20rem";
+  var match$3 = React.useState((function () {
+          return /* array */[
+                  /* tuple */[
+                    "Docs",
+                    Util.ReactStuff.s("Docs Items"),
+                    /* Closed */2
+                  ],
+                  /* tuple */[
+                    "API",
+                    Util.ReactStuff.s("API Items"),
+                    /* Closed */2
+                  ]
+                ];
+        }));
+  var setCollapsibles = match$3[1];
+  var resetCollapsibles = function (param) {
+    return Curry._1(setCollapsibles, (function (prev) {
+                  return Belt_Array.map(prev, (function (c) {
+                                return /* tuple */[
+                                        c[0],
+                                        c[1],
+                                        /* Closed */2
+                                      ];
+                              }));
+                }));
+  };
+  var outerRef = React.useRef(null);
+  useOutsideClick(outerRef, resetCollapsibles);
   return React.createElement("nav", {
-              className: "fixed z-10 top-0 sm:pl-10 w-full h-16 bg-night-dark shadow text-white-80 text-xl sm:text-base",
+              ref: outerRef,
+              className: "fixed z-10 top-0 sm:pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base",
               id: "header",
               style: {
                 minWidth: minWidth
               }
             }, React.createElement("div", {
-                  className: "flex justify-between sm:items-center h-full"
-                }, React.createElement(Link.default, {
-                      href: "/",
-                      children: React.createElement("a", {
-                            className: "w-24 sm:mb-4"
-                          }, React.createElement("img", {
-                                src: "/static/reason_logo.svg"
-                              }))
-                    }), React.createElement("div", {
-                      className: "block sm:hidden"
+                  className: "flex justify-between items-center h-full w-full sm:max-w-4xl"
+                }, React.createElement("div", {
+                      className: "sm:w-3/12"
+                    }, React.createElement(Link.default, {
+                          href: "/",
+                          children: React.createElement("a", undefined, React.createElement("img", {
+                                    className: "w-24 mb-4 inline-block",
+                                    src: "/static/reason_logo.svg"
+                                  }))
+                        })), React.createElement("div", {
+                      className: "block mb-4 pr-4 sm:hidden"
                     }, React.createElement("button", {
                           className: "flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white",
                           onClick: (function (param) {
@@ -137,17 +189,38 @@ function Navigation(Props) {
                               children: React.createElement("a", {
                                     className: linkOrActiveLink("/community", route) + " font-bold"
                                   }, Util.ReactStuff.s("Community"))
-                            }), React.createElement(Navigation$CollapsibleLink, {
-                              title: "API",
-                              route: route,
-                              href: "/api",
-                              children: Util.ReactStuff.s("Items")
-                            }), React.createElement(Navigation$CollapsibleLink, {
-                              title: "Docs",
-                              route: route,
-                              href: "/docs",
-                              children: Util.ReactStuff.s("Items")
-                            })), React.createElement("div", {
+                            }), Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
+                                    var title = c[0];
+                                    var onStateChange = function (id, state) {
+                                      return Curry._1(setCollapsibles, (function (prev) {
+                                                    return Belt_Array.map(prev, (function (c) {
+                                                                  var children = c[1];
+                                                                  var title = c[0];
+                                                                  if (title === id) {
+                                                                    return /* tuple */[
+                                                                            title,
+                                                                            children,
+                                                                            state
+                                                                          ];
+                                                                  } else {
+                                                                    return /* tuple */[
+                                                                            title,
+                                                                            children,
+                                                                            /* Closed */2
+                                                                          ];
+                                                                  }
+                                                                }));
+                                                  }));
+                                    };
+                                    return React.createElement(Navigation$CollapsibleLink, {
+                                                title: title,
+                                                onStateChange: onStateChange,
+                                                id: title,
+                                                state: c[2],
+                                                children: c[1],
+                                                key: String(idx)
+                                              });
+                                  })))), React.createElement("div", {
                           className: "flex"
                         }, React.createElement("a", {
                               className: link,
@@ -182,7 +255,7 @@ function Navigation$ApiDocs(Props) {
   var route = Props.route;
   var versionInfo = Props.versionInfo;
   return React.createElement("nav", {
-              className: "fixed z-10 top-0 p-2 w-full h-16 bg-night-dark shadow flex items-center text-white-80 text-sm",
+              className: "fixed z-10 top-0 w-full h-16 bg-night-dark shadow flex items-center text-white-80 text-sm",
               id: "header"
             }, React.createElement(Link.default, {
                   href: "/",
@@ -210,7 +283,7 @@ function Navigation$ApiDocs(Props) {
                             className: linkOrActiveLink("/api", route)
                           }, Util.ReactStuff.s("API"))
                     }), React.createElement("a", {
-                      className: "no-underline block text-inherit hover:text-white text-white-80 align-middle ml-6",
+                      className: "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 align-middle ml-6",
                       href: "https://github.com/reason-association/reasonml.org",
                       rel: "noopener noreferrer",
                       target: "_blank"
@@ -236,6 +309,7 @@ export {
   activeLink ,
   linkOrActiveLink ,
   CollapsibleLink ,
+  useOutsideClick ,
   make ,
   ApiDocs ,
   
