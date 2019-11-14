@@ -7,8 +7,9 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
+import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
-var link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80";
+var link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
 
 var activeLink = "text-inherit font-bold text-fire-80 border-b border-fire-80";
 
@@ -24,19 +25,25 @@ function linkOrActiveLink(target, route) {
 function Navigation$CollapsibleLink(Props) {
   var title = Props.title;
   var onStateChange = Props.onStateChange;
+  var match = Props.allowHover;
+  var allowHover = match !== undefined ? match : true;
   var id = Props.id;
   var state = Props.state;
-  var match = Props.active;
-  var active = match !== undefined ? match : false;
+  var match$1 = Props.active;
+  var active = match$1 !== undefined ? match$1 : false;
   var children = Props.children;
-  var onClick = function (evt) {
+  var onMouseDown = function (evt) {
     evt.preventDefault();
     evt.stopPropagation();
     return Curry._2(onStateChange, id, state >= 2 ? /* KeepOpen */0 : /* Closed */2);
   };
   var onMouseEnter = function (evt) {
     evt.preventDefault();
-    return Curry._2(onStateChange, id, /* HoverOpen */1);
+    if (allowHover) {
+      return Curry._2(onStateChange, id, /* HoverOpen */1);
+    } else {
+      return 0;
+    }
   };
   var isOpen = state < 2;
   var direction = isOpen ? /* Up */19067 : /* Down */759637122;
@@ -48,10 +55,10 @@ function Navigation$CollapsibleLink(Props) {
                 }, React.createElement("a", {
                       className: (
                         active ? activeLink : link
-                      ) + (" font-bold" + (
+                      ) + (" font-bold hover:cursor-pointer " + (
                           isOpen ? " text-white" : ""
                         )),
-                      onClick: onClick
+                      onMouseDown: onMouseDown
                     }, Util.ReactStuff.s(title), React.createElement("span", {
                           className: "fill-current inline-block ml-2 w-3 h-2"
                         }, React.createElement(Caret.make, {
@@ -59,7 +66,7 @@ function Navigation$CollapsibleLink(Props) {
                             })))), React.createElement("div", {
                   className: (
                     isOpen ? "block" : "hidden"
-                  ) + " sm:fixed sm:left-0 sm:border-night sm:border-t sm:mt-5 bg-night-dark w-full h-16"
+                  ) + " sm:fixed sm:left-0 sm:border-night sm:mt-4 sm:border-t bg-night-dark w-full h-16"
                 }, children));
 }
 
@@ -83,6 +90,37 @@ function useOutsideClick (outerRef,trigger){{
 
     }};
 
+function useWindowWidth (){{
+  const isClient = typeof window === 'object';
+
+  function getSize() {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined
+    };
+  }
+
+  const [windowSize, setWindowSize] = React.useState(getSize);
+
+  React.useEffect(() => {
+    if (!isClient) {
+      return false;
+    }
+
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  if(windowSize) {
+    return windowSize.width;
+  }
+  return null;
+  }};
+
 function Navigation(Props) {
   var match = Props.isOpen;
   var isOpen = match !== undefined ? match : false;
@@ -95,32 +133,52 @@ function Navigation(Props) {
   var minWidth = "20rem";
   var match$3 = React.useState((function () {
           return /* array */[
-                  /* tuple */[
-                    "Docs",
-                    Util.ReactStuff.s("Docs Items"),
-                    /* Closed */2
-                  ],
-                  /* tuple */[
-                    "API",
-                    Util.ReactStuff.s("API Items"),
-                    /* Closed */2
-                  ]
+                  /* record */Caml_chrome_debugger.record([
+                      "title",
+                      "children",
+                      "href",
+                      "state"
+                    ], [
+                      "Docs",
+                      Util.ReactStuff.s("Docs Items"),
+                      "/docs",
+                      2
+                    ]),
+                  /* record */Caml_chrome_debugger.record([
+                      "title",
+                      "children",
+                      "href",
+                      "state"
+                    ], [
+                      "API",
+                      Util.ReactStuff.s("API Items"),
+                      "/api",
+                      2
+                    ])
                 ];
         }));
   var setCollapsibles = match$3[1];
   var resetCollapsibles = function (param) {
     return Curry._1(setCollapsibles, (function (prev) {
                   return Belt_Array.map(prev, (function (c) {
-                                return /* tuple */[
-                                        c[0],
-                                        c[1],
-                                        /* Closed */2
-                                      ];
+                                return /* record */Caml_chrome_debugger.record([
+                                          "title",
+                                          "children",
+                                          "href",
+                                          "state"
+                                        ], [
+                                          c[/* title */0],
+                                          c[/* children */1],
+                                          c[/* href */2],
+                                          2
+                                        ]);
                               }));
                 }));
   };
   var outerRef = React.useRef(null);
   useOutsideClick(outerRef, resetCollapsibles);
+  var windowWidth = Curry._1(useWindowWidth, /* () */0);
+  var allowHover = windowWidth !== undefined ? windowWidth > 576 : true;
   return React.createElement("nav", {
               ref: outerRef,
               className: "fixed z-10 top-0 sm:pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base",
@@ -142,7 +200,8 @@ function Navigation(Props) {
                       className: "block mb-4 pr-4 sm:hidden"
                     }, React.createElement("button", {
                           className: "flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white",
-                          onClick: (function (param) {
+                          onClick: (function (evt) {
+                              evt.preventDefault();
                               return Curry._1(toggle, /* () */0);
                             })
                         }, React.createElement("svg", {
@@ -169,7 +228,8 @@ function Navigation(Props) {
                                       }))
                             }), React.createElement("span", {
                               className: "inline-block text-center w-6 text-2xl font-bold",
-                              onClick: (function (param) {
+                              onClick: (function (evt) {
+                                  evt.preventDefault();
                                   return Curry._1(toggle, /* () */0);
                                 })
                             }, Util.ReactStuff.s("X"))), React.createElement("div", {
@@ -190,24 +250,34 @@ function Navigation(Props) {
                                     className: linkOrActiveLink("/community", route) + " font-bold"
                                   }, Util.ReactStuff.s("Community"))
                             }), Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
-                                    var title = c[0];
+                                    var title = c[/* title */0];
                                     var onStateChange = function (id, state) {
                                       return Curry._1(setCollapsibles, (function (prev) {
                                                     return Belt_Array.map(prev, (function (c) {
-                                                                  var children = c[1];
-                                                                  var title = c[0];
-                                                                  if (title === id) {
-                                                                    return /* tuple */[
-                                                                            title,
-                                                                            children,
-                                                                            state
-                                                                          ];
+                                                                  if (c[/* title */0] === id) {
+                                                                    return /* record */Caml_chrome_debugger.record([
+                                                                              "title",
+                                                                              "children",
+                                                                              "href",
+                                                                              "state"
+                                                                            ], [
+                                                                              c[/* title */0],
+                                                                              c[/* children */1],
+                                                                              c[/* href */2],
+                                                                              state
+                                                                            ]);
                                                                   } else {
-                                                                    return /* tuple */[
-                                                                            title,
-                                                                            children,
-                                                                            /* Closed */2
-                                                                          ];
+                                                                    return /* record */Caml_chrome_debugger.record([
+                                                                              "title",
+                                                                              "children",
+                                                                              "href",
+                                                                              "state"
+                                                                            ], [
+                                                                              c[/* title */0],
+                                                                              c[/* children */1],
+                                                                              c[/* href */2],
+                                                                              2
+                                                                            ]);
                                                                   }
                                                                 }));
                                                   }));
@@ -215,13 +285,15 @@ function Navigation(Props) {
                                     return React.createElement(Navigation$CollapsibleLink, {
                                                 title: title,
                                                 onStateChange: onStateChange,
+                                                allowHover: allowHover,
                                                 id: title,
-                                                state: c[2],
-                                                children: c[1],
+                                                state: c[/* state */3],
+                                                active: route === c[/* href */2],
+                                                children: c[/* children */1],
                                                 key: String(idx)
                                               });
                                   })))), React.createElement("div", {
-                          className: "flex"
+                          className: "hidden lg:flex"
                         }, React.createElement("a", {
                               className: link,
                               href: "https://github.com/reason-association/reasonml.org",
@@ -283,7 +355,7 @@ function Navigation$ApiDocs(Props) {
                             className: linkOrActiveLink("/api", route)
                           }, Util.ReactStuff.s("API"))
                     }), React.createElement("a", {
-                      className: "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 align-middle ml-6",
+                      className: "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px align-middle ml-6",
                       href: "https://github.com/reason-association/reasonml.org",
                       rel: "noopener noreferrer",
                       target: "_blank"
@@ -310,6 +382,7 @@ export {
   linkOrActiveLink ,
   CollapsibleLink ,
   useOutsideClick ,
+  useWindowWidth ,
   make ,
   ApiDocs ,
   

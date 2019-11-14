@@ -1,7 +1,7 @@
 open Util.ReactStuff;
 module Link = Next.Link;
 
-let link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80";
+let link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
 let activeLink = "text-inherit font-bold text-fire-80 border-b border-fire-80";
 
 let linkOrActiveLink = (~target, ~route) => {
@@ -20,12 +20,17 @@ module CollapsibleLink = {
       (
         ~title: string,
         ~onStateChange: (~id: string, state) => unit,
+        ~allowHover=true,
         ~id: string,
         ~state: state,
         ~active=false,
         ~children,
       ) => {
-    let onClick = evt => {
+
+
+    // This is not onClick, because we want to prevent
+    // text selection on multiple clicks
+    let onMouseDown = evt => {
       ReactEvent.Mouse.preventDefault(evt);
       ReactEvent.Mouse.stopPropagation(evt);
 
@@ -41,7 +46,9 @@ module CollapsibleLink = {
 
     let onMouseEnter = evt => {
       ReactEvent.Mouse.preventDefault(evt);
-      onStateChange(~id, HoverOpen);
+      if (allowHover) {
+        onStateChange(~id, HoverOpen);
+      };
     };
 
     let isOpen =
@@ -56,10 +63,10 @@ module CollapsibleLink = {
     <div className="font-bold sm:font-normal relative" onMouseEnter>
       <div className="flex items-center">
         <a
-          onClick
+          onMouseDown
           className={
             (active ? activeLink : link)
-            ++ " font-bold"
+            ++ " font-bold hover:cursor-pointer "
             ++ (isOpen ? " text-white" : "")
           }>
           title->s
@@ -71,7 +78,7 @@ module CollapsibleLink = {
       <div
         className={
           (isOpen ? "block" : "hidden")
-          ++ " sm:fixed sm:left-0 sm:border-night sm:border-t sm:mt-5 bg-night-dark w-full h-16"
+          ++ " sm:fixed sm:left-0 sm:border-night sm:mt-4 sm:border-t bg-night-dark w-full h-16"
         }>
         children
       </div>
@@ -96,6 +103,47 @@ let useOutsideClick: (ReactDOMRe.Ref.t, unit => unit) => unit = [%raw
 
     }|j}
 ];
+
+let useWindowWidth: unit => option(int) = [%raw
+  () => {j|{
+  const isClient = typeof window === 'object';
+
+  function getSize() {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined
+    };
+  }
+
+  const [windowSize, setWindowSize] = React.useState(getSize);
+
+  React.useEffect(() => {
+    if (!isClient) {
+      return false;
+    }
+
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  if(windowSize) {
+    return windowSize.width;
+  }
+  return null;
+  }|j}
+];
+
+type collapsible = {
+  title: string,
+  children: React.element,
+  href: string,
+  state: CollapsibleLink.state,
+};
+
 [@react.component]
 let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
   let minWidth = "20rem";
@@ -103,24 +151,30 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
   let (collapsibles, setCollapsibles) =
     React.useState(_ =>
       [|
-        ("Docs", "Docs Items"->s, CollapsibleLink.Closed),
-        ("API", "API Items"->s, CollapsibleLink.Closed),
+        {
+          title: "Docs",
+          href: "/docs",
+          children: "Docs Items"->s,
+          state: Closed,
+        },
+        {title: "API", href: "/api", children: "API Items"->s, state: Closed},
       |]
     );
 
   let resetCollapsibles = () =>
-    setCollapsibles(prev =>
-      Belt.Array.map(
-        prev,
-        c => {
-          let (title, children, _) = c;
-          (title, children, CollapsibleLink.Closed);
-        },
-      )
-    );
+    setCollapsibles(prev => Belt.Array.map(prev, c => {...c, state: Closed}));
 
   let outerRef = React.useRef(Js.Nullable.null);
   useOutsideClick(ReactDOMRe.Ref.domRef(outerRef), resetCollapsibles);
+
+  let windowWidth = useWindowWidth();
+
+  // Don't allow hover behavior for collapsibles if mobile navigation is on
+  let allowHover =
+    switch (windowWidth) {
+    | Some(width) => width > 576 // Value noted in tailwind config
+    | None => true
+    };
 
   <nav
     ref={ReactDOMRe.Ref.domRef(outerRef)}
@@ -142,7 +196,10 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
       <div className="block mb-4 pr-4 sm:hidden">
         <button
           className="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
-          onClick={_ => toggle()}>
+          onClick={evt => {
+            ReactEvent.Mouse.preventDefault(evt);
+            toggle();
+          }}>
           <svg
             className="fill-current h-3 w-3"
             viewBox="0 0 20 20"
@@ -162,7 +219,10 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
             <a className="w-24"> <img src="/static/reason_logo.svg" /> </a>
           </Link>
           <span
-            onClick={_ => toggle()}
+            onClick={evt => {
+              ReactEvent.Mouse.preventDefault(evt);
+              toggle();
+            }}
             className="inline-block text-center w-6 text-2xl font-bold">
             "X"->s
           </span>
@@ -196,26 +256,24 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           {Belt.Array.mapWithIndex(
              collapsibles,
              (idx, c) => {
-               let (title, children, state) = c;
+               let {href, title, children, state} = c;
                let onStateChange = (~id, state) =>
                  {setCollapsibles(prev =>
-                    Belt.Array.map(
-                      prev,
-                      c => {
-                        let (title, children, _) = c;
-                        if (title === id) {
-                          (title, children, state);
-                        } else {
-                          (title, children, CollapsibleLink.Closed);
-                        };
-                      },
+                    Belt.Array.map(prev, c =>
+                      if (c.title === id) {
+                        {...c, state};
+                      } else {
+                        {...c, state: Closed};
+                      }
                     )
                   )};
                <CollapsibleLink
                  id=title
                  onStateChange
                  key={idx->Belt.Int.toString}
+                 allowHover
                  title
+                 active={route === href}
                  state>
                  children
                </CollapsibleLink>;
@@ -223,7 +281,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
            )
            ->ate}
         </div>
-        <div className="flex">
+        <div className="hidden lg:flex">
           <a
             href="https://github.com/reason-association/reasonml.org"
             rel="noopener noreferrer"
