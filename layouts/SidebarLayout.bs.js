@@ -7,11 +7,7 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
-import * as ColorTheme from "../common/ColorTheme.bs.js";
-import * as Navigation from "../components/Navigation.bs.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
-import * as Router from "next/router";
-import * as React$1 from "@mdx-js/react";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
 require('../styles/main.css')
@@ -134,6 +130,88 @@ var ApiMd = {
   Pre: Pre,
   P: P,
   components: components
+};
+
+function SidebarLayout$ProseMd$Anchor(Props) {
+  var id = Props.id;
+  var style = {
+    position: "absolute",
+    top: "-7rem"
+  };
+  return React.createElement("span", {
+              style: {
+                position: "relative"
+              }
+            }, React.createElement("a", {
+                  className: "mr-2 hover:cursor-pointer",
+                  href: "#" + id
+                }, Util.ReactStuff.s("#")), React.createElement("a", {
+                  id: id,
+                  style: style
+                }));
+}
+
+var Anchor$1 = {
+  make: SidebarLayout$ProseMd$Anchor
+};
+
+function SidebarLayout$ProseMd$H2(Props) {
+  var children = Props.children;
+  return React.createElement(React.Fragment, undefined, React.createElement("h2", {
+                  className: "mt-12 text-3xl leading-1 tracking-tight font-overpass font-medium font-black text-night-dark"
+                }, React.createElement(SidebarLayout$ProseMd$Anchor, {
+                      id: children
+                    }), children));
+}
+
+var H2$1 = {
+  make: SidebarLayout$ProseMd$H2
+};
+
+function SidebarLayout$ProseMd$Pre(Props) {
+  var children = Props.children;
+  return React.createElement("pre", {
+              className: "mt-2 mb-4 block"
+            }, children);
+}
+
+var Pre$1 = {
+  make: SidebarLayout$ProseMd$Pre
+};
+
+function SidebarLayout$ProseMd$P(Props) {
+  var children = Props.children;
+  return React.createElement("p", {
+              className: "text-base mt-3 leading-4 text-night"
+            }, children);
+}
+
+var P$1 = {
+  make: SidebarLayout$ProseMd$P
+};
+
+var components$1 = {
+  p: SidebarLayout$ProseMd$P,
+  li: $$Text.Md.Li.make,
+  h1: SidebarLayout$ApiMd$H1,
+  h2: SidebarLayout$ProseMd$H2,
+  h3: $$Text.H3.make,
+  h4: $$Text.H4.make,
+  h5: $$Text.H5.make,
+  ul: $$Text.Md.Ul.make,
+  ol: $$Text.Md.Ol.make,
+  inlineCode: $$Text.Md.InlineCode.make,
+  code: $$Text.Md.Code.make,
+  pre: SidebarLayout$ProseMd$Pre,
+  a: $$Text.Md.A.make
+};
+
+var ProseMd = {
+  Anchor: Anchor$1,
+  H2: H2$1,
+  Pre: Pre$1,
+  P: P$1,
+  components: components$1
 };
 
 function SidebarLayout$Sidebar$NavItem(Props) {
@@ -307,181 +385,13 @@ var Sidebar = {
   make: SidebarLayout$Sidebar
 };
 
-function SidebarLayout$Docs(Props) {
-  var match = Props.theme;
-  var theme = match !== undefined ? match : /* Reason */825328612;
-  var match$1 = Props.components;
-  var components$1 = match$1 !== undefined ? Caml_option.valFromOption(match$1) : components;
-  var children = Props.children;
-  var router = Router.useRouter();
-  var categories = /* array */[
-    /* record */Caml_chrome_debugger.record([
-        "name",
-        "items"
-      ], [
-        "Introduction",
-        [/* record */Caml_chrome_debugger.record([
-              "name",
-              "href"
-            ], [
-              "Overview",
-              "/api"
-            ])]
-      ]),
-    /* record */Caml_chrome_debugger.record([
-        "name",
-        "items"
-      ], [
-        "JavaScript",
-        [
-          /* record */Caml_chrome_debugger.record([
-              "name",
-              "href"
-            ], [
-              "Js Module",
-              "/js_docs"
-            ]),
-          /* record */Caml_chrome_debugger.record([
-              "name",
-              "href"
-            ], [
-              "Belt Stdlib",
-              "/belt_docs"
-            ])
-        ]
-      ])
-  ];
-  var theme$1 = ColorTheme.toCN(theme);
-  var minWidth = {
-    minWidth: "20rem"
-  };
-  return React.createElement("div", undefined, React.createElement("div", {
-                  className: "text-night max-w-4xl w-full " + theme$1,
-                  style: minWidth
-                }, React.createElement(Navigation.ApiDocs.make, {
-                      route: router.route
-                    }), React.createElement("div", {
-                      className: "flex"
-                    }, React.createElement(SidebarLayout$Sidebar, {
-                          categories: categories,
-                          route: router.route
-                        }), React.createElement("main", {
-                          className: "pt-12 static min-h-screen overflow-visible"
-                        }, React.createElement(React$1.MDXProvider, {
-                              components: components$1,
-                              children: React.createElement("div", {
-                                    className: "pl-8 max-w-md mb-32 text-lg"
-                                  }, children)
-                            })))));
-}
-
-var Docs = {
-  make: SidebarLayout$Docs
-};
-
-function SidebarLayout$Prose$Md$Anchor(Props) {
-  var id = Props.id;
-  var style = {
-    position: "absolute",
-    top: "-7rem"
-  };
-  return React.createElement("span", {
-              style: {
-                position: "relative"
-              }
-            }, React.createElement("a", {
-                  className: "mr-2 hover:cursor-pointer",
-                  href: "#" + id
-                }, Util.ReactStuff.s("#")), React.createElement("a", {
-                  id: id,
-                  style: style
-                }));
-}
-
-var Anchor$1 = {
-  make: SidebarLayout$Prose$Md$Anchor
-};
-
-function SidebarLayout$Prose$Md$H2(Props) {
-  var children = Props.children;
-  return React.createElement(React.Fragment, undefined, React.createElement("h2", {
-                  className: "mt-12 text-3xl leading-1 tracking-tight font-overpass font-medium font-black text-night-dark"
-                }, React.createElement(SidebarLayout$Prose$Md$Anchor, {
-                      id: children
-                    }), children));
-}
-
-var H2$1 = {
-  make: SidebarLayout$Prose$Md$H2
-};
-
-function SidebarLayout$Prose$Md$Pre(Props) {
-  var children = Props.children;
-  return React.createElement("pre", {
-              className: "mt-2 mb-4 block"
-            }, children);
-}
-
-var Pre$1 = {
-  make: SidebarLayout$Prose$Md$Pre
-};
-
-function SidebarLayout$Prose$Md$P(Props) {
-  var children = Props.children;
-  return React.createElement("p", {
-              className: "text-base mt-3 leading-4 text-night"
-            }, children);
-}
-
-var P$1 = {
-  make: SidebarLayout$Prose$Md$P
-};
-
-var components$1 = {
-  p: SidebarLayout$Prose$Md$P,
-  li: $$Text.Md.Li.make,
-  h1: SidebarLayout$ApiMd$H1,
-  h2: SidebarLayout$Prose$Md$H2,
-  h3: $$Text.H3.make,
-  h4: $$Text.H4.make,
-  h5: $$Text.H5.make,
-  ul: $$Text.Md.Ul.make,
-  ol: $$Text.Md.Ol.make,
-  inlineCode: $$Text.Md.InlineCode.make,
-  code: $$Text.Md.Code.make,
-  pre: SidebarLayout$Prose$Md$Pre,
-  a: $$Text.Md.A.make
-};
-
-var Md = {
-  Anchor: Anchor$1,
-  H2: H2$1,
-  Pre: Pre$1,
-  P: P$1,
-  components: components$1
-};
-
-function SidebarLayout$Prose(Props) {
-  var children = Props.children;
-  return React.createElement(SidebarLayout$Docs, {
-              components: components$1,
-              children: children
-            });
-}
-
-var Prose = {
-  Md: Md,
-  make: SidebarLayout$Prose
-};
-
 var Link$1 = 0;
 
 export {
   Link$1 as Link,
   ApiMd ,
+  ProseMd ,
   Sidebar ,
-  Docs ,
-  Prose ,
   
 }
 /*  Not a pure module */

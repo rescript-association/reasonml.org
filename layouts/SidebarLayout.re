@@ -113,6 +113,68 @@ module ApiMd = {
     );
 };
 
+module ProseMd = {
+  module Anchor = {
+    [@react.component]
+    let make = (~id: string) => {
+      let style =
+        ReactDOMRe.Style.make(~position="absolute", ~top="-7rem", ());
+      <span style={ReactDOMRe.Style.make(~position="relative", ())}>
+        <a className="mr-2 hover:cursor-pointer" href={"#" ++ id}>
+          {j|#|j}->s
+        </a>
+        <a style id />
+      </span>;
+    };
+  };
+
+  module H2 = {
+    [@react.component]
+    let make = (~children) => {
+      <>
+        // Here we know that children is always a string (## headline)
+        <h2
+          className="mt-12 text-3xl leading-1 tracking-tight font-overpass font-medium font-black text-night-dark">
+          <Anchor id={children->Unsafe.elementAsString} />
+          children
+        </h2>
+      </>;
+    };
+  };
+
+  module Pre = {
+    [@react.component]
+    let make = (~children) => {
+      <pre className="mt-2 mb-4 block"> children </pre>;
+    };
+  };
+
+  module P = {
+    [@react.component]
+    let make = (~children) => {
+      <p className="text-base mt-3 leading-4 text-night"> children </p>;
+    };
+  };
+
+  let components =
+    Mdx.Components.t(
+      ~p=P.make,
+      ~li=Md.Li.make,
+      ~h1=ApiMd.H1.make,
+      ~h2=H2.make,
+      ~h3=H3.make,
+      ~h4=H4.make,
+      ~h5=H5.make,
+      ~ul=Md.Ul.make,
+      ~ol=Md.Ol.make,
+      ~a=Md.A.make,
+      ~pre=Pre.make,
+      ~inlineCode=Md.InlineCode.make,
+      ~code=Md.Code.make,
+      (),
+    );
+};
+
 module Sidebar = {
   module NavItem = {
     // Navigation point information
@@ -271,117 +333,5 @@ module Sidebar = {
         </div>
       </aside>
     </div>;
-  };
-};
-
-/* Used for API docs (structured data) */
-module Docs = {
-  [@genType]
-  [@react.component]
-  let make = (~theme=`Reason, ~components=ApiMd.components, ~children) => {
-    let router = Next.Router.useRouter();
-
-    let categories: array(Sidebar.Category.t) = [|
-      {name: "Introduction", items: [|{name: "Overview", href: "/api"}|]},
-      {
-        name: "JavaScript",
-        items: [|
-          {name: "Js Module", href: "/js_docs"},
-          {name: "Belt Stdlib", href: "/belt_docs"},
-        |],
-      },
-    |];
-
-    let theme = ColorTheme.toCN(theme);
-    let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-    <div>
-      <div className={"text-night max-w-4xl w-full " ++ theme} style=minWidth>
-        <Navigation.ApiDocs route={router##route} />
-        <div className="flex">
-          <Sidebar categories route={router##route} />
-          <main className="pt-12 static min-h-screen overflow-visible">
-            <Mdx.Provider components>
-              <div className="pl-8 max-w-md mb-32 text-lg"> children </div>
-            </Mdx.Provider>
-          </main>
-        </div>
-      </div>
-    </div>;
-  };
-};
-
-/*
- This layout is used for structured prose text with proper H2 headings.
- We cannot really use the same layout as with the Docs module, since they
- have different semantic styling and do things such as hiding the text
- of H2 nodes.
- */
-module Prose = {
-  module Md = {
-    module Anchor = {
-      [@react.component]
-      let make = (~id: string) => {
-        let style =
-          ReactDOMRe.Style.make(~position="absolute", ~top="-7rem", ());
-        <span style={ReactDOMRe.Style.make(~position="relative", ())}>
-          <a className="mr-2 hover:cursor-pointer" href={"#" ++ id}>
-            {j|#|j}->s
-          </a>
-          <a style id />
-        </span>;
-      };
-    };
-
-    module H2 = {
-      [@react.component]
-      let make = (~children) => {
-        <>
-          // Here we know that children is always a string (## headline)
-          <h2
-            className="mt-12 text-3xl leading-1 tracking-tight font-overpass font-medium font-black text-night-dark">
-            <Anchor id={children->Unsafe.elementAsString} />
-            children
-          </h2>
-        </>;
-      };
-    };
-
-    module Pre = {
-      [@react.component]
-      let make = (~children) => {
-        <pre className="mt-2 mb-4 block"> children </pre>;
-      };
-    };
-
-    module P = {
-      [@react.component]
-      let make = (~children) => {
-        <p className="text-base mt-3 leading-4 text-night"> children </p>;
-      };
-    };
-
-    let components =
-      Mdx.Components.t(
-        ~p=P.make,
-        ~li=Md.Li.make,
-        ~h1=ApiMd.H1.make,
-        ~h2=H2.make,
-        ~h3=H3.make,
-        ~h4=H4.make,
-        ~h5=H5.make,
-        ~ul=Md.Ul.make,
-        ~ol=Md.Ol.make,
-        ~a=Md.A.make,
-        ~pre=Pre.make,
-        ~inlineCode=Md.InlineCode.make,
-        ~code=Md.Code.make,
-        (),
-      );
-  };
-
-  [@genType]
-  [@react.component]
-  let make = (~children) => {
-    <Docs components=Md.components> children </Docs>;
   };
 };
