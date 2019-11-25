@@ -127,7 +127,7 @@ var categories = /* array */[/* record */Caml_chrome_debugger.record([
           ], [
             "Js Module",
             "Bindings for Common Browser APIs",
-            "/js_docs",
+            "/apis/javascript/latest/js",
             "/static/api-img-js.svg"
           ]),
         /* record */Caml_chrome_debugger.record([
@@ -138,7 +138,7 @@ var categories = /* array */[/* record */Caml_chrome_debugger.record([
           ], [
             "Belt Module",
             "The Reason Standard Library for the Web",
-            "/belt_docs",
+            "/apis/javascript/latest/belt",
             "/static/api-img-belt.svg"
           ]),
         /* record */Caml_chrome_debugger.record([

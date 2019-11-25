@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
-import * as Navigation from "../components/Navigation.bs.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as Router from "next/router";
-import * as React$1 from "@mdx-js/react";
 import * as SidebarLayout from "./SidebarLayout.bs.js";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
@@ -20,12 +18,12 @@ hljs.registerLanguage('reason', reasonHighlightJs);
 ;
 
 function JavaScriptApiLayout$Docs(Props) {
-  var match = Props.theme;
-  var theme = match !== undefined ? match : /* Reason */825328612;
-  var match$1 = Props.components;
-  var components = match$1 !== undefined ? Caml_option.valFromOption(match$1) : SidebarLayout.ApiMd.components;
+  Props.theme;
+  var match = Props.components;
+  var components = match !== undefined ? Caml_option.valFromOption(match) : SidebarLayout.ApiMd.components;
   var children = Props.children;
   var router = Router.useRouter();
+  ColorTheme.toCN(/* Js */16617);
   var categories = /* array */[
     /* record */Caml_chrome_debugger.record([
         "name",
@@ -37,7 +35,7 @@ function JavaScriptApiLayout$Docs(Props) {
               "href"
             ], [
               "Overview",
-              "/api"
+              "/apis/javascript/latest"
             ])]
       ]),
     /* record */Caml_chrome_debugger.record([
@@ -51,40 +49,29 @@ function JavaScriptApiLayout$Docs(Props) {
               "href"
             ], [
               "Js Module",
-              "/js_docs"
+              "/apis/javascript/latest/js"
             ]),
           /* record */Caml_chrome_debugger.record([
               "name",
               "href"
             ], [
               "Belt Stdlib",
-              "/belt_docs"
+              "/apis/javascript/latest/belt"
             ])
         ]
       ])
   ];
-  var theme$1 = ColorTheme.toCN(theme);
-  var minWidth = {
-    minWidth: "20rem"
-  };
-  return React.createElement("div", undefined, React.createElement("div", {
-                  className: "text-night max-w-4xl w-full " + theme$1,
-                  style: minWidth
-                }, React.createElement(Navigation.ApiDocs.make, {
-                      route: router.route
-                    }), React.createElement("div", {
-                      className: "flex"
-                    }, React.createElement(SidebarLayout.Sidebar.make, {
-                          categories: categories,
-                          route: router.route
-                        }), React.createElement("main", {
-                          className: "pt-12 static min-h-screen overflow-visible"
-                        }, React.createElement(React$1.MDXProvider, {
-                              components: components,
-                              children: React.createElement("div", {
-                                    className: "pl-8 max-w-md mb-32 text-lg"
-                                  }, children)
-                            })))));
+  var sidebar = React.createElement(SidebarLayout.Sidebar.make, {
+        categories: categories,
+        route: router.route
+      });
+  return React.createElement(SidebarLayout.make, {
+              theme: /* Js */16617,
+              components: components,
+              sidebar: sidebar,
+              route: router.route,
+              children: children
+            });
 }
 
 var Docs = {

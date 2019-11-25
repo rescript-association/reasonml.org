@@ -29,12 +29,17 @@ module Sidebar = SidebarLayout.Sidebar;
 module NavItem = Sidebar.NavItem;
 module Category = Sidebar.Category;
 
-let overviewNavs = [|NavItem.{name: "Introduction", href: "/apis/javascript/latest/belt"}|];
+let overviewNavs = [|
+  NavItem.{name: "Introduction", href: "/apis/javascript/latest/belt"},
+|];
 
 let setNavs = [|
   NavItem.{name: "HashSet", href: "/apis/javascript/latest/belt/hash-set"},
   {name: "HashSetInt", href: "/apis/javascript/latest/belt/hash-set-int"},
-  {name: "HashSetString", href: "/apis/javascript/latest/belt/hash-set-string"},
+  {
+    name: "HashSetString",
+    href: "/apis/javascript/latest/belt/hash-set-string",
+  },
   {name: "Set", href: "/apis/javascript/latest/belt/set"},
   {name: "SetDict", href: "/apis/javascript/latest/belt/set-dict"},
   {name: "SetInt", href: "/apis/javascript/latest/belt/set-int"},
@@ -44,7 +49,10 @@ let setNavs = [|
 let mapNavs = [|
   NavItem.{name: "HashMap", href: "/apis/javascript/latest/belt/hash-map"},
   {name: "HashMapInt", href: "/apis/javascript/latest/belt/hash-map-int"},
-  {name: "HashMapString", href: "/apis/javascript/latest/belt/hash-map-string"},
+  {
+    name: "HashMapString",
+    href: "/apis/javascript/latest/belt/hash-map-string",
+  },
   {name: "Map", href: "/apis/javascript/latest/belt/map"},
   {name: "MapDict", href: "/apis/javascript/latest/belt/map-dict"},
   {name: "MapInt", href: "/apis/javascript/latest/belt/map-int"},
@@ -52,13 +60,28 @@ let mapNavs = [|
 |];
 
 let mutableCollectionsNavs = [|
-  NavItem.{name: "MutableMap", href: "/apis/javascript/latest/belt/mutable-map"},
-  {name: "MutableMapInt", href: "/apis/javascript/latest/belt/mutable-map-int"},
-  {name: "MutableMapString", href: "/apis/javascript/latest/belt/mutable-map-string"},
+  NavItem.{
+    name: "MutableMap",
+    href: "/apis/javascript/latest/belt/mutable-map",
+  },
+  {
+    name: "MutableMapInt",
+    href: "/apis/javascript/latest/belt/mutable-map-int",
+  },
+  {
+    name: "MutableMapString",
+    href: "/apis/javascript/latest/belt/mutable-map-string",
+  },
   {name: "MutableQueue", href: "/apis/javascript/latest/belt/mutable-queue"},
   {name: "MutableSet", href: "/apis/javascript/latest/belt/mutable-set"},
-  {name: "MutableSetInt", href: "/apis/javascript/latest/belt/mutable-set-int"},
-  {name: "MutableSetString", href: "/apis/javascript/latest/belt/mutable-set-string"},
+  {
+    name: "MutableSetInt",
+    href: "/apis/javascript/latest/belt/mutable-set-int",
+  },
+  {
+    name: "MutableSetString",
+    href: "/apis/javascript/latest/belt/mutable-set-string",
+  },
   {name: "MutableStack", href: "/apis/javascript/latest/belt/mutable-stack"},
 |];
 
@@ -74,12 +97,20 @@ let basicNavs = [|
 |];
 
 let sortNavs = [|
-  NavItem.{name: "SortArray", href: "/apis/javascript/latest/belt/sort-array"},
+  NavItem.{
+    name: "SortArray",
+    href: "/apis/javascript/latest/belt/sort-array",
+  },
   {name: "SortArrayInt", href: "/apis/javascript/latest/belt/sort-array-int"},
-  {name: "SortArrayString", href: "/apis/javascript/latest/belt/sort-array-string"},
+  {
+    name: "SortArrayString",
+    href: "/apis/javascript/latest/belt/sort-array-string",
+  },
 |];
 
-let utilityNavs = [|NavItem.{name: "Debug", href: "/apis/javascript/latest/belt/debug"}|];
+let utilityNavs = [|
+  NavItem.{name: "Debug", href: "/apis/javascript/latest/belt/debug"},
+|];
 
 let categories = [|
   Category.{name: "Overview", items: overviewNavs},
@@ -118,26 +149,24 @@ module Docs = {
       route !== "/apis/javascript/latest/belt"
         ? <Sidebar.CollapsibleSection headers moduleName /> : React.null;
 
-    let theme = ColorTheme.toCN(`Js);
-    let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-    <div>
-      <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
-        <Navigation.ApiDocs
-          route
-          versionInfo={"v" ++ package##dependencies##"bs-platform"}
-        />
-        <div className="flex mt-12">
-          <Sidebar categories route={router##route}>
-            collapsibleSection
-          </Sidebar>
-          <main className="pt-12 w-4/5 static min-h-screen overflow-visible">
-            <Mdx.Provider components>
-              <div className="pl-8 max-w-md mb-32 text-lg"> children </div>
-            </Mdx.Provider>
-          </main>
-        </div>
-      </div>
-    </div>;
+    let sidebar =
+      <Sidebar
+        categories
+        route={
+          router##route;
+        }>
+        collapsibleSection
+      </Sidebar>;
+
+    <SidebarLayout
+      theme=`Js
+      components
+      sidebar
+      route={
+        router##route;
+      }>
+      children
+    </SidebarLayout>;
   };
 };
 

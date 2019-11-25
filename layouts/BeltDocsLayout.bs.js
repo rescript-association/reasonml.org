@@ -2,12 +2,9 @@
 
 import * as React from "react";
 import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
-import * as ColorTheme from "../common/ColorTheme.bs.js";
-import * as Navigation from "../components/Navigation.bs.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as Router from "next/router";
-import * as React$1 from "@mdx-js/react";
 import * as SidebarLayout from "./SidebarLayout.bs.js";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
@@ -356,30 +353,18 @@ function BeltDocsLayout$Docs(Props) {
           headers: headers,
           moduleName: moduleName
         }) : null;
-  var theme = ColorTheme.toCN(/* Js */16617);
-  var minWidth = {
-    minWidth: "20rem"
-  };
-  return React.createElement("div", undefined, React.createElement("div", {
-                  className: "max-w-4xl w-full " + theme,
-                  style: minWidth
-                }, React.createElement(Navigation.ApiDocs.make, {
-                      route: route,
-                      versionInfo: "v" + $$package.dependencies["bs-platform"]
-                    }), React.createElement("div", {
-                      className: "flex mt-12"
-                    }, React.createElement(SidebarLayout.Sidebar.make, {
-                          categories: categories,
-                          route: router.route,
-                          children: collapsibleSection
-                        }), React.createElement("main", {
-                          className: "pt-12 w-4/5 static min-h-screen overflow-visible"
-                        }, React.createElement(React$1.MDXProvider, {
-                              components: components,
-                              children: React.createElement("div", {
-                                    className: "pl-8 max-w-md mb-32 text-lg"
-                                  }, children)
-                            })))));
+  var sidebar = React.createElement(SidebarLayout.Sidebar.make, {
+        categories: categories,
+        route: router.route,
+        children: collapsibleSection
+      });
+  return React.createElement(SidebarLayout.make, {
+              theme: /* Js */16617,
+              components: components,
+              sidebar: sidebar,
+              route: router.route,
+              children: children
+            });
 }
 
 var Docs = {

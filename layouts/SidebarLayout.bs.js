@@ -7,7 +7,10 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
+import * as ColorTheme from "../common/ColorTheme.bs.js";
+import * as Navigation from "../components/Navigation.bs.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
+import * as React$1 from "@mdx-js/react";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
 require('../styles/main.css')
@@ -385,13 +388,54 @@ var Sidebar = {
   make: SidebarLayout$Sidebar
 };
 
+function SidebarLayout(Props) {
+  var theme = Props.theme;
+  var match = Props.components;
+  var components$2 = match !== undefined ? Caml_option.valFromOption(match) : components;
+  var sidebar = Props.sidebar;
+  var route = Props.route;
+  var children = Props.children;
+  var match$1 = React.useState((function () {
+          return false;
+        }));
+  var setIsOpen = match$1[1];
+  var theme$1 = ColorTheme.toCN(theme);
+  var minWidth = {
+    minWidth: "20rem"
+  };
+  return React.createElement("div", undefined, React.createElement("div", {
+                  className: "max-w-4xl w-full " + theme$1,
+                  style: minWidth
+                }, React.createElement(Navigation.make, {
+                      isOpen: match$1[0],
+                      toggle: (function (param) {
+                          return Curry._1(setIsOpen, (function (prev) {
+                                        return !prev;
+                                      }));
+                        }),
+                      route: route
+                    }), React.createElement("div", {
+                      className: "flex mt-12"
+                    }, sidebar, React.createElement("main", {
+                          className: "pt-12 w-4/5 static min-h-screen overflow-visible"
+                        }, React.createElement(React$1.MDXProvider, {
+                              components: components$2,
+                              children: React.createElement("div", {
+                                    className: "pl-8 max-w-md mb-32 text-lg"
+                                  }, children)
+                            })))));
+}
+
 var Link$1 = 0;
+
+var make = SidebarLayout;
 
 export {
   Link$1 as Link,
   ApiMd ,
   ProseMd ,
   Sidebar ,
+  make ,
   
 }
 /*  Not a pure module */

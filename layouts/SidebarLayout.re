@@ -3,10 +3,6 @@
     Most of the modules defined in here are here to be reused
     in other API related layouts, such as the Markdown representation
     or the Sidebar component.
-
-    It exposes two genType exported React modules:
-    - Docs: For displaying function signature docs etc
-    - Prose: For displaying prose text documentation
  */
 
 %raw
@@ -334,4 +330,32 @@ module Sidebar = {
       </aside>
     </div>;
   };
+};
+
+[@react.component]
+let make =
+    (
+      ~theme: ColorTheme.t,
+      ~components=ApiMd.components,
+      ~sidebar: React.element,
+      ~route: string,
+      ~children,
+    ) => {
+  let (isOpen, setIsOpen) = React.useState(() => false);
+
+  let theme = ColorTheme.toCN(theme);
+  let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
+  <div>
+    <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
+      <Navigation isOpen toggle={() => setIsOpen(prev => !prev)} route />
+      <div className="flex mt-12">
+        sidebar
+        <main className="pt-12 w-4/5 static min-h-screen overflow-visible">
+          <Mdx.Provider components>
+            <div className="pl-8 max-w-md mb-32 text-lg"> children </div>
+          </Mdx.Provider>
+        </main>
+      </div>
+    </div>
+  </div>;
 };

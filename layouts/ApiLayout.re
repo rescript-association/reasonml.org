@@ -105,13 +105,13 @@ let categories: array(Category.t) = [|
         title: "Js Module",
         descr: "Bindings for Common Browser APIs",
         src: "/static/api-img-js.svg",
-        href: Some("/js_docs"),
+        href: Some("/apis/javascript/latest/js"),
       },
       {
         title: "Belt Module",
         descr: "The Reason Standard Library for the Web",
         src: "/static/api-img-belt.svg",
-        href: Some("/belt_docs"),
+        href: Some("/apis/javascript/latest/belt"),
       },
       {
         title: "Node Module",

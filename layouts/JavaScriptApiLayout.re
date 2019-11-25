@@ -15,37 +15,42 @@ module ApiMd = SidebarLayout.ApiMd;
 
 /* Used for API docs (structured data) */
 module Docs = {
-  [@genType]
   [@react.component]
   let make = (~theme=`Reason, ~components=ApiMd.components, ~children) => {
     let router = Next.Router.useRouter();
+    let theme = ColorTheme.toCN(`Js);
 
     let categories: array(Sidebar.Category.t) = [|
-      {name: "Introduction", items: [|{name: "Overview", href: "/api"}|]},
+      {
+        name: "Introduction",
+        items: [|{name: "Overview", href: "/apis/javascript/latest"}|],
+      },
       {
         name: "JavaScript",
         items: [|
-          {name: "Js Module", href: "/js_docs"},
-          {name: "Belt Stdlib", href: "/belt_docs"},
+          {name: "Js Module", href: "/apis/javascript/latest/js"},
+          {name: "Belt Stdlib", href: "/apis/javascript/latest/belt"},
         |],
       },
     |];
 
-    let theme = ColorTheme.toCN(theme);
-    let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-    <div>
-      <div className={"text-night max-w-4xl w-full " ++ theme} style=minWidth>
-        <Navigation.ApiDocs route={router##route} />
-        <div className="flex">
-          <Sidebar categories route={router##route} />
-          <main className="pt-12 static min-h-screen overflow-visible">
-            <Mdx.Provider components>
-              <div className="pl-8 max-w-md mb-32 text-lg"> children </div>
-            </Mdx.Provider>
-          </main>
-        </div>
-      </div>
-    </div>;
+    let sidebar =
+      <Sidebar
+        categories
+        route={
+          router##route;
+        }
+      />;
+
+    <SidebarLayout
+      theme=`Js
+      components
+      sidebar
+      route={
+        router##route;
+      }>
+      children
+    </SidebarLayout>;
   };
 };
 
@@ -56,7 +61,6 @@ module Docs = {
  of H2 nodes.
  */
 module Prose = {
-  [@genType]
   [@react.component]
   let make = (~children) => {
     <Docs components=SidebarLayout.ProseMd.components> children </Docs>;

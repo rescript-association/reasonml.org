@@ -29,7 +29,9 @@ module Sidebar = SidebarLayout.Sidebar;
 module NavItem = Sidebar.NavItem;
 module Category = Sidebar.Category;
 
-let overviewNavs = [|NavItem.{name: "Introduction", href: "/apis/javascript/latest/js"}|];
+let overviewNavs = [|
+  NavItem.{name: "Introduction", href: "/apis/javascript/latest/js"},
+|];
 
 let apiNavs = [|
   NavItem.{name: "Array2", href: "/apis/javascript/latest/js/array-2"},
@@ -54,8 +56,14 @@ let apiNavs = [|
   {name: "Result", href: "/apis/javascript/latest/js/result"},
   {name: "String2", href: "/apis/javascript/latest/js/string-2"},
   {name: "String", href: "/apis/javascript/latest/js/string"},
-  {name: "TypedArrayArrayBuffer", href: "/apis/javascript/latest/js/typed-array_array-buffer"},
-  {name: "TypedArrayDataView", href: "/apis/javascript/latest/js/typed-array_data-view"},
+  {
+    name: "TypedArrayArrayBuffer",
+    href: "/apis/javascript/latest/js/typed-array_array-buffer",
+  },
+  {
+    name: "TypedArrayDataView",
+    href: "/apis/javascript/latest/js/typed-array_data-view",
+  },
   {
     name: "TypedArrayFloat32Array",
     href: "/apis/javascript/latest/js/typed-array_float-32-array",
@@ -64,22 +72,46 @@ let apiNavs = [|
     name: "TypedArrayFloat64Array",
     href: "/apis/javascript/latest/js/typed-array_float-64-array",
   },
-  {name: "TypedArrayInt8Array", href: "/apis/javascript/latest/js/typed-array_int-8-array"},
-  {name: "TypedArrayInt16Array", href: "/apis/javascript/latest/js/typed-array_int-16-array"},
-  {name: "TypedArrayInt32Array", href: "/apis/javascript/latest/js/typed-array_int-32-array"},
-  {name: "TypedArrayTypeS", href: "/apis/javascript/latest/js/typed-array_type-s"},
-  {name: "TypedArrayUint8Array", href: "/apis/javascript/latest/js/typed-array_uint-8-array"},
+  {
+    name: "TypedArrayInt8Array",
+    href: "/apis/javascript/latest/js/typed-array_int-8-array",
+  },
+  {
+    name: "TypedArrayInt16Array",
+    href: "/apis/javascript/latest/js/typed-array_int-16-array",
+  },
+  {
+    name: "TypedArrayInt32Array",
+    href: "/apis/javascript/latest/js/typed-array_int-32-array",
+  },
+  {
+    name: "TypedArrayTypeS",
+    href: "/apis/javascript/latest/js/typed-array_type-s",
+  },
+  {
+    name: "TypedArrayUint8Array",
+    href: "/apis/javascript/latest/js/typed-array_uint-8-array",
+  },
   {
     name: "TypedArrayUint8ClampedArray",
     href: "/apis/javascript/latest/js/typed-array_uint-8-clamped-array",
   },
-  {name: "TypedArrayUint16Array", href: "/apis/javascript/latest/js/typed-array_uint-16-array"},
-  {name: "TypedArrayUint32Array", href: "/apis/javascript/latest/js/typed-array_uint-32-array"},
+  {
+    name: "TypedArrayUint16Array",
+    href: "/apis/javascript/latest/js/typed-array_uint-16-array",
+  },
+  {
+    name: "TypedArrayUint32Array",
+    href: "/apis/javascript/latest/js/typed-array_uint-32-array",
+  },
   {
     name: "TypedArray2ArrayBuffer",
     href: "/apis/javascript/latest/js/typed-array-2_array-buffer",
   },
-  {name: "TypedArray2DataView", href: "/apis/javascript/latest/js/typed-array-2_data-view"},
+  {
+    name: "TypedArray2DataView",
+    href: "/apis/javascript/latest/js/typed-array-2_data-view",
+  },
   {
     name: "TypedArray2Float32Array",
     href: "/apis/javascript/latest/js/typed-array-2_float-32-array",
@@ -88,7 +120,10 @@ let apiNavs = [|
     name: "TypedArray2Float64Array",
     href: "/apis/javascript/latest/js/typed-array-2_float-64-array",
   },
-  {name: "TypedArray2Int8Array", href: "/apis/javascript/latest/js/typed-array-2_int-8-array"},
+  {
+    name: "TypedArray2Int8Array",
+    href: "/apis/javascript/latest/js/typed-array-2_int-8-array",
+  },
   {
     name: "TypedArray2Int16Array",
     href: "/apis/javascript/latest/js/typed-array-2_int-16-array",
@@ -128,7 +163,6 @@ let categories = [|
 module Docs = {
   [@react.component]
   let make = (~components=SidebarLayout.ApiMd.components, ~children) => {
-    let theme = ColorTheme.toCN(`Js);
     let router = Next.Router.useRouter();
     let route = router##route;
 
@@ -153,25 +187,24 @@ module Docs = {
       route !== "/apis/javascript/latest/js"
         ? <Sidebar.CollapsibleSection headers moduleName /> : React.null;
 
-    let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-    <div>
-      <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
-        <Navigation.ApiDocs
-          route={router##route}
-          versionInfo={"v" ++ package##dependencies##"bs-platform"}
-        />
-        <div className="flex mt-12">
-          <Sidebar categories route={router##route}>
-            collapsibleSection
-          </Sidebar>
-          <main className="pt-12 w-4/5 static min-h-screen overflow-visible">
-            <Mdx.Provider components>
-              <div className="pl-8 max-w-md mb-32 text-lg"> children </div>
-            </Mdx.Provider>
-          </main>
-        </div>
-      </div>
-    </div>;
+    let sidebar =
+      <Sidebar
+        categories
+        route={
+          router##route;
+        }>
+        collapsibleSection
+      </Sidebar>;
+
+    <SidebarLayout
+      theme=`Js
+      components
+      sidebar
+      route={
+        router##route;
+      }>
+      children
+    </SidebarLayout>;
   };
 };
 

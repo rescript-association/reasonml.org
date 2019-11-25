@@ -7,6 +7,7 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
+import * as ColorTheme from "../common/ColorTheme.bs.js";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
 var link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
@@ -121,6 +122,45 @@ function useWindowWidth (){{
   return null;
   }};
 
+function Navigation$SubNav$DocsLinkSection(Props) {
+  return React.createElement("div", undefined, Util.ReactStuff.s("Docs Items"));
+}
+
+var DocsLinkSection = {
+  make: Navigation$SubNav$DocsLinkSection
+};
+
+function Navigation$SubNav$ApisLinkSection(Props) {
+  var jsTheme = ColorTheme.toCN(/* Js */16617);
+  var reTheme = ColorTheme.toCN(/* Reason */825328612);
+  return React.createElement("div", {
+              className: ""
+            }, React.createElement("div", {
+                  className: reTheme
+                }, React.createElement(Link.default, {
+                      href: "/apis",
+                      children: React.createElement("a", {
+                            className: "uppercase text-sm text-primary"
+                          }, Util.ReactStuff.s("Overview"))
+                    })), React.createElement("div", {
+                  className: jsTheme
+                }, React.createElement(Link.default, {
+                      href: "/apis/javascript/latest",
+                      children: React.createElement("a", {
+                            className: "uppercase tracking-wide text-sm text-primary font-black"
+                          }, Util.ReactStuff.s("JavaScript"))
+                    })));
+}
+
+var ApisLinkSection = {
+  make: Navigation$SubNav$ApisLinkSection
+};
+
+var SubNav = {
+  DocsLinkSection: DocsLinkSection,
+  ApisLinkSection: ApisLinkSection
+};
+
 function Navigation(Props) {
   var match = Props.isOpen;
   var isOpen = match !== undefined ? match : false;
@@ -140,7 +180,7 @@ function Navigation(Props) {
                       "state"
                     ], [
                       "Docs",
-                      Util.ReactStuff.s("Docs Items"),
+                      React.createElement(Navigation$SubNav$DocsLinkSection, { }),
                       "/docs",
                       2
                     ]),
@@ -151,8 +191,8 @@ function Navigation(Props) {
                       "state"
                     ], [
                       "API",
-                      Util.ReactStuff.s("API Items"),
-                      "/api",
+                      React.createElement(Navigation$SubNav$ApisLinkSection, { }),
+                      "/apis",
                       2
                     ])
                 ];
@@ -288,7 +328,7 @@ function Navigation(Props) {
                                                 allowHover: allowHover,
                                                 id: title,
                                                 state: c[/* state */3],
-                                                active: route === c[/* href */2],
+                                                active: route.startsWith(c[/* href */2]),
                                                 children: c[/* children */1],
                                                 key: String(idx)
                                               });
@@ -323,54 +363,6 @@ function Navigation(Props) {
                             })))));
 }
 
-function Navigation$ApiDocs(Props) {
-  var route = Props.route;
-  var versionInfo = Props.versionInfo;
-  return React.createElement("nav", {
-              className: "fixed z-10 top-0 w-full h-16 bg-night-dark shadow flex items-center text-white-80 text-sm",
-              id: "header"
-            }, React.createElement(Link.default, {
-                  href: "/",
-                  children: React.createElement("a", {
-                        className: "flex items-center w-40"
-                      }, React.createElement("img", {
-                            className: "h-10",
-                            src: "/static/reason_logo.svg"
-                          }))
-                }), React.createElement("div", {
-                  className: "ml-6 flex w-3/5 px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3"
-                }, React.createElement("img", {
-                      "aria-hidden": true,
-                      className: "mr-3",
-                      src: "/static/ic_search_small.svg"
-                    }), React.createElement("input", {
-                      className: "bg-transparent placeholder-white-80 block focus:outline-none w-full ml-2",
-                      placeholder: "Search not ready yet...",
-                      type: "text"
-                    })), React.createElement("div", {
-                  className: "flex mx-4 text-white-80 justify-between ml-auto"
-                }, React.createElement(Link.default, {
-                      href: "/api",
-                      children: React.createElement("a", {
-                            className: linkOrActiveLink("/api", route)
-                          }, Util.ReactStuff.s("API"))
-                    }), React.createElement("a", {
-                      className: "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px align-middle ml-6",
-                      href: "https://github.com/reason-association/reasonml.org",
-                      rel: "noopener noreferrer",
-                      target: "_blank"
-                    }, Util.ReactStuff.s("Github")), versionInfo !== undefined ? React.createElement("a", {
-                        className: "bg-light-grey-20 leading-normal ml-6 px-1 rounded text-light-grey text-xs",
-                        href: "https://github.com/BuckleScript/bucklescript/releases",
-                        rel: "noopener noreferrer",
-                        target: "_blank"
-                      }, Util.ReactStuff.s(versionInfo)) : null));
-}
-
-var ApiDocs = {
-  make: Navigation$ApiDocs
-};
-
 var Link$1 = 0;
 
 var make = Navigation;
@@ -383,8 +375,8 @@ export {
   CollapsibleLink ,
   useOutsideClick ,
   useWindowWidth ,
+  SubNav ,
   make ,
-  ApiDocs ,
   
 }
 /* Icon Not a pure module */

@@ -26,8 +26,6 @@ module CollapsibleLink = {
         ~active=false,
         ~children,
       ) => {
-
-
     // This is not onClick, because we want to prevent
     // text selection on multiple clicks
     let onMouseDown = evt => {
@@ -144,6 +142,44 @@ type collapsible = {
   state: CollapsibleLink.state,
 };
 
+module SubNav = {
+  module DocsLinkSection = {
+    [@react.component]
+    let make = () => {
+      <div> "Docs Items"->s </div>;
+    };
+  };
+
+  module ApisLinkSection = {
+    [@react.component]
+    let make = () => {
+      let jsTheme = ColorTheme.toCN(`Js);
+      let reTheme = ColorTheme.toCN(`Reason);
+
+      let jsItems = [|
+        ("Belt Stdlib", "/apis/javascript/latest/belt"),
+        ("Js Module", "/apis/javascript/latest/js"),
+      |];
+
+      <div className="">
+        <div className=reTheme>
+          <Link href="/apis">
+            <a className="uppercase text-sm text-primary"> "Overview"->s </a>
+          </Link>
+        </div>
+        <div className=jsTheme>
+          <Link href="/apis/javascript/latest">
+            <a
+              className="uppercase tracking-wide text-sm text-primary font-black">
+              "JavaScript"->s
+            </a>
+          </Link>
+        </div>
+      </div>;
+    };
+  };
+};
+
 [@react.component]
 let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
   let minWidth = "20rem";
@@ -154,10 +190,15 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
         {
           title: "Docs",
           href: "/docs",
-          children: "Docs Items"->s,
+          children: <SubNav.DocsLinkSection />,
           state: Closed,
         },
-        {title: "API", href: "/api", children: "API Items"->s, state: Closed},
+        {
+          title: "API",
+          href: "/apis",
+          children: <SubNav.ApisLinkSection />,
+          state: Closed, // TODO: Set back to Closed
+        },
       |]
     );
 
@@ -273,7 +314,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
                  key={idx->Belt.Int.toString}
                  allowHover
                  title
-                 active={route === href}
+                 active={Js.String2.startsWith(route, href)}
                  state>
                  children
                </CollapsibleLink>;
@@ -310,62 +351,4 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
       </div>
     </div>
   </nav>;
-};
-
-/*
-     Used specifically for Api docs browsing.
-     Difference here is the prominent Searchbar in the center
-     and a version info shown on the side
- */
-module ApiDocs = {
-  [@react.component]
-  let make = (~route: string, ~versionInfo=?) => {
-    <nav
-      id="header"
-      className="fixed z-10 top-0 w-full h-16 bg-night-dark shadow flex items-center text-white-80 text-sm">
-      <Link href="/">
-        <a className="flex items-center w-40">
-          <img src="/static/reason_logo.svg" className="h-10" />
-        </a>
-      </Link>
-      <div
-        className="ml-6 flex w-3/5 px-3 h-10 max-w-sm rounded-lg text-white bg-light-grey-20 content-center items-center w-2/3">
-        <img
-          src="/static/ic_search_small.svg"
-          className="mr-3"
-          ariaHidden=true
-        />
-        <input
-          type_="text"
-          className="bg-transparent placeholder-white-80 block focus:outline-none w-full ml-2"
-          placeholder="Search not ready yet..."
-        />
-      </div>
-      <div className="flex mx-4 text-white-80 justify-between ml-auto">
-        <Link href="/api">
-          <a className={linkOrActiveLink(~target="/api", ~route)}>
-            "API"->s
-          </a>
-        </Link>
-        <a
-          href="https://github.com/reason-association/reasonml.org"
-          rel="noopener noreferrer"
-          target="_blank"
-          className={link ++ " align-middle ml-6"}>
-          "Github"->s
-        </a>
-        {switch (versionInfo) {
-         | Some(version) =>
-           <a
-             href="https://github.com/BuckleScript/bucklescript/releases"
-             rel="noopener noreferrer"
-             target="_blank"
-             className="bg-light-grey-20 leading-normal ml-6 px-1 rounded text-light-grey text-xs">
-             version->s
-           </a>
-         | None => React.null
-         }}
-      </div>
-    </nav>;
-  };
 };
