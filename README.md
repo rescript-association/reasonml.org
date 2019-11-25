@@ -75,6 +75,35 @@ postcss styles/main.css -o test.css
 NODE_ENV=production postcss styles/main.css -o test.css
 ```
 
+## URL Route Design
+
+This is an attempt to formalize the URL structure of this website
+
+### API related urls
+
+By convention, NextJS uses `pages/api` for server related functionality, so we
+need to fall back to `pages/apis` instead.
+
+- `/apis/javascript` refers to all BuckleScript related APIs.
+- `/apis/javascript/latest` refers to the overview of all JavaScript related modules on the `latest` version
+- `/apis/javascript/x.x.x` refers to the overview of all JavaScript related modules on the `x.x.x` version
+- `/apis/javascript/latest/list` refers to Belt's List module on the latest version
+
+**Examples:**
+
+```
+/apis/javascript/latest (overview)
+/apis/javascript/latest/belt
+/apis/javascript/latest/js
+/apis/javascript/latest/node
+
+/apis/javascript/6.2.1 (overview)
+/apis/javascript/6.2.1/node
+/apis/javascript/6.2.1/belt
+
+/apis/ (overview / version independent)
+```
+
 ### Contributing
 
 Check out our [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started working
