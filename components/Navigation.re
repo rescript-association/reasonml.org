@@ -271,30 +271,6 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
         </div>
         <div
           className="flex flex-col sm:flex-row sm:justify-between sm:w-full max-w-sm">
-          <Link href="/try">
-            <a
-              className={
-                linkOrActiveLink(~target="/try", ~route)
-              }>
-              "Playground"->s
-            </a>
-          </Link>
-          <Link href="/blog">
-            <a
-              className={
-                linkOrActiveLink(~target="/blog", ~route)
-              }>
-              "Blog"->s
-            </a>
-          </Link>
-          <Link href="/community">
-            <a
-              className={
-                linkOrActiveLink(~target="/community", ~route)
-              }>
-              "Community"->s
-            </a>
-          </Link>
           {Belt.Array.mapWithIndex(
              collapsibles,
              (idx, c) => {
@@ -322,6 +298,21 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
              },
            )
            ->ate}
+          <Link href="/try">
+            <a className={linkOrActiveLink(~target="/try", ~route)}>
+              "Playground"->s
+            </a>
+          </Link>
+          <Link href="/blog">
+            <a className={linkOrActiveLink(~target="/blog", ~route)}>
+              "Blog"->s
+            </a>
+          </Link>
+          <Link href="/community">
+            <a className={linkOrActiveLink(~target="/community", ~route)}>
+              "Community"->s
+            </a>
+          </Link>
         </div>
         <div className="hidden lg:flex lg:justify-between lg:w-2/12">
           <a

@@ -272,22 +272,7 @@ function Navigation(Props) {
                                 })
                             }, Util.ReactStuff.s("X"))), React.createElement("div", {
                           className: "flex flex-col sm:flex-row sm:justify-between sm:w-full max-w-sm"
-                        }, React.createElement(Link.default, {
-                              href: "/try",
-                              children: React.createElement("a", {
-                                    className: linkOrActiveLink("/try", route)
-                                  }, Util.ReactStuff.s("Playground"))
-                            }), React.createElement(Link.default, {
-                              href: "/blog",
-                              children: React.createElement("a", {
-                                    className: linkOrActiveLink("/blog", route)
-                                  }, Util.ReactStuff.s("Blog"))
-                            }), React.createElement(Link.default, {
-                              href: "/community",
-                              children: React.createElement("a", {
-                                    className: linkOrActiveLink("/community", route)
-                                  }, Util.ReactStuff.s("Community"))
-                            }), Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
+                        }, Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
                                     var title = c[/* title */0];
                                     var onStateChange = function (id, state) {
                                       return Curry._1(setCollapsibles, (function (prev) {
@@ -330,7 +315,22 @@ function Navigation(Props) {
                                                 children: c[/* children */1],
                                                 key: String(idx)
                                               });
-                                  })))), React.createElement("div", {
+                                  }))), React.createElement(Link.default, {
+                              href: "/try",
+                              children: React.createElement("a", {
+                                    className: linkOrActiveLink("/try", route)
+                                  }, Util.ReactStuff.s("Playground"))
+                            }), React.createElement(Link.default, {
+                              href: "/blog",
+                              children: React.createElement("a", {
+                                    className: linkOrActiveLink("/blog", route)
+                                  }, Util.ReactStuff.s("Blog"))
+                            }), React.createElement(Link.default, {
+                              href: "/community",
+                              children: React.createElement("a", {
+                                    className: linkOrActiveLink("/community", route)
+                                  }, Util.ReactStuff.s("Community"))
+                            })), React.createElement("div", {
                           className: "hidden lg:flex lg:justify-between lg:w-2/12"
                         }, React.createElement("a", {
                               className: link,
