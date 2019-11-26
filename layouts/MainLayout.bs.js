@@ -25,7 +25,7 @@ function MainLayout(Props) {
   return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
                   className: "mb-32"
                 }, React.createElement("div", {
-                      className: "max-w-4xl w-full lg:w-3/4 text-night font-base"
+                      className: "w-full text-night font-base"
                     }, React.createElement(Navigation.make, {
                           isOpen: isOpen,
                           toggle: (function (param) {
@@ -34,15 +34,19 @@ function MainLayout(Props) {
                                           }));
                             }),
                           route: router.route
-                        }), React.createElement("main", {
-                          className: "mt-24 mx-4 max-w-lg" + (
-                            isOpen ? " hidden" : ""
-                          ),
-                          style: minWidth
-                        }, React.createElement(React$1.MDXProvider, {
-                              components: Mdx.Components.$$default,
-                              children: children
-                            })))));
+                        }), React.createElement("div", {
+                          className: "flex justify-center"
+                        }, React.createElement("main", {
+                              className: "mt-24 lg:align-center w-full px-4 max-w-xl " + (
+                                isOpen ? " hidden" : ""
+                              ),
+                              style: minWidth
+                            }, React.createElement(React$1.MDXProvider, {
+                                  components: Mdx.Components.$$default,
+                                  children: React.createElement("div", {
+                                        className: "w-full max-w-lg"
+                                      }, children)
+                                }))))));
 }
 
 var Link = 0;

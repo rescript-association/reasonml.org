@@ -2,7 +2,7 @@ open Util.ReactStuff;
 module Link = Next.Link;
 
 let link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
-let activeLink = "text-inherit font-bold text-fire-80 border-b border-fire-80";
+let activeLink = "text-inherit font-normal text-fire-80 border-b border-fire-80";
 
 let linkOrActiveLink = (~target, ~route) => {
   target === route ? activeLink : link;
@@ -58,13 +58,13 @@ module CollapsibleLink = {
 
     let direction = isOpen ? `Up : `Down;
 
-    <div className="font-bold sm:font-normal relative" onMouseEnter>
+    <div className="sm:font-normal relative" onMouseEnter>
       <div className="flex items-center">
         <a
           onMouseDown
           className={
             (active ? activeLink : link)
-            ++ " flex items-center font-semibold hover:cursor-pointer "
+            ++ " flex items-center hover:cursor-pointer "
             ++ (isOpen ? " text-white" : "")
           }>
           title->s
@@ -222,40 +222,39 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
     ref={ReactDOMRe.Ref.domRef(outerRef)}
     id="header"
     style={Style.make(~minWidth, ())}
-    className="fixed z-10 top-0 pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base">
+    className="fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-xl sm:text-base">
     <div
-      className="flex justify-between items-center h-full w-full sm:max-w-3xl">
-      <div className="mb-3">
+      className="flex justify-between pl-4 items-center h-full w-full sm:max-w-xl">
+      <div className="lg:mb-3 w-8 lg:w-20">
         <Link href="/">
           <a>
-            <img
-              className="h-8 w-20 inline-block"
-              src="/static/reason_logo.svg"
-            />
+            <picture>
+              <source
+                srcSet="/static/reason_logo_full.svg"
+                media="(min-width: 993px)"
+              />
+              <img
+                className="h-8 w-auto inline-block"
+                src="/static/reason_logo.svg"
+              />
+            </picture>
           </a>
         </Link>
       </div>
       /* Burger Button */
-      <div className="block pr-4 sm:hidden">
-        <button
-          className="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
-          onClick={evt => {
-            ReactEvent.Mouse.preventDefault(evt);
-            toggle();
-          }}>
-          <svg
-            className="fill-current h-3 w-3"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </button>
-      </div>
+      <button
+        className="h-full px-4 sm:hidden flex items-center hover:text-white"
+        onClick={evt => {
+          ReactEvent.Mouse.preventDefault(evt);
+          toggle();
+        }}>
+        <img className="w-full block" src="/static/ic_drawer_dots.svg" />
+      </button>
       <div
         style={Style.make(~minWidth, ())}
         className={
           (isOpen ? "flex" : "hidden")
-          ++ " px-2 flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:pl-10 sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
+          ++ " flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
         }>
         <div className="flex h-16 justify-between items-center sm:hidden">
           <Link href="/">
@@ -271,11 +270,11 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           </span>
         </div>
         <div
-          className="flex flex-col sm:flex-row sm:justify-between sm:w-3/4 max-w-sm">
+          className="flex flex-col sm:flex-row sm:justify-between sm:w-full max-w-sm">
           <Link href="/try">
             <a
               className={
-                linkOrActiveLink(~target="/try", ~route) ++ " font-semibold"
+                linkOrActiveLink(~target="/try", ~route)
               }>
               "Playground"->s
             </a>
@@ -283,7 +282,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           <Link href="/blog">
             <a
               className={
-                linkOrActiveLink(~target="/blog", ~route) ++ " font-semibold"
+                linkOrActiveLink(~target="/blog", ~route)
               }>
               "Blog"->s
             </a>
@@ -291,7 +290,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           <Link href="/community">
             <a
               className={
-                linkOrActiveLink(~target="/community", ~route) ++ " font-semibold"
+                linkOrActiveLink(~target="/community", ~route)
               }>
               "Community"->s
             </a>
@@ -324,27 +323,27 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
            )
            ->ate}
         </div>
-        <div className="hidden lg:flex lg:w-1/12">
+        <div className="hidden lg:flex lg:justify-between lg:w-2/12">
           <a
             href="https://github.com/reason-association/reasonml.org"
             rel="noopener noreferrer"
             target="_blank"
             className=link>
-            <Icon.Github className="w-6 h-6" />
+            <Icon.Github className="w-5 h-5" />
           </a>
           <a
             href="https://twitter.com/reasonml"
             rel="noopener noreferrer"
             target="_blank"
             className=link>
-            <Icon.Twitter className="w-6 h-6" />
+            <Icon.Twitter className="w-5 h-5" />
           </a>
           <a
             href="https://discord.gg/reasonml"
             rel="noopener noreferrer"
             target="_blank"
             className=link>
-            <Icon.Discord className="w-6 h-6" />
+            <Icon.Discord className="w-5 h-5" />
           </a>
         </div>
       </div>

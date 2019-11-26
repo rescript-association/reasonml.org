@@ -137,7 +137,7 @@ module.exports = {
       sm: "30rem", //  480px
       md: "40rem", //  640px
       lg: "50rem", //  800px
-      xl: "60rem", //  960px
+      xl: "67.5rem", // 1080px
       "2xl": "70rem", // 1120px
       "3xl": "80rem", // 1280px
       "4xl": "90rem", // 1440px

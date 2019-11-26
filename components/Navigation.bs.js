@@ -12,7 +12,7 @@ import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.
 
 var link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
 
-var activeLink = "text-inherit font-bold text-fire-80 border-b border-fire-80";
+var activeLink = "text-inherit font-normal text-fire-80 border-b border-fire-80";
 
 function linkOrActiveLink(target, route) {
   var match = target === route;
@@ -49,14 +49,14 @@ function Navigation$CollapsibleLink(Props) {
   var isOpen = state < 2;
   var direction = isOpen ? /* Up */19067 : /* Down */759637122;
   return React.createElement("div", {
-              className: "font-bold sm:font-normal relative",
+              className: "sm:font-normal relative",
               onMouseEnter: onMouseEnter
             }, React.createElement("div", {
                   className: "flex items-center"
                 }, React.createElement("a", {
                       className: (
                         active ? activeLink : link
-                      ) + (" flex items-center font-semibold hover:cursor-pointer " + (
+                      ) + (" flex items-center hover:cursor-pointer " + (
                           isOpen ? " text-white" : ""
                         )),
                       onMouseDown: onMouseDown
@@ -221,39 +221,37 @@ function Navigation(Props) {
   var allowHover = windowWidth !== undefined ? windowWidth > 576 : true;
   return React.createElement("nav", {
               ref: outerRef,
-              className: "fixed z-10 top-0 pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base",
+              className: "fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-xl sm:text-base",
               id: "header",
               style: {
                 minWidth: minWidth
               }
             }, React.createElement("div", {
-                  className: "flex justify-between items-center h-full w-full sm:max-w-3xl"
+                  className: "flex justify-between pl-4 items-center h-full w-full sm:max-w-xl"
                 }, React.createElement("div", {
-                      className: "mb-3"
+                      className: "lg:mb-3 w-8 lg:w-20"
                     }, React.createElement(Link.default, {
                           href: "/",
-                          children: React.createElement("a", undefined, React.createElement("img", {
-                                    className: "h-8 w-20 inline-block",
-                                    src: "/static/reason_logo.svg"
-                                  }))
+                          children: React.createElement("a", undefined, React.createElement("picture", undefined, React.createElement("source", {
+                                        media: "(min-width: 993px)",
+                                        srcSet: "/static/reason_logo_full.svg"
+                                      }), React.createElement("img", {
+                                        className: "h-8 w-auto inline-block",
+                                        src: "/static/reason_logo.svg"
+                                      })))
+                        })), React.createElement("button", {
+                      className: "h-full px-4 sm:hidden flex items-center hover:text-white",
+                      onClick: (function (evt) {
+                          evt.preventDefault();
+                          return Curry._1(toggle, /* () */0);
+                        })
+                    }, React.createElement("img", {
+                          className: "w-full block",
+                          src: "/static/ic_drawer_dots.svg"
                         })), React.createElement("div", {
-                      className: "block pr-4 sm:hidden"
-                    }, React.createElement("button", {
-                          className: "flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white",
-                          onClick: (function (evt) {
-                              evt.preventDefault();
-                              return Curry._1(toggle, /* () */0);
-                            })
-                        }, React.createElement("svg", {
-                              className: "fill-current h-3 w-3",
-                              viewBox: "0 0 20 20",
-                              xmlns: "http://www.w3.org/2000/svg"
-                            }, React.createElement("path", {
-                                  d: "M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"
-                                })))), React.createElement("div", {
                       className: (
                         isOpen ? "flex" : "hidden"
-                      ) + " px-2 flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:pl-10 sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between",
+                      ) + " flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between",
                       style: {
                         minWidth: minWidth
                       }
@@ -273,21 +271,21 @@ function Navigation(Props) {
                                   return Curry._1(toggle, /* () */0);
                                 })
                             }, Util.ReactStuff.s("X"))), React.createElement("div", {
-                          className: "flex flex-col sm:flex-row sm:justify-between sm:w-3/4 max-w-sm"
+                          className: "flex flex-col sm:flex-row sm:justify-between sm:w-full max-w-sm"
                         }, React.createElement(Link.default, {
                               href: "/try",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/try", route) + " font-semibold"
+                                    className: linkOrActiveLink("/try", route)
                                   }, Util.ReactStuff.s("Playground"))
                             }), React.createElement(Link.default, {
                               href: "/blog",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/blog", route) + " font-semibold"
+                                    className: linkOrActiveLink("/blog", route)
                                   }, Util.ReactStuff.s("Blog"))
                             }), React.createElement(Link.default, {
                               href: "/community",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/community", route) + " font-semibold"
+                                    className: linkOrActiveLink("/community", route)
                                   }, Util.ReactStuff.s("Community"))
                             }), Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
                                     var title = c[/* title */0];
@@ -333,28 +331,28 @@ function Navigation(Props) {
                                                 key: String(idx)
                                               });
                                   })))), React.createElement("div", {
-                          className: "hidden lg:flex lg:w-1/12"
+                          className: "hidden lg:flex lg:justify-between lg:w-2/12"
                         }, React.createElement("a", {
                               className: link,
                               href: "https://github.com/reason-association/reasonml.org",
                               rel: "noopener noreferrer",
                               target: "_blank"
                             }, React.createElement(Icon.Github.make, {
-                                  className: "w-6 h-6"
+                                  className: "w-5 h-5"
                                 })), React.createElement("a", {
                               className: link,
                               href: "https://twitter.com/reasonml",
                               rel: "noopener noreferrer",
                               target: "_blank"
                             }, React.createElement(Icon.Twitter.make, {
-                                  className: "w-6 h-6"
+                                  className: "w-5 h-5"
                                 })), React.createElement("a", {
                               className: link,
                               href: "https://discord.gg/reasonml",
                               rel: "noopener noreferrer",
                               target: "_blank"
                             }, React.createElement(Icon.Discord.make, {
-                                  className: "w-6 h-6"
+                                  className: "w-5 h-5"
                                 })))), React.createElement("button", {
                       className: "hidden sm:flex sm:w-16 sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full"
                     }, React.createElement("img", {
