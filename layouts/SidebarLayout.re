@@ -315,10 +315,14 @@ module Sidebar = {
       className="flex w-64 h-auto overflow-y-visible block bg-white-80"
       style={Style.make(~maxWidth="17.5rem", ())}>
       <aside
-        className="relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-32"
+        className="relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-24"
         style={Style.make(~top="3rem", ())}>
         <div className="bg-primary-5"> children </div>
-        <div>
+        /* Firefox ignores padding in scroll containers, so we need margin
+             to make a bottom gap for the sidebar.
+             See https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
+           */
+        <div className="mb-56">
           {categories
            ->Belt.Array.map(category =>
                <div key={category.name}>

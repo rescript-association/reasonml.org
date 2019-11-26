@@ -365,13 +365,15 @@ function SidebarLayout$Sidebar(Props) {
                 maxWidth: "17.5rem"
               }
             }, React.createElement("aside", {
-                  className: "relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-32",
+                  className: "relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-24",
                   style: {
                     top: "3rem"
                   }
                 }, React.createElement("div", {
                       className: "bg-primary-5"
-                    }, children), React.createElement("div", undefined, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
+                    }, children), React.createElement("div", {
+                      className: "mb-56"
+                    }, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
                                 return React.createElement("div", {
                                             key: category[/* name */0]
                                           }, React.createElement(SidebarLayout$Sidebar$Category, {
