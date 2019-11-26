@@ -51,7 +51,7 @@ After writing documentation, make sure to run this code before submitting a PR:
 node scripts/test-examples.js
 
 # Or just a subset (glob pattern)
-node scripts/test-examples.js "pages/belt_docs/set-*.mdx"
+node scripts/test-examples.js "pages/apis/latest/belt/set-*.mdx"
 ```
 
 ## Design / UX
