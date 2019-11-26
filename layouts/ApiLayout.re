@@ -66,7 +66,7 @@ module Category = {
           <div className="text-base leading-5 text-night"> card.descr->s </div>
         </>;
 
-      <div className="w-1/4">
+      <div className="w-2/4 sm:w-1/4 mb-12">
         {switch (card.href) {
          | Some(href) => <Link href> <a> element </a> </Link>
          | None =>
@@ -89,7 +89,7 @@ module Category = {
       <h2 className="mb-8 font-black text-6xl text-night-dark">
         category.name->s
       </h2>
-      <div className="flex flex-wrap justify-between">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-between">
         {Belt.Array.map(category.cards, card => <Card key={card.title} card />)
          ->ate}
       </div>
@@ -126,36 +126,17 @@ let categories: array(Category.t) = [|
 /* Used for API docs (structured data) */
 [@react.component]
 let make = (~children) => {
-  let router = Next.Router.useRouter();
-  let (isOpen, setIsOpen) = React.useState(() => false);
-
-  let theme = ColorTheme.toCN(`Reason);
-  let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
-  <div>
-    <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
-      <Navigation
-        isOpen
-        toggle={() => setIsOpen(prev => !prev)}
-        route={router##route}
-      />
-      <div className="flex mt-16">
-        <main
-          className="pt-12 flex justify-center w-4/5 static min-h-screen overflow-visible">
-          <div className="flex flex-col">
-            <Mdx.Provider components=MainMd.components>
-              <div className="max-w-md mb-32 text-lg"> children </div>
-            </Mdx.Provider>
-            <div>
-              {Belt.Array.map(categories, category =>
-                 <div key={category.name} className="pb-16">
-                   <Category category />
-                 </div>
-               )
-               ->ate}
-            </div>
-          </div>
-        </main>
+  <MainLayout>
+    <div className="flex flex-col">
+      <div className="max-w-md mb-32 text-lg"> children </div>
+      <div>
+        {Belt.Array.map(categories, category =>
+           <div key={category.name} className="pb-16">
+             <Category category />
+           </div>
+         )
+         ->ate}
       </div>
     </div>
-  </div>;
+  </MainLayout>;
 };

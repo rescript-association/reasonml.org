@@ -2,14 +2,10 @@
 
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
-import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
-import * as ColorTheme from "../common/ColorTheme.bs.js";
-import * as Navigation from "../components/Navigation.bs.js";
-import * as Router from "next/router";
-import * as React$1 from "@mdx-js/react";
+import * as MainLayout from "./MainLayout.bs.js";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
 
 require('../styles/main.css')
@@ -78,7 +74,7 @@ function ApiLayout$Category$Card(Props) {
           }, Util.ReactStuff.s(card[/* descr */1])));
   var match = card[/* href */2];
   return React.createElement("div", {
-              className: "w-1/4"
+              className: "w-2/4 sm:w-1/4 mb-12"
             }, match !== undefined ? React.createElement(Link.default, {
                     href: match,
                     children: React.createElement("a", undefined, element)
@@ -99,7 +95,7 @@ function ApiLayout$Category(Props) {
             }, React.createElement("h2", {
                   className: "mb-8 font-black text-6xl text-night-dark"
                 }, Util.ReactStuff.s(category[/* name */0])), React.createElement("div", {
-                  className: "flex flex-wrap justify-between"
+                  className: "flex flex-col sm:flex-row flex-wrap justify-between"
                 }, Util.ReactStuff.ate(Belt_Array.map(category[/* cards */1], (function (card) {
                             return React.createElement(ApiLayout$Category$Card, {
                                         card: card,
@@ -157,45 +153,20 @@ var categories = /* array */[/* record */Caml_chrome_debugger.record([
 
 function ApiLayout(Props) {
   var children = Props.children;
-  var router = Router.useRouter();
-  var match = React.useState((function () {
-          return false;
-        }));
-  var setIsOpen = match[1];
-  var theme = ColorTheme.toCN(/* Reason */825328612);
-  var minWidth = {
-    minWidth: "20rem"
-  };
-  return React.createElement("div", undefined, React.createElement("div", {
-                  className: "max-w-4xl w-full " + theme,
-                  style: minWidth
-                }, React.createElement(Navigation.make, {
-                      isOpen: match[0],
-                      toggle: (function (param) {
-                          return Curry._1(setIsOpen, (function (prev) {
-                                        return !prev;
-                                      }));
-                        }),
-                      route: router.route
-                    }), React.createElement("div", {
-                      className: "flex mt-16"
-                    }, React.createElement("main", {
-                          className: "pt-12 flex justify-center w-4/5 static min-h-screen overflow-visible"
-                        }, React.createElement("div", {
-                              className: "flex flex-col"
-                            }, React.createElement(React$1.MDXProvider, {
-                                  components: components,
-                                  children: React.createElement("div", {
-                                        className: "max-w-md mb-32 text-lg"
-                                      }, children)
-                                }), React.createElement("div", undefined, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
-                                            return React.createElement("div", {
-                                                        key: category[/* name */0],
-                                                        className: "pb-16"
-                                                      }, React.createElement(ApiLayout$Category, {
-                                                            category: category
-                                                          }));
-                                          })))))))));
+  return React.createElement(MainLayout.make, {
+              children: React.createElement("div", {
+                    className: "flex flex-col"
+                  }, React.createElement("div", {
+                        className: "max-w-md mb-32 text-lg"
+                      }, children), React.createElement("div", undefined, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
+                                  return React.createElement("div", {
+                                              key: category[/* name */0],
+                                              className: "pb-16"
+                                            }, React.createElement(ApiLayout$Category, {
+                                                  category: category
+                                                }));
+                                })))))
+            });
 }
 
 var Link$1 = 0;
