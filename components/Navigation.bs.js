@@ -56,12 +56,12 @@ function Navigation$CollapsibleLink(Props) {
                 }, React.createElement("a", {
                       className: (
                         active ? activeLink : link
-                      ) + (" font-bold hover:cursor-pointer " + (
+                      ) + (" flex items-center font-semibold hover:cursor-pointer " + (
                           isOpen ? " text-white" : ""
                         )),
                       onMouseDown: onMouseDown
                     }, Util.ReactStuff.s(title), React.createElement("span", {
-                          className: "fill-current inline-block ml-2 w-3 h-2"
+                          className: "fill-current flex-no-wrap inline-block ml-2 w-3 h-2"
                         }, React.createElement(Caret.make, {
                               direction: direction
                             })))), React.createElement("div", {
@@ -221,23 +221,23 @@ function Navigation(Props) {
   var allowHover = windowWidth !== undefined ? windowWidth > 576 : true;
   return React.createElement("nav", {
               ref: outerRef,
-              className: "fixed z-10 top-0 sm:pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base",
+              className: "fixed z-10 top-0 pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base",
               id: "header",
               style: {
                 minWidth: minWidth
               }
             }, React.createElement("div", {
-                  className: "flex justify-between items-center h-full w-full sm:max-w-4xl"
+                  className: "flex justify-between items-center h-full w-full sm:max-w-3xl"
                 }, React.createElement("div", {
-                      className: "sm:w-3/12"
+                      className: "mb-3"
                     }, React.createElement(Link.default, {
                           href: "/",
                           children: React.createElement("a", undefined, React.createElement("img", {
-                                    className: "w-24 mb-4 inline-block",
+                                    className: "h-8 w-20 inline-block",
                                     src: "/static/reason_logo.svg"
                                   }))
                         })), React.createElement("div", {
-                      className: "block mb-4 pr-4 sm:hidden"
+                      className: "block pr-4 sm:hidden"
                     }, React.createElement("button", {
                           className: "flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white",
                           onClick: (function (evt) {
@@ -253,7 +253,7 @@ function Navigation(Props) {
                                 })))), React.createElement("div", {
                       className: (
                         isOpen ? "flex" : "hidden"
-                      ) + " px-2 flex-col fixed top-0 left-0 h-full w-full bg-night-dark sm:pl-10 sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between",
+                      ) + " px-2 flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:pl-10 sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between",
                       style: {
                         minWidth: minWidth
                       }
@@ -277,17 +277,17 @@ function Navigation(Props) {
                         }, React.createElement(Link.default, {
                               href: "/try",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/try", route) + " font-bold"
+                                    className: linkOrActiveLink("/try", route) + " font-semibold"
                                   }, Util.ReactStuff.s("Playground"))
                             }), React.createElement(Link.default, {
                               href: "/blog",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/blog", route) + " font-bold"
+                                    className: linkOrActiveLink("/blog", route) + " font-semibold"
                                   }, Util.ReactStuff.s("Blog"))
                             }), React.createElement(Link.default, {
                               href: "/community",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/community", route) + " font-bold"
+                                    className: linkOrActiveLink("/community", route) + " font-semibold"
                                   }, Util.ReactStuff.s("Community"))
                             }), Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
                                     var title = c[/* title */0];
@@ -333,7 +333,7 @@ function Navigation(Props) {
                                                 key: String(idx)
                                               });
                                   })))), React.createElement("div", {
-                          className: "hidden lg:flex"
+                          className: "hidden lg:flex lg:w-1/12"
                         }, React.createElement("a", {
                               className: link,
                               href: "https://github.com/reason-association/reasonml.org",
@@ -355,12 +355,12 @@ function Navigation(Props) {
                               target: "_blank"
                             }, React.createElement(Icon.Discord.make, {
                                   className: "w-6 h-6"
-                                }))), React.createElement("button", {
-                          className: "sm:border-l sm:border-r sm:border-night sm:h-full"
-                        }, React.createElement("img", {
-                              className: "w-6 h-6",
-                              src: "/static/ic_search_small.svg"
-                            })))));
+                                })))), React.createElement("button", {
+                      className: "hidden sm:flex sm:w-16 sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full"
+                    }, React.createElement("img", {
+                          className: "w-6 h-6",
+                          src: "/static/ic_search_small.svg"
+                        }))));
 }
 
 var Link$1 = 0;

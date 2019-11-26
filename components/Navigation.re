@@ -64,11 +64,12 @@ module CollapsibleLink = {
           onMouseDown
           className={
             (active ? activeLink : link)
-            ++ " font-bold hover:cursor-pointer "
+            ++ " flex items-center font-semibold hover:cursor-pointer "
             ++ (isOpen ? " text-white" : "")
           }>
           title->s
-          <span className="fill-current inline-block ml-2 w-3 h-2">
+          <span
+            className="fill-current flex-no-wrap inline-block ml-2 w-3 h-2">
             <Caret direction />
           </span>
         </a>
@@ -197,7 +198,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           title: "API",
           href: "/apis",
           children: <SubNav.ApisLinkSection />,
-          state: Closed, // TODO: Set back to Closed
+          state: Closed // TODO: Set back to Closed
         },
       |]
     );
@@ -221,20 +222,21 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
     ref={ReactDOMRe.Ref.domRef(outerRef)}
     id="header"
     style={Style.make(~minWidth, ())}
-    className="fixed z-10 top-0 sm:pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base">
+    className="fixed z-10 top-0 pl-10 w-full h-16 bg-night-dark shadow text-white-80 sm:flex sm:justify-center text-xl sm:text-base">
     <div
-      className="flex justify-between items-center h-full w-full sm:max-w-4xl">
-      <div className="sm:w-3/12">
+      className="flex justify-between items-center h-full w-full sm:max-w-3xl">
+      <div className="mb-3">
         <Link href="/">
           <a>
             <img
-              className="w-24 mb-4 inline-block"
+              className="h-8 w-20 inline-block"
               src="/static/reason_logo.svg"
             />
           </a>
         </Link>
       </div>
-      <div className="block mb-4 pr-4 sm:hidden">
+      /* Burger Button */
+      <div className="block pr-4 sm:hidden">
         <button
           className="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
           onClick={evt => {
@@ -253,7 +255,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
         style={Style.make(~minWidth, ())}
         className={
           (isOpen ? "flex" : "hidden")
-          ++ " px-2 flex-col fixed top-0 left-0 h-full w-full bg-night-dark sm:pl-10 sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
+          ++ " px-2 flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:pl-10 sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
         }>
         <div className="flex h-16 justify-between items-center sm:hidden">
           <Link href="/">
@@ -273,7 +275,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           <Link href="/try">
             <a
               className={
-                linkOrActiveLink(~target="/try", ~route) ++ " font-bold"
+                linkOrActiveLink(~target="/try", ~route) ++ " font-semibold"
               }>
               "Playground"->s
             </a>
@@ -281,7 +283,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           <Link href="/blog">
             <a
               className={
-                linkOrActiveLink(~target="/blog", ~route) ++ " font-bold"
+                linkOrActiveLink(~target="/blog", ~route) ++ " font-semibold"
               }>
               "Blog"->s
             </a>
@@ -289,7 +291,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
           <Link href="/community">
             <a
               className={
-                linkOrActiveLink(~target="/community", ~route) ++ " font-bold"
+                linkOrActiveLink(~target="/community", ~route) ++ " font-semibold"
               }>
               "Community"->s
             </a>
@@ -322,7 +324,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
            )
            ->ate}
         </div>
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex lg:w-1/12">
           <a
             href="https://github.com/reason-association/reasonml.org"
             rel="noopener noreferrer"
@@ -345,10 +347,11 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
             <Icon.Discord className="w-6 h-6" />
           </a>
         </div>
-        <button className="sm:border-l sm:border-r sm:border-night sm:h-full">
-          <img src="/static/ic_search_small.svg" className="w-6 h-6" />
-        </button>
       </div>
+      <button
+        className="hidden sm:flex sm:w-16 sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full">
+        <img src="/static/ic_search_small.svg" className="w-6 h-6" />
+      </button>
     </div>
   </nav>;
 };

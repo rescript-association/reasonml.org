@@ -176,7 +176,7 @@ module.exports = {
     cursor: ["hover"],
     width: ["responsive"],
     border: ["hover", "responsive"],
-    padding: ["hover"],
+    padding: ["hover", "responsive"],
   },
   plugins: []
 };
