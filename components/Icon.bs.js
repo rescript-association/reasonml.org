@@ -53,10 +53,64 @@ var Discord = {
   make: Icon$Discord
 };
 
+function Icon$MagnifierGlass(Props) {
+  var className = Props.className;
+  return React.createElement("svg", {
+              className: "stroke-current " + className,
+              height: "19.203",
+              width: "19.203",
+              viewBox: "0 0 19.203 19.203"
+            }, React.createElement("g", {
+                  fill: "none",
+                  strokeLinecap: "round",
+                  strokeWidth: "2px",
+                  transform: "translate(-2 -2)"
+                }, React.createElement("path", {
+                      d: "M6.479,0A6.479,6.479,0,1,1,0,6.479,6.479,6.479,0,0,1,6.479,0Z",
+                      transform: "translate(3 3)"
+                    }), React.createElement("line", {
+                      strokeLinejoin: "round",
+                      transform: "translate(14.055 14.055)",
+                      x1: "5.734",
+                      y1: "5.734"
+                    })));
+}
+
+var MagnifierGlass = {
+  make: Icon$MagnifierGlass
+};
+
+function Icon$Caret(Props) {
+  var className = Props.className;
+  var match = Props.size;
+  var size = match !== undefined ? match : /* Sm */18618;
+  var direction = Props.direction;
+  var width = size >= 18618 ? "10" : "14";
+  return React.createElement("svg", {
+              className: "stroke-current " + className,
+              width: width,
+              fill: "none",
+              strokeMiterlimit: "10",
+              strokeWidth: "2",
+              viewBox: "0 0 10 5"
+            }, direction >= 759637122 ? React.createElement("path", {
+                    d: "M.6.866,4.509,4.087,8.476.8"
+                  }) : React.createElement("path", {
+                    d: "M.6,4.022,4.509.8,8.476,4.087",
+                    fill: "none"
+                  }));
+}
+
+var Caret = {
+  make: Icon$Caret
+};
+
 export {
   Github ,
   Twitter ,
   Discord ,
+  MagnifierGlass ,
+  Caret ,
   
 }
 /* react Not a pure module */

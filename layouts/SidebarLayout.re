@@ -289,8 +289,8 @@ module Sidebar = {
               setCollapsed(isCollapsed => !isCollapsed);
             }}>
             moduleName->s
-            <span className="ml-2 block h-2 w-4 text-primary">
-              <Caret direction />
+            <span className="ml-2 block text-primary">
+              <Icon.Caret size=`Md direction />
             </span>
           </a>
         </Overline>

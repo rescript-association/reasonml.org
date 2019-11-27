@@ -2,7 +2,6 @@
 
 import * as Icon from "./Icon.bs.js";
 import * as Util from "../common/Util.bs.js";
-import * as Caret from "./Caret.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
@@ -61,8 +60,9 @@ function Navigation$CollapsibleLink(Props) {
                         )),
                       onMouseDown: onMouseDown
                     }, Util.ReactStuff.s(title), React.createElement("span", {
-                          className: "fill-current flex-no-wrap inline-block ml-2 w-3 h-2"
-                        }, React.createElement(Caret.make, {
+                          className: "fill-current flex-no-wrap inline-block ml-2 w-2"
+                        }, React.createElement(Icon.Caret.make, {
+                              className: active ? "text-inherit" : "text-night-light",
                               direction: direction
                             })))), React.createElement("div", {
                   className: (
@@ -331,7 +331,7 @@ function Navigation(Props) {
                                     className: linkOrActiveLink("/community", route)
                                   }, Util.ReactStuff.s("Community"))
                             })), React.createElement("div", {
-                          className: "hidden lg:flex lg:justify-between lg:w-2/12"
+                          className: "hidden lg:-mr-6 lg:flex lg:justify-between lg:w-20 "
                         }, React.createElement("a", {
                               className: link,
                               href: "https://github.com/reason-association/reasonml.org",
@@ -354,10 +354,9 @@ function Navigation(Props) {
                             }, React.createElement(Icon.Discord.make, {
                                   className: "w-5 h-5"
                                 })))), React.createElement("button", {
-                      className: "hidden sm:flex sm:w-16 sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full"
-                    }, React.createElement("img", {
-                          className: "w-6 h-6",
-                          src: "/static/ic_search_small.svg"
+                      className: "hidden sm:flex sm:px-4 sm:items-center sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full"
+                    }, React.createElement(Icon.MagnifierGlass.make, {
+                          className: "w-5 h-5"
                         }))));
 }
 

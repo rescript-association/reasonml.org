@@ -69,8 +69,11 @@ module CollapsibleLink = {
           }>
           title->s
           <span
-            className="fill-current flex-no-wrap inline-block ml-2 w-3 h-2">
-            <Caret direction />
+            className="fill-current flex-no-wrap inline-block ml-2 w-2">
+            <Icon.Caret
+              direction
+              className={(active ? "text-inherit" : "text-night-light")}
+            />
           </span>
         </a>
       </div>
@@ -314,7 +317,7 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
             </a>
           </Link>
         </div>
-        <div className="hidden lg:flex lg:justify-between lg:w-2/12">
+        <div className="hidden lg:-mr-6 lg:flex lg:justify-between lg:w-20 ">
           <a
             href="https://github.com/reason-association/reasonml.org"
             rel="noopener noreferrer"
@@ -339,8 +342,8 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
         </div>
       </div>
       <button
-        className="hidden sm:flex sm:w-16 sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full">
-        <img src="/static/ic_search_small.svg" className="w-6 h-6" />
+        className="hidden sm:flex sm:px-4 sm:items-center sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full">
+        <Icon.MagnifierGlass className="w-5 h-5" />
       </button>
     </div>
   </nav>;

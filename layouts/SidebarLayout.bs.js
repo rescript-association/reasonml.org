@@ -1,8 +1,8 @@
 
 
+import * as Icon from "../components/Icon.bs.js";
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
-import * as Caret from "../components/Caret.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Link from "next/link";
@@ -339,8 +339,9 @@ function SidebarLayout$Sidebar$CollapsibleSection(Props) {
                                         }));
                           })
                       }, Util.ReactStuff.s(moduleName), React.createElement("span", {
-                            className: "ml-2 block h-2 w-4 text-primary"
-                          }, React.createElement(Caret.make, {
+                            className: "ml-2 block text-primary"
+                          }, React.createElement(Icon.Caret.make, {
+                                size: /* Md */17271,
                                 direction: direction
                               })))
                 }), tmp);
