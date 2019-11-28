@@ -410,7 +410,7 @@ function SidebarLayout(Props) {
                   className: "max-w-4xl w-full " + theme$1,
                   style: minWidth
                 }, React.createElement(Navigation.make, {
-                      isOpen: match$1[0],
+                      isOverlayOpen: match$1[0],
                       toggle: (function (param) {
                           return Curry._1(setIsOpen, (function (prev) {
                                         return !prev;

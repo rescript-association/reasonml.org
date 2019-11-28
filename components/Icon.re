@@ -75,14 +75,15 @@ module MagnifierGlass = {
 module Caret = {
   type direction = [ | `Up | `Down];
 
-  type size = [ | `Sm | `Md ];
+  type size = [ | `Sm | `Md];
 
   [@react.component]
   let make = (~className: string=?, ~size=`Sm, ~direction: direction) => {
-    let width = switch(size) {
+    let width =
+      switch (size) {
       | `Sm => "10"
       | `Md => "14"
-    };
+      };
     <svg
       className={"stroke-current " ++ className}
       viewBox="0 0 10 5"
@@ -94,6 +95,22 @@ module Caret = {
        | `Up => <path d="M.6,4.022,4.509.8,8.476,4.087" fill="none" />
        | `Down => <path d="M.6.866,4.509,4.087,8.476.8" />
        }}
+    </svg>;
+  };
+};
+
+module DrawerDots = {
+  [@react.component]
+  let make = (~className: string=?) => {
+    <svg
+      className={"fill-current " ++ className}
+      stroke="none"
+      width="22"
+      height="4"
+      viewBox="0 0 22 4">
+      <circle cx="2" cy="2" r="2" />
+      <circle cx="2" cy="2" r="2" transform="translate(9)" />
+      <circle cx="2" cy="2" r="2" transform="translate(18)" />
     </svg>;
   };
 };

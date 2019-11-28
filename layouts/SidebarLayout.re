@@ -351,7 +351,11 @@ let make =
   let minWidth = ReactDOMRe.Style.make(~minWidth="20rem", ());
   <div>
     <div className={"max-w-4xl w-full " ++ theme} style=minWidth>
-      <Navigation isOpen toggle={() => setIsOpen(prev => !prev)} route />
+      <Navigation
+        isOverlayOpen=isOpen
+        toggle={() => setIsOpen(prev => !prev)}
+        route
+      />
       <div className="flex mt-12">
         sidebar
         <main className="pt-12 w-4/5 static min-h-screen overflow-visible">

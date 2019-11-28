@@ -11,7 +11,7 @@ import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.
 
 var link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
 
-var activeLink = "text-inherit font-normal text-fire-80 border-b border-fire-80";
+var activeLink = "text-inherit font-normal text-fire border-b border-fire";
 
 function linkOrActiveLink(target, route) {
   var match = target === route;
@@ -27,6 +27,7 @@ function Navigation$CollapsibleLink(Props) {
   var onStateChange = Props.onStateChange;
   var match = Props.allowHover;
   var allowHover = match !== undefined ? match : true;
+  Props.allowInteraction;
   var id = Props.id;
   var state = Props.state;
   var match$1 = Props.active;
@@ -48,7 +49,7 @@ function Navigation$CollapsibleLink(Props) {
   var isOpen = state < 2;
   var direction = isOpen ? /* Up */19067 : /* Down */759637122;
   return React.createElement("div", {
-              className: "sm:font-normal relative",
+              className: "relative",
               onMouseEnter: onMouseEnter
             }, React.createElement("div", {
                   className: "flex items-center"
@@ -67,7 +68,7 @@ function Navigation$CollapsibleLink(Props) {
                             })))), React.createElement("div", {
                   className: (
                     isOpen ? "block" : "hidden"
-                  ) + " sm:fixed sm:left-0 sm:border-night sm:mt-4 sm:border-t bg-night-dark w-full h-16"
+                  ) + " fixed left-0 mt-4 border-night border-t bg-night-dark w-full h-full sm:h-16"
                 }, children));
 }
 
@@ -162,8 +163,8 @@ var SubNav = {
 };
 
 function Navigation(Props) {
-  var match = Props.isOpen;
-  var isOpen = match !== undefined ? match : false;
+  var match = Props.isOverlayOpen;
+  var isOverlayOpen = match !== undefined ? match : false;
   var match$1 = Props.toggle;
   var toggle = match$1 !== undefined ? match$1 : (function (param) {
         return /* () */0;
@@ -219,116 +220,97 @@ function Navigation(Props) {
   useOutsideClick(outerRef, resetCollapsibles);
   var windowWidth = Curry._1(useWindowWidth, /* () */0);
   var allowHover = windowWidth !== undefined ? windowWidth > 576 : true;
+  var collapsibleItems = Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
+              var title = c[/* title */0];
+              var onStateChange = function (id, state) {
+                return Curry._1(setCollapsibles, (function (prev) {
+                              if (isOverlayOpen) {
+                                Curry._1(toggle, /* () */0);
+                              }
+                              return Belt_Array.map(prev, (function (c) {
+                                            if (c[/* title */0] === id) {
+                                              return /* record */Caml_chrome_debugger.record([
+                                                        "title",
+                                                        "children",
+                                                        "href",
+                                                        "state"
+                                                      ], [
+                                                        c[/* title */0],
+                                                        c[/* children */1],
+                                                        c[/* href */2],
+                                                        state
+                                                      ]);
+                                            } else {
+                                              return /* record */Caml_chrome_debugger.record([
+                                                        "title",
+                                                        "children",
+                                                        "href",
+                                                        "state"
+                                                      ], [
+                                                        c[/* title */0],
+                                                        c[/* children */1],
+                                                        c[/* href */2],
+                                                        2
+                                                      ]);
+                                            }
+                                          }));
+                            }));
+              };
+              return React.createElement(Navigation$CollapsibleLink, {
+                          title: title,
+                          onStateChange: onStateChange,
+                          allowHover: allowHover,
+                          id: title,
+                          state: c[/* state */3],
+                          active: route.startsWith(c[/* href */2]),
+                          children: c[/* children */1],
+                          key: String(idx)
+                        });
+            })));
   return React.createElement("nav", {
               ref: outerRef,
-              className: "fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-xl sm:text-base",
+              className: "fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base",
               id: "header",
               style: {
                 minWidth: minWidth
               }
             }, React.createElement("div", {
-                  className: "flex justify-between pl-4 items-center h-full w-full sm:max-w-xl"
+                  className: "flex justify-between pl-4 items-center h-full w-full max-w-xl"
                 }, React.createElement("div", {
-                      className: "lg:mb-3 w-8 lg:w-20"
-                    }, React.createElement(Link.default, {
-                          href: "/",
-                          children: React.createElement("a", undefined, React.createElement("picture", undefined, React.createElement("source", {
-                                        media: "(min-width: 993px)",
-                                        srcSet: "/static/reason_logo_full.svg"
-                                      }), React.createElement("img", {
-                                        className: "h-8 w-auto inline-block",
-                                        src: "/static/reason_logo.svg"
-                                      })))
-                        })), React.createElement("button", {
-                      className: "h-full px-4 sm:hidden flex items-center hover:text-white",
-                      onClick: (function (evt) {
-                          evt.preventDefault();
-                          return Curry._1(toggle, /* () */0);
-                        })
-                    }, React.createElement("img", {
-                          className: "w-full block",
-                          src: "/static/ic_drawer_dots.svg"
-                        })), React.createElement("div", {
-                      className: (
-                        isOpen ? "flex" : "hidden"
-                      ) + " flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between",
-                      style: {
-                        minWidth: minWidth
-                      }
+                      className: "lg:mb-3 h-8 lg:w-20"
+                    }, React.createElement("a", {
+                          href: "/"
+                        }, React.createElement("picture", undefined, React.createElement("source", {
+                                  media: "(min-width: 993px)",
+                                  srcSet: "/static/reason_logo_full.svg"
+                                }), React.createElement("img", {
+                                  className: "h-8 w-auto inline-block",
+                                  src: "/static/reason_logo.svg"
+                                })))), React.createElement("div", {
+                      className: "flex justify-center sm:justify-between bg-night-dark w-full sm:w-9/12 sm:h-auto sm:relative"
                     }, React.createElement("div", {
-                          className: "flex h-16 justify-between items-center sm:hidden"
-                        }, React.createElement(Link.default, {
-                              href: "/",
-                              children: React.createElement("a", {
-                                    className: "w-24"
-                                  }, React.createElement("img", {
-                                        src: "/static/reason_logo.svg"
-                                      }))
-                            }), React.createElement("span", {
-                              className: "inline-block text-center w-6 text-2xl font-bold",
-                              onClick: (function (evt) {
-                                  evt.preventDefault();
-                                  return Curry._1(toggle, /* () */0);
-                                })
-                            }, Util.ReactStuff.s("X"))), React.createElement("div", {
-                          className: "flex flex-col sm:flex-row sm:justify-between sm:w-full max-w-sm"
-                        }, Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
-                                    var title = c[/* title */0];
-                                    var onStateChange = function (id, state) {
-                                      return Curry._1(setCollapsibles, (function (prev) {
-                                                    return Belt_Array.map(prev, (function (c) {
-                                                                  if (c[/* title */0] === id) {
-                                                                    return /* record */Caml_chrome_debugger.record([
-                                                                              "title",
-                                                                              "children",
-                                                                              "href",
-                                                                              "state"
-                                                                            ], [
-                                                                              c[/* title */0],
-                                                                              c[/* children */1],
-                                                                              c[/* href */2],
-                                                                              state
-                                                                            ]);
-                                                                  } else {
-                                                                    return /* record */Caml_chrome_debugger.record([
-                                                                              "title",
-                                                                              "children",
-                                                                              "href",
-                                                                              "state"
-                                                                            ], [
-                                                                              c[/* title */0],
-                                                                              c[/* children */1],
-                                                                              c[/* href */2],
-                                                                              2
-                                                                            ]);
-                                                                  }
-                                                                }));
-                                                  }));
-                                    };
-                                    return React.createElement(Navigation$CollapsibleLink, {
-                                                title: title,
-                                                onStateChange: onStateChange,
-                                                allowHover: allowHover,
-                                                id: title,
-                                                state: c[/* state */3],
-                                                active: route.startsWith(c[/* href */2]),
-                                                children: c[/* children */1],
-                                                key: String(idx)
-                                              });
-                                  }))), React.createElement(Link.default, {
+                          className: "flex justify-between w-2/4 sm:w-full max-w-sm",
+                          style: {
+                            minWidth: "13rem"
+                          }
+                        }, React.createElement("button", {
+                              className: "sm:hidden flex px-4 items-center justify-center h-full"
+                            }, React.createElement(Icon.MagnifierGlass.make, {
+                                  className: "w-5 h-5 hover:text-white"
+                                })), collapsibleItems, React.createElement(Link.default, {
                               href: "/try",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/try", route)
+                                    className: "hidden sm:block " + linkOrActiveLink("/try", route)
                                   }, Util.ReactStuff.s("Playground"))
                             }), React.createElement(Link.default, {
                               href: "/blog",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/blog", route)
+                                    className: "hidden sm:block " + linkOrActiveLink("/blog", route)
                                   }, Util.ReactStuff.s("Blog"))
                             }), React.createElement(Link.default, {
                               href: "/community",
                               children: React.createElement("a", {
-                                    className: linkOrActiveLink("/community", route)
+                                    className: "hidden sm:block " + linkOrActiveLink("/community", route)
                                   }, Util.ReactStuff.s("Community"))
                             })), React.createElement("div", {
                           className: "hidden lg:-mr-6 lg:flex lg:justify-between lg:w-20 "
@@ -356,8 +338,29 @@ function Navigation(Props) {
                                 })))), React.createElement("button", {
                       className: "hidden sm:flex sm:px-4 sm:items-center sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full"
                     }, React.createElement(Icon.MagnifierGlass.make, {
-                          className: "w-5 h-5"
-                        }))));
+                          className: "w-5 h-5 hover:text-white"
+                        }))), React.createElement("button", {
+                  className: "h-full px-4 sm:hidden flex items-center hover:text-white",
+                  onClick: (function (evt) {
+                      evt.preventDefault();
+                      resetCollapsibles(/* () */0);
+                      return Curry._1(toggle, /* () */0);
+                    })
+                }, React.createElement(Icon.DrawerDots.make, {
+                      className: "h-1 w-auto block " + (
+                        isOverlayOpen ? "text-fire" : ""
+                      )
+                    })), React.createElement("div", {
+                  className: (
+                    isOverlayOpen ? "flex" : "hidden"
+                  ) + " sm:hidden flex-col fixed top-0 left-0 h-full w-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between",
+                  style: {
+                    minWidth: minWidth,
+                    top: "4rem"
+                  }
+                }, React.createElement("div", {
+                      className: "border-night border-t"
+                    }, Util.ReactStuff.s("mobile"))));
 }
 
 var Link$1 = 0;

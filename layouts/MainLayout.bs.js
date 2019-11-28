@@ -24,13 +24,12 @@ function MainLayout(Props) {
           return false;
         }));
   var setIsOpen = match$1[1];
-  var isOpen = match$1[0];
   return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
                   className: "mb-32 mt-16"
                 }, React.createElement("div", {
                       className: "w-full text-night font-base"
                     }, React.createElement(Navigation.make, {
-                          isOpen: isOpen,
+                          isOverlayOpen: match$1[0],
                           toggle: (function (param) {
                               return Curry._1(setIsOpen, (function (prev) {
                                             return !prev;
@@ -40,9 +39,7 @@ function MainLayout(Props) {
                         }), React.createElement("div", {
                           className: "flex justify-center"
                         }, React.createElement("main", {
-                              className: "mt-32 lg:align-center w-full px-4 max-w-xl " + (
-                                isOpen ? " hidden" : ""
-                              ),
+                              className: "mt-32 lg:align-center w-full px-4 max-w-xl ",
                               style: minWidth
                             }, React.createElement(React$1.MDXProvider, {
                                   components: components,

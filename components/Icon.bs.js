@@ -105,12 +105,42 @@ var Caret = {
   make: Icon$Caret
 };
 
+function Icon$DrawerDots(Props) {
+  var className = Props.className;
+  return React.createElement("svg", {
+              className: "fill-current " + className,
+              height: "4",
+              width: "22",
+              stroke: "none",
+              viewBox: "0 0 22 4"
+            }, React.createElement("circle", {
+                  cx: "2",
+                  cy: "2",
+                  r: "2"
+                }), React.createElement("circle", {
+                  cx: "2",
+                  cy: "2",
+                  r: "2",
+                  transform: "translate(9)"
+                }), React.createElement("circle", {
+                  cx: "2",
+                  cy: "2",
+                  r: "2",
+                  transform: "translate(18)"
+                }));
+}
+
+var DrawerDots = {
+  make: Icon$DrawerDots
+};
+
 export {
   Github ,
   Twitter ,
   Discord ,
   MagnifierGlass ,
   Caret ,
+  DrawerDots ,
   
 }
 /* react Not a pure module */

@@ -2,7 +2,7 @@ open Util.ReactStuff;
 module Link = Next.Link;
 
 let link = "no-underline block text-inherit hover:cursor-pointer hover:text-white text-white-80 mb-px";
-let activeLink = "text-inherit font-normal text-fire-80 border-b border-fire-80";
+let activeLink = "text-inherit font-normal text-fire border-b border-fire";
 
 let linkOrActiveLink = (~target, ~route) => {
   target === route ? activeLink : link;
@@ -21,6 +21,7 @@ module CollapsibleLink = {
         ~title: string,
         ~onStateChange: (~id: string, state) => unit,
         ~allowHover=true,
+        ~allowInteraction=true,
         ~id: string,
         ~state: state,
         ~active=false,
@@ -58,7 +59,7 @@ module CollapsibleLink = {
 
     let direction = isOpen ? `Up : `Down;
 
-    <div className="sm:font-normal relative" onMouseEnter>
+    <div className="relative" onMouseEnter>
       <div className="flex items-center">
         <a
           onMouseDown
@@ -68,11 +69,10 @@ module CollapsibleLink = {
             ++ (isOpen ? " text-white" : "")
           }>
           title->s
-          <span
-            className="fill-current flex-no-wrap inline-block ml-2 w-2">
+          <span className="fill-current flex-no-wrap inline-block ml-2 w-2">
             <Icon.Caret
               direction
-              className={(active ? "text-inherit" : "text-night-light")}
+              className={active ? "text-inherit" : "text-night-light"}
             />
           </span>
         </a>
@@ -80,7 +80,7 @@ module CollapsibleLink = {
       <div
         className={
           (isOpen ? "block" : "hidden")
-          ++ " sm:fixed sm:left-0 sm:border-night sm:mt-4 sm:border-t bg-night-dark w-full h-16"
+          ++ " fixed left-0 mt-4 border-night border-t bg-night-dark w-full h-full sm:h-16"
         }>
         children
       </div>
@@ -184,8 +184,9 @@ module SubNav = {
   };
 };
 
+/* isOpen: if the mobile overlay is toggled open */
 [@react.component]
-let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
+let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
   let minWidth = "20rem";
 
   let (collapsibles, setCollapsibles) =
@@ -221,98 +222,95 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
     | None => true
     };
 
+  let collapsibleItems =
+    Belt.Array.mapWithIndex(
+      collapsibles,
+      (idx, c) => {
+        let {href, title, children, state} = c;
+        let onStateChange = (~id, state) => {
+          setCollapsibles(prev => {
+            /* This is important to close the nav overlay, before showing the subnavigation */
+            if (isOverlayOpen) {
+              toggle();
+            };
+            Belt.Array.map(prev, c =>
+              if (c.title === id) {
+                {...c, state};
+              } else {
+                {...c, state: Closed};
+              }
+            );
+          });
+        };
+        <CollapsibleLink
+          id=title
+          onStateChange
+          key={idx->Belt.Int.toString}
+          allowHover
+          title
+          active={Js.String2.startsWith(route, href)}
+          state>
+          children
+        </CollapsibleLink>;
+      },
+    )
+    ->ate;
+
   <nav
     ref={ReactDOMRe.Ref.domRef(outerRef)}
     id="header"
     style={Style.make(~minWidth, ())}
-    className="fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-xl sm:text-base">
+    className="fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base">
     <div
-      className="flex justify-between pl-4 items-center h-full w-full sm:max-w-xl">
-      <div className="lg:mb-3 w-8 lg:w-20">
-        <Link href="/">
-          <a>
-            <picture>
-              <source
-                srcSet="/static/reason_logo_full.svg"
-                media="(min-width: 993px)"
-              />
-              <img
-                className="h-8 w-auto inline-block"
-                src="/static/reason_logo.svg"
-              />
-            </picture>
-          </a>
-        </Link>
+      className="flex justify-between pl-4 items-center h-full w-full max-w-xl">
+      <div className="lg:mb-3 h-8 lg:w-20">
+        <a href="/">
+          <picture>
+            <source
+              srcSet="/static/reason_logo_full.svg"
+              media="(min-width: 993px)"
+            />
+            <img
+              className="h-8 w-auto inline-block"
+              src="/static/reason_logo.svg"
+            />
+          </picture>
+        </a>
       </div>
-      /* Burger Button */
-      <button
-        className="h-full px-4 sm:hidden flex items-center hover:text-white"
-        onClick={evt => {
-          ReactEvent.Mouse.preventDefault(evt);
-          toggle();
-        }}>
-        <img className="w-full block" src="/static/ic_drawer_dots.svg" />
-      </button>
+      /* Desktop horizontal navigation */
       <div
-        style={Style.make(~minWidth, ())}
-        className={
-          (isOpen ? "flex" : "hidden")
-          ++ " flex-col fixed top-0 left-0 h-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
-        }>
-        <div className="flex h-16 justify-between items-center sm:hidden">
-          <Link href="/">
-            <a className="w-24"> <img src="/static/reason_logo.svg" /> </a>
-          </Link>
-          <span
-            onClick={evt => {
-              ReactEvent.Mouse.preventDefault(evt);
-              toggle();
-            }}
-            className="inline-block text-center w-6 text-2xl font-bold">
-            "X"->s
-          </span>
-        </div>
+        className="flex justify-center sm:justify-between bg-night-dark w-full sm:w-9/12 sm:h-auto sm:relative">
         <div
-          className="flex flex-col sm:flex-row sm:justify-between sm:w-full max-w-sm">
-          {Belt.Array.mapWithIndex(
-             collapsibles,
-             (idx, c) => {
-               let {href, title, children, state} = c;
-               let onStateChange = (~id, state) =>
-                 {setCollapsibles(prev =>
-                    Belt.Array.map(prev, c =>
-                      if (c.title === id) {
-                        {...c, state};
-                      } else {
-                        {...c, state: Closed};
-                      }
-                    )
-                  )};
-               <CollapsibleLink
-                 id=title
-                 onStateChange
-                 key={idx->Belt.Int.toString}
-                 allowHover
-                 title
-                 active={Js.String2.startsWith(route, href)}
-                 state>
-                 children
-               </CollapsibleLink>;
-             },
-           )
-           ->ate}
+          className="flex justify-between w-2/4 sm:w-full max-w-sm"
+          style={Style.make(~minWidth="13rem", ())}>
+          <button
+            className="sm:hidden flex px-4 items-center justify-center h-full">
+            <Icon.MagnifierGlass className="w-5 h-5 hover:text-white" />
+          </button>
+          collapsibleItems
           <Link href="/try">
-            <a className={linkOrActiveLink(~target="/try", ~route)}>
+            <a
+              className={
+                "hidden sm:block " ++ linkOrActiveLink(~target="/try", ~route)
+              }>
               "Playground"->s
             </a>
           </Link>
           <Link href="/blog">
-            <a className={linkOrActiveLink(~target="/blog", ~route)}>
+            <a
+              className={
+                "hidden sm:block "
+                ++ linkOrActiveLink(~target="/blog", ~route)
+              }>
               "Blog"->s
             </a>
           </Link>
           <Link href="/community">
-            <a className={linkOrActiveLink(~target="/community", ~route)}>
+            <a
+              className={
+                "hidden sm:block "
+                ++ linkOrActiveLink(~target="/community", ~route)
+              }>
               "Community"->s
             </a>
           </Link>
@@ -343,8 +341,29 @@ let make = (~isOpen=false, ~toggle=() => (), ~route="/") => {
       </div>
       <button
         className="hidden sm:flex sm:px-4 sm:items-center sm:justify-center sm:border-l sm:border-r sm:border-night sm:h-full">
-        <Icon.MagnifierGlass className="w-5 h-5" />
+        <Icon.MagnifierGlass className="w-5 h-5 hover:text-white" />
       </button>
+    </div>
+    /* Burger Button */
+    <button
+      className="h-full px-4 sm:hidden flex items-center hover:text-white"
+      onClick={evt => {
+        ReactEvent.Mouse.preventDefault(evt);
+        resetCollapsibles();
+        toggle();
+      }}>
+      <Icon.DrawerDots
+        className={"h-1 w-auto block " ++ (isOverlayOpen ? "text-fire" : "")}
+      />
+    </button>
+    /* Mobile overlay */
+    <div
+      style={Style.make(~minWidth, ~top="4rem", ())}
+      className={
+        (isOverlayOpen ? "flex" : "hidden")
+        ++ " sm:hidden flex-col fixed top-0 left-0 h-full w-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
+      }>
+      <div className="border-night border-t"> "mobile"->s </div>
     </div>
   </nav>;
 };
