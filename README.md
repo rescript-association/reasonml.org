@@ -57,7 +57,7 @@ node scripts/test-examples.js "pages/apis/latest/belt/set-*.mdx"
 ## Design / UX
 
 Design mockups can be found
-[here](https://xd.adobe.com/spec/15aaca36-8352-45aa-48c2-18fc508c81ed-639b/grid).
+[here](https://xd.adobe.com/spec/1cd19c3a-a0bb-4f93-4e11-725589888696-6ae0/grid/).
 
 Be aware that some screen designs might still be work in progress, if you have
 any design / UX questions, either comment directly on the design tool as guest,
