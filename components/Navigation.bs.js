@@ -277,17 +277,17 @@ function Navigation(Props) {
             }, React.createElement("div", {
                   className: "flex justify-between pl-4 items-center h-full w-full max-w-xl"
                 }, React.createElement("div", {
-                      className: "lg:mb-3 h-8 lg:w-20"
+                      className: "lg:mb-3 h-8 w-8 lg:w-20"
                     }, React.createElement("a", {
                           href: "/"
                         }, React.createElement("picture", undefined, React.createElement("source", {
-                                  media: "(min-width: 993px)",
+                                  media: "(min-width: 992px)",
                                   srcSet: "/static/reason_logo_full.svg"
                                 }), React.createElement("img", {
                                   className: "h-8 w-auto inline-block",
                                   src: "/static/reason_logo.svg"
                                 })))), React.createElement("div", {
-                      className: "flex justify-center sm:justify-between bg-night-dark w-full sm:w-9/12 sm:h-auto sm:relative"
+                      className: "flex justify-center sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative"
                     }, React.createElement("div", {
                           className: "flex justify-between w-2/4 sm:w-full max-w-sm",
                           style: {

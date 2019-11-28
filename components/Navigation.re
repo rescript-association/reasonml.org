@@ -263,12 +263,12 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
     className="fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base">
     <div
       className="flex justify-between pl-4 items-center h-full w-full max-w-xl">
-      <div className="lg:mb-3 h-8 lg:w-20">
+      <div className="lg:mb-3 h-8 w-8 lg:w-20">
         <a href="/">
           <picture>
             <source
               srcSet="/static/reason_logo_full.svg"
-              media="(min-width: 993px)"
+              media="(min-width: 992px)"
             />
             <img
               className="h-8 w-auto inline-block"
@@ -279,7 +279,7 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
       </div>
       /* Desktop horizontal navigation */
       <div
-        className="flex justify-center sm:justify-between bg-night-dark w-full sm:w-9/12 sm:h-auto sm:relative">
+        className="flex justify-center sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative">
         <div
           className="flex justify-between w-2/4 sm:w-full max-w-sm"
           style={Style.make(~minWidth="13rem", ())}>
