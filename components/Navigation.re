@@ -222,40 +222,6 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
     | None => true
     };
 
-  let collapsibleItems =
-    Belt.Array.mapWithIndex(
-      collapsibles,
-      (idx, c) => {
-        let {href, title, children, state} = c;
-        let onStateChange = (~id, state) => {
-          setCollapsibles(prev => {
-            /* This is important to close the nav overlay, before showing the subnavigation */
-            if (isOverlayOpen) {
-              toggle();
-            };
-            Belt.Array.map(prev, c =>
-              if (c.title === id) {
-                {...c, state};
-              } else {
-                {...c, state: Closed};
-              }
-            );
-          });
-        };
-        <CollapsibleLink
-          id=title
-          onStateChange
-          key={idx->Belt.Int.toString}
-          allowHover
-          title
-          active={Js.String2.startsWith(route, href)}
-          state>
-          children
-        </CollapsibleLink>;
-      },
-    )
-    ->ate;
-
   <nav
     ref={ReactDOMRe.Ref.domRef(outerRef)}
     id="header"
@@ -279,15 +245,45 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
       </div>
       /* Desktop horizontal navigation */
       <div
-        className="flex justify-center sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative">
+        className="flex sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative">
         <div
           className="flex justify-between w-2/4 sm:w-full max-w-sm"
-          style={Style.make(~minWidth="13rem", ())}>
+          style={Style.make(~minWidth="12rem", ())}>
           <button
-            className="sm:hidden flex px-4 items-center justify-center h-full">
+            className="sm:hidden px-4 flex items-center justify-center h-full">
             <Icon.MagnifierGlass className="w-5 h-5 hover:text-white" />
           </button>
-          collapsibleItems
+          {Belt.Array.mapWithIndex(
+             collapsibles,
+             (idx, c) => {
+               let {href, title, children, state} = c;
+               let onStateChange = (~id, state) =>
+                 {setCollapsibles(prev => {
+                    /* This is important to close the nav overlay, before showing the subnavigation */
+                    if (isOverlayOpen) {
+                      toggle();
+                    };
+                    Belt.Array.map(prev, c =>
+                      if (c.title === id) {
+                        {...c, state};
+                      } else {
+                        {...c, state: Closed};
+                      }
+                    );
+                  })};
+               <CollapsibleLink
+                 id=title
+                 onStateChange
+                 key={idx->Belt.Int.toString}
+                 allowHover
+                 title
+                 active={Js.String2.startsWith(route, href)}
+                 state>
+                 children
+               </CollapsibleLink>;
+             },
+           )
+           ->ate}
           <Link href="/try">
             <a
               className={

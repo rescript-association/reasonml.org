@@ -220,53 +220,6 @@ function Navigation(Props) {
   useOutsideClick(outerRef, resetCollapsibles);
   var windowWidth = Curry._1(useWindowWidth, /* () */0);
   var allowHover = windowWidth !== undefined ? windowWidth > 576 : true;
-  var collapsibleItems = Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
-              var title = c[/* title */0];
-              var onStateChange = function (id, state) {
-                return Curry._1(setCollapsibles, (function (prev) {
-                              if (isOverlayOpen) {
-                                Curry._1(toggle, /* () */0);
-                              }
-                              return Belt_Array.map(prev, (function (c) {
-                                            if (c[/* title */0] === id) {
-                                              return /* record */Caml_chrome_debugger.record([
-                                                        "title",
-                                                        "children",
-                                                        "href",
-                                                        "state"
-                                                      ], [
-                                                        c[/* title */0],
-                                                        c[/* children */1],
-                                                        c[/* href */2],
-                                                        state
-                                                      ]);
-                                            } else {
-                                              return /* record */Caml_chrome_debugger.record([
-                                                        "title",
-                                                        "children",
-                                                        "href",
-                                                        "state"
-                                                      ], [
-                                                        c[/* title */0],
-                                                        c[/* children */1],
-                                                        c[/* href */2],
-                                                        2
-                                                      ]);
-                                            }
-                                          }));
-                            }));
-              };
-              return React.createElement(Navigation$CollapsibleLink, {
-                          title: title,
-                          onStateChange: onStateChange,
-                          allowHover: allowHover,
-                          id: title,
-                          state: c[/* state */3],
-                          active: route.startsWith(c[/* href */2]),
-                          children: c[/* children */1],
-                          key: String(idx)
-                        });
-            })));
   return React.createElement("nav", {
               ref: outerRef,
               className: "fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base",
@@ -287,17 +240,63 @@ function Navigation(Props) {
                                   className: "h-8 w-auto inline-block",
                                   src: "/static/reason_logo.svg"
                                 })))), React.createElement("div", {
-                      className: "flex justify-center sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative"
+                      className: "flex sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative"
                     }, React.createElement("div", {
                           className: "flex justify-between w-2/4 sm:w-full max-w-sm",
                           style: {
-                            minWidth: "13rem"
+                            minWidth: "12rem"
                           }
                         }, React.createElement("button", {
-                              className: "sm:hidden flex px-4 items-center justify-center h-full"
+                              className: "sm:hidden px-4 flex items-center justify-center h-full"
                             }, React.createElement(Icon.MagnifierGlass.make, {
                                   className: "w-5 h-5 hover:text-white"
-                                })), collapsibleItems, React.createElement(Link.default, {
+                                })), Util.ReactStuff.ate(Belt_Array.mapWithIndex(match$3[0], (function (idx, c) {
+                                    var title = c[/* title */0];
+                                    var onStateChange = function (id, state) {
+                                      return Curry._1(setCollapsibles, (function (prev) {
+                                                    if (isOverlayOpen) {
+                                                      Curry._1(toggle, /* () */0);
+                                                    }
+                                                    return Belt_Array.map(prev, (function (c) {
+                                                                  if (c[/* title */0] === id) {
+                                                                    return /* record */Caml_chrome_debugger.record([
+                                                                              "title",
+                                                                              "children",
+                                                                              "href",
+                                                                              "state"
+                                                                            ], [
+                                                                              c[/* title */0],
+                                                                              c[/* children */1],
+                                                                              c[/* href */2],
+                                                                              state
+                                                                            ]);
+                                                                  } else {
+                                                                    return /* record */Caml_chrome_debugger.record([
+                                                                              "title",
+                                                                              "children",
+                                                                              "href",
+                                                                              "state"
+                                                                            ], [
+                                                                              c[/* title */0],
+                                                                              c[/* children */1],
+                                                                              c[/* href */2],
+                                                                              2
+                                                                            ]);
+                                                                  }
+                                                                }));
+                                                  }));
+                                    };
+                                    return React.createElement(Navigation$CollapsibleLink, {
+                                                title: title,
+                                                onStateChange: onStateChange,
+                                                allowHover: allowHover,
+                                                id: title,
+                                                state: c[/* state */3],
+                                                active: route.startsWith(c[/* href */2]),
+                                                children: c[/* children */1],
+                                                key: String(idx)
+                                              });
+                                  }))), React.createElement(Link.default, {
                               href: "/try",
                               children: React.createElement("a", {
                                     className: "hidden sm:block " + linkOrActiveLink("/try", route)
