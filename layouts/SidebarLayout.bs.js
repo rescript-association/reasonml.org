@@ -230,7 +230,7 @@ function SidebarLayout$Sidebar$NavItem(Props) {
             }, Util.ReactStuff.ate(Belt_Array.map(items, (function (m) {
                         var hidden = isHidden ? "hidden" : "block";
                         var match = Curry._1(isItemActive, m);
-                        var active = match ? " bg-primary-5 text-primary-dark rounded -ml-2 px-2 font-bold block " : "";
+                        var active = match ? " bg-primary-15 text-primary-dark rounded -ml-2 px-2 font-bold block " : "";
                         return React.createElement("li", {
                                     key: m[/* name */0],
                                     className: hidden + " leading-5 w-4/5",
@@ -279,7 +279,7 @@ function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
               className: "mt-2 text-night"
             }, Util.ReactStuff.ate(Belt_Array.map(items, (function (m) {
                         var match = Curry._1(isItemActive, m);
-                        var active = match ? " bg-primary-5 text-primary-dark -ml-1 px-2 font-bold block " : "";
+                        var active = match ? " bg-primary-15 text-primary-dark -ml-1 px-2 font-bold block " : "";
                         return React.createElement("li", {
                                     key: m[/* name */0],
                                     className: "leading-5 w-4/5",
@@ -371,7 +371,7 @@ function SidebarLayout$Sidebar(Props) {
                     top: "3rem"
                   }
                 }, React.createElement("div", {
-                      className: "bg-primary-5"
+                      className: "bg-primary-15"
                     }, children), React.createElement("div", {
                       className: "mb-56"
                     }, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {

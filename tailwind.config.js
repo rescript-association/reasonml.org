@@ -55,36 +55,44 @@ module.exports = {
         fire: {
           default: "#DF4B37",
           "80": "rgba(223, 75, 55, 0.8)",
-          "40": "rgba(223, 75, 55, 0.4)"
+          "40": "rgba(223, 75, 55, 0.4)",
+          "15": "rgba(223, 75, 55, 0.15)"
+        },
+        sky: {
+          default: "#376FDD",
+          "80": "rgba(55, 111, 221, 0.8)",
+          "40": "rgba(55, 111, 221, 0.4)",
+          "15": "rgba(55, 111, 221, 0.15)"
+        },
+        berry: {
+          default: "#AB5EA3",
+          "80": "rgba(171, 94, 163, 0.8)",
+          "40": "rgba(171, 94, 163, 0.4)",
+          "15": "rgba(171, 94, 163, 0.15)"
         },
         gold: {
           light: "#FFC833",
           default: "#E0AC00",
-          dark: "#C19400",
-          "15": "rgba(224, 172, 0, 0.15)",
-          "5": "rgba(224, 172, 0, 0.05)"
-        },
-        sky: {
-          default: "#376FDD"
-        },
-        berry: {
-          default: "#AB5EA3",
-          "40": "rgba(171, 94, 163, 0.40)",
-          "15": "rgba(171, 94, 163, 0.15)",
-          "5": "rgba(171, 94, 163, 0.05)"
+          dark: "#C19400"
         },
         primary: {
           dark: "var(--color-text-primary-dark)",
           default: "var(--color-text-primary)",
           light: "var(--color-text-primary-light)",
-          "5": "var(--color-text-primary-5)",
+          "15": "var(--color-text-primary-5)",
+          "40": "var(--color-text-primary-40)",
+          "80": "var(--color-text-primary-80)"
         },
         "light-grey": "rgba(245, 245, 245, 0.5)",
         "light-grey-20": "rgba(245, 245, 245, 0.2)",
         "ghost-white": "#F8F7F9"
+      },
+      minWidth: {
+        "20": "20rem"
       }
     },
     screens: {
+      xs: "510px",
       sm: "576px",
       md: "768px",
       lg: "992px",
@@ -131,7 +139,7 @@ module.exports = {
     letterSpacing: {
       tight: "-0.03em",
       normal: "0",
-      wide: "0.075em"
+      wide: "0.08125em"
     },
     maxWidth: {
       xs: "20rem", //  320px
@@ -177,7 +185,8 @@ module.exports = {
     cursor: ["hover"],
     width: ["responsive"],
     border: ["hover", "responsive"],
-    padding: ["hover", "responsive"],
+    borderWidth: ["last"],
+    padding: ["hover", "responsive"]
   },
   plugins: []
 };

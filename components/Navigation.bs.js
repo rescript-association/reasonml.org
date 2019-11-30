@@ -68,7 +68,7 @@ function Navigation$CollapsibleLink(Props) {
                             })))), React.createElement("div", {
                   className: (
                     isOpen ? "block" : "hidden"
-                  ) + " fixed left-0 mt-4 border-night border-t bg-night-dark w-full h-full sm:h-16"
+                  ) + " fixed left-0 mt-4 border-night border-t bg-night-dark min-w-20 w-full h-full sm:h-auto"
                 }, children));
 }
 
@@ -123,43 +123,69 @@ function useWindowWidth (){{
   return null;
   }};
 
-function Navigation$SubNav$DocsLinkSection(Props) {
-  return React.createElement("div", undefined, Util.ReactStuff.s("Docs Items"));
+function Navigation$SubNav$DocsLinks(Props) {
+  Props.route;
+  return React.createElement("div", undefined, Util.ReactStuff.s("Docsi Items"));
 }
 
-var DocsLinkSection = {
-  make: Navigation$SubNav$DocsLinkSection
+var DocsLinks = {
+  make: Navigation$SubNav$DocsLinks
 };
 
-function Navigation$SubNav$ApisLinkSection(Props) {
+function Navigation$SubNav$ApiLinks(Props) {
+  var route = Props.route;
   var jsTheme = ColorTheme.toCN(/* Js */16617);
   var reTheme = ColorTheme.toCN(/* Reason */825328612);
+  var jsItems = /* array */[
+    /* tuple */[
+      "Belt Stdlib",
+      "/apis/javascript/latest/belt"
+    ],
+    /* tuple */[
+      "Js Module",
+      "/apis/javascript/latest/js"
+    ]
+  ];
+  var overlineClass = "font-black uppercase text-sm tracking-wide text-primary-80";
   return React.createElement("div", {
-              className: ""
+              className: "px-4"
             }, React.createElement("div", {
-                  className: reTheme
+                  className: reTheme + " pb-12 mt-12 border-b border-night last:border-b-0 min-w-20"
                 }, React.createElement(Link.default, {
                       href: "/apis",
                       children: React.createElement("a", {
-                            className: "uppercase text-sm text-primary"
+                            className: overlineClass
                           }, Util.ReactStuff.s("Overview"))
                     })), React.createElement("div", {
-                  className: jsTheme
+                  className: jsTheme + " pb-12 mt-12 border-b border-night last:border-b-0 min-w-20"
                 }, React.createElement(Link.default, {
                       href: "/apis/javascript/latest",
                       children: React.createElement("a", {
-                            className: "uppercase tracking-wide text-sm text-primary font-black"
+                            className: overlineClass
                           }, Util.ReactStuff.s("JavaScript"))
-                    })));
+                    }), React.createElement("ul", {
+                      className: "flex flex-wrap mt-8 list-primary list-inside max-w-md"
+                    }, Util.ReactStuff.ate(Belt_Array.map(jsItems, (function (param) {
+                                var href = param[1];
+                                var active = route.startsWith(href);
+                                return React.createElement("li", {
+                                            className: "w-1/2 xs:w-1/3 h-10"
+                                          }, React.createElement(Link.default, {
+                                                href: href,
+                                                children: React.createElement("a", {
+                                                      className: active ? "text-primary-80" : ""
+                                                    }, Util.ReactStuff.s(param[0]))
+                                              }));
+                              }))))));
 }
 
-var ApisLinkSection = {
-  make: Navigation$SubNav$ApisLinkSection
+var ApiLinks = {
+  make: Navigation$SubNav$ApiLinks
 };
 
 var SubNav = {
-  DocsLinkSection: DocsLinkSection,
-  ApisLinkSection: ApisLinkSection
+  DocsLinks: DocsLinks,
+  ApiLinks: ApiLinks
 };
 
 function Navigation(Props) {
@@ -181,7 +207,9 @@ function Navigation(Props) {
                       "state"
                     ], [
                       "Docs",
-                      React.createElement(Navigation$SubNav$DocsLinkSection, { }),
+                      React.createElement(Navigation$SubNav$DocsLinks, {
+                            route: route
+                          }),
                       "/docs",
                       2
                     ]),
@@ -192,9 +220,11 @@ function Navigation(Props) {
                       "state"
                     ], [
                       "API",
-                      React.createElement(Navigation$SubNav$ApisLinkSection, { }),
+                      React.createElement(Navigation$SubNav$ApiLinks, {
+                            route: route
+                          }),
                       "/apis",
-                      2
+                      0
                     ])
                 ];
         }));
@@ -242,7 +272,7 @@ function Navigation(Props) {
                                 })))), React.createElement("div", {
                       className: "flex sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative"
                     }, React.createElement("div", {
-                          className: "flex justify-between w-2/4 sm:w-full max-w-sm",
+                          className: "flex justify-between w-2/4 xs:w-3/4 sm:w-full max-w-sm",
                           style: {
                             minWidth: "12rem"
                           }
@@ -299,7 +329,7 @@ function Navigation(Props) {
                                   }))), React.createElement(Link.default, {
                               href: "/try",
                               children: React.createElement("a", {
-                                    className: "hidden sm:block " + linkOrActiveLink("/try", route)
+                                    className: "hidden xs:block " + linkOrActiveLink("/try", route)
                                   }, Util.ReactStuff.s("Playground"))
                             }), React.createElement(Link.default, {
                               href: "/blog",

@@ -80,7 +80,7 @@ module CollapsibleLink = {
       <div
         className={
           (isOpen ? "block" : "hidden")
-          ++ " fixed left-0 mt-4 border-night border-t bg-night-dark w-full h-full sm:h-16"
+          ++ " fixed left-0 mt-4 border-night border-t bg-night-dark min-w-20 w-full h-full sm:h-auto"
         }>
         children
       </div>
@@ -147,16 +147,16 @@ type collapsible = {
 };
 
 module SubNav = {
-  module DocsLinkSection = {
+  module DocsLinks = {
     [@react.component]
-    let make = () => {
-      <div> "Docs Items"->s </div>;
+    let make = (~route: string) => {
+      <div> "Docsi Items"->s </div>;
     };
   };
 
-  module ApisLinkSection = {
+  module ApiLinks = {
     [@react.component]
-    let make = () => {
+    let make = (~route: string) => {
       let jsTheme = ColorTheme.toCN(`Js);
       let reTheme = ColorTheme.toCN(`Reason);
 
@@ -165,19 +165,35 @@ module SubNav = {
         ("Js Module", "/apis/javascript/latest/js"),
       |];
 
-      <div className="">
-        <div className=reTheme>
+      let sectionClass = "pb-12 mt-12 border-b border-night last:border-b-0 min-w-20";
+      let overlineClass = "font-black uppercase text-sm tracking-wide text-primary-80";
+
+      let sectionUl = "flex flex-wrap mt-8 list-primary list-inside max-w-md";
+
+      <div className="px-4">
+        <div className={reTheme ++ " " ++ sectionClass}>
           <Link href="/apis">
-            <a className="uppercase text-sm text-primary"> "Overview"->s </a>
+            <a className=overlineClass> "Overview"->s </a>
           </Link>
         </div>
-        <div className=jsTheme>
+        <div className={jsTheme ++ " " ++ sectionClass}>
           <Link href="/apis/javascript/latest">
-            <a
-              className="uppercase tracking-wide text-sm text-primary font-black">
-              "JavaScript"->s
-            </a>
+            <a className=overlineClass> "JavaScript"->s </a>
           </Link>
+          <ul className=sectionUl>
+            {jsItems
+             ->Belt.Array.map(((title, href)) => {
+                 let active = {Js.String2.startsWith(route, href)};
+                 <li className="w-1/2 xs:w-1/3 h-10">
+                   <Link href>
+                     <a className={active ? "text-primary-80" : ""}>
+                       title->s
+                     </a>
+                   </Link>
+                 </li>;
+               })
+             ->ate}
+          </ul>
         </div>
       </div>;
     };
@@ -195,14 +211,14 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
         {
           title: "Docs",
           href: "/docs",
-          children: <SubNav.DocsLinkSection />,
-          state: Closed,
+          children: <SubNav.DocsLinks route />,
+          state: Closed // TODO: Set back to Closed
         },
         {
           title: "API",
           href: "/apis",
-          children: <SubNav.ApisLinkSection />,
-          state: Closed // TODO: Set back to Closed
+          children: <SubNav.ApiLinks route />,
+          state: KeepOpen,
         },
       |]
     );
@@ -247,7 +263,7 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
       <div
         className="flex sm:justify-between bg-night-dark w-10/12 sm:w-9/12 sm:h-auto sm:relative">
         <div
-          className="flex justify-between w-2/4 sm:w-full max-w-sm"
+          className="flex justify-between w-2/4 xs:w-3/4 sm:w-full max-w-sm"
           style={Style.make(~minWidth="12rem", ())}>
           <button
             className="sm:hidden px-4 flex items-center justify-center h-full">
@@ -287,7 +303,7 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
           <Link href="/try">
             <a
               className={
-                "hidden sm:block " ++ linkOrActiveLink(~target="/try", ~route)
+                "hidden xs:block " ++ linkOrActiveLink(~target="/try", ~route)
               }>
               "Playground"->s
             </a>

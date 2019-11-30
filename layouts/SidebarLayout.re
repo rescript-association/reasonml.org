@@ -192,7 +192,7 @@ module Sidebar = {
              let hidden = isHidden ? "hidden" : "block";
              let active =
                isItemActive(m)
-                 ? {j| bg-primary-5 text-primary-dark rounded -ml-2 px-2 font-bold block |j}
+                 ? {j| bg-primary-15 text-primary-dark rounded -ml-2 px-2 font-bold block |j}
                  : "";
              <li
                key={m.name}
@@ -245,7 +245,7 @@ module Sidebar = {
              m => {
                let active =
                  isItemActive(m)
-                   ? {j| bg-primary-5 text-primary-dark -ml-1 px-2 font-bold block |j}
+                   ? {j| bg-primary-15 text-primary-dark -ml-1 px-2 font-bold block |j}
                    : "";
                <li
                  key={m.name}
@@ -317,7 +317,7 @@ module Sidebar = {
       <aside
         className="relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-24"
         style={Style.make(~top="3rem", ())}>
-        <div className="bg-primary-5"> children </div>
+        <div className="bg-primary-15"> children </div>
         /* Firefox ignores padding in scroll containers, so we need margin
              to make a bottom gap for the sidebar.
              See https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
