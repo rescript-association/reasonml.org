@@ -229,12 +229,12 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
     className="fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base">
     <div
       className="flex justify-between pl-4 items-center h-full w-full max-w-xl">
-      <div className="lg:mb-3 h-8 w-8 lg:w-20">
+      <div className="h-8 w-8 md:w-20 md:mb-3 ">
         <a href="/">
           <picture>
             <source
               srcSet="/static/reason_logo_full.svg"
-              media="(min-width: 992px)"
+              media="(min-width: 768px)"
             />
             <img
               className="h-8 w-auto inline-block"

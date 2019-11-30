@@ -230,11 +230,11 @@ function Navigation(Props) {
             }, React.createElement("div", {
                   className: "flex justify-between pl-4 items-center h-full w-full max-w-xl"
                 }, React.createElement("div", {
-                      className: "lg:mb-3 h-8 w-8 lg:w-20"
+                      className: "h-8 w-8 md:w-20 md:mb-3 "
                     }, React.createElement("a", {
                           href: "/"
                         }, React.createElement("picture", undefined, React.createElement("source", {
-                                  media: "(min-width: 992px)",
+                                  media: "(min-width: 768px)",
                                   srcSet: "/static/reason_logo_full.svg"
                                 }), React.createElement("img", {
                                   className: "h-8 w-auto inline-block",
