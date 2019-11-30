@@ -212,13 +212,13 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
           title: "Docs",
           href: "/docs",
           children: <SubNav.DocsLinks route />,
-          state: Closed // TODO: Set back to Closed
+          state: Closed,
         },
         {
           title: "API",
           href: "/apis",
           children: <SubNav.ApiLinks route />,
-          state: KeepOpen,
+          state: Closed,
         },
       |]
     );
