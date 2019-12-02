@@ -67,9 +67,11 @@ function Navigation$CollapsibleLink(Props) {
                               direction: direction
                             })))), React.createElement("div", {
                   className: (
-                    isOpen ? "block" : "hidden"
-                  ) + " fixed left-0 mt-4 border-night border-t bg-night-dark min-w-20 w-full h-full sm:h-auto"
-                }, children));
+                    isOpen ? "flex" : "hidden"
+                  ) + " fixed left-0 mt-4 border-night border-t bg-night-dark min-w-20 w-full h-full sm:h-auto sm:justify-center"
+                }, React.createElement("div", {
+                      className: "max-w-xl w-full"
+                    }, children)));
 }
 
 var CollapsibleLink = {
@@ -148,32 +150,33 @@ function Navigation$SubNav$ApiLinks(Props) {
   ];
   var overlineClass = "font-black uppercase text-sm tracking-wide text-primary-80";
   return React.createElement("div", {
-              className: "px-4"
+              className: "lg:flex lg:flex-row px-4 max-w-xl"
             }, React.createElement("div", {
-                  className: reTheme + " pb-12 mt-12 border-b border-night last:border-b-0 min-w-20"
+                  className: reTheme + " pb-12 mt-12 border-b border-night last:border-b-0 lg:w-1/4"
                 }, React.createElement(Link.default, {
                       href: "/apis",
                       children: React.createElement("a", {
                             className: overlineClass
                           }, Util.ReactStuff.s("Overview"))
                     })), React.createElement("div", {
-                  className: jsTheme + " pb-12 mt-12 border-b border-night last:border-b-0 min-w-20"
+                  className: jsTheme + " pb-12 mt-12 border-b border-night last:border-b-0 lg:w-1/4"
                 }, React.createElement(Link.default, {
                       href: "/apis/javascript/latest",
                       children: React.createElement("a", {
                             className: overlineClass
                           }, Util.ReactStuff.s("JavaScript"))
                     }), React.createElement("ul", {
-                      className: "flex flex-wrap mt-8 list-primary list-inside max-w-md"
+                      className: "flex flex-wrap mt-8 list-primary list-inside lg:w-auto max-w-md"
                     }, Util.ReactStuff.ate(Belt_Array.map(jsItems, (function (param) {
                                 var href = param[1];
-                                var active = route.startsWith(href);
+                                var match = route.startsWith(href);
+                                var active = match ? "text-primary-80 hover:text-primary" : "";
                                 return React.createElement("li", {
-                                            className: "w-1/2 xs:w-1/3 h-10"
+                                            className: "w-1/2 xs:w-1/2 h-10"
                                           }, React.createElement(Link.default, {
                                                 href: href,
                                                 children: React.createElement("a", {
-                                                      className: active ? "text-primary-80" : ""
+                                                      className: "text-white-80 hover:text-white hover:cursor-pointer " + active
                                                     }, Util.ReactStuff.s(param[0]))
                                               }));
                               }))))));

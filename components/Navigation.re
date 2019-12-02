@@ -79,10 +79,10 @@ module CollapsibleLink = {
       </div>
       <div
         className={
-          (isOpen ? "block" : "hidden")
-          ++ " fixed left-0 mt-4 border-night border-t bg-night-dark min-w-20 w-full h-full sm:h-auto"
+          (isOpen ? "flex" : "hidden")
+          ++ " fixed left-0 mt-4 border-night border-t bg-night-dark min-w-20 w-full h-full sm:h-auto sm:justify-center"
         }>
-        children
+        <div className="max-w-xl w-full"> children </div>
       </div>
     </div>;
   };
@@ -163,14 +163,16 @@ module SubNav = {
       let jsItems = [|
         ("Belt Stdlib", "/apis/javascript/latest/belt"),
         ("Js Module", "/apis/javascript/latest/js"),
+        /*("Module 3", "/apis/javascript/latest/mod3"),*/
+        /*("Module 4", "/apis/javascript/latest/mod4"),*/
       |];
 
-      let sectionClass = "pb-12 mt-12 border-b border-night last:border-b-0 min-w-20";
+      let sectionClass = "pb-12 mt-12 border-b border-night last:border-b-0 lg:w-1/4";
       let overlineClass = "font-black uppercase text-sm tracking-wide text-primary-80";
 
-      let sectionUl = "flex flex-wrap mt-8 list-primary list-inside max-w-md";
+      let sectionUl = "flex flex-wrap mt-8 list-primary list-inside lg:w-auto max-w-md";
 
-      <div className="px-4">
+      <div className="lg:flex lg:flex-row px-4 max-w-xl">
         <div className={reTheme ++ " " ++ sectionClass}>
           <Link href="/apis">
             <a className=overlineClass> "Overview"->s </a>
@@ -183,10 +185,10 @@ module SubNav = {
           <ul className=sectionUl>
             {jsItems
              ->Belt.Array.map(((title, href)) => {
-                 let active = {Js.String2.startsWith(route, href)};
-                 <li className="w-1/2 xs:w-1/3 h-10">
+                 let active = Js.String2.startsWith(route, href) ? "text-primary-80 hover:text-primary" : "";
+                 <li className="w-1/2 xs:w-1/2 h-10">
                    <Link href>
-                     <a className={active ? "text-primary-80" : ""}>
+                     <a className={"text-white-80 hover:text-white hover:cursor-pointer " ++ active}>
                        title->s
                      </a>
                    </Link>
