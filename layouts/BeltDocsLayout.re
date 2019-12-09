@@ -143,20 +143,41 @@ module Docs = {
         ->getWithDefault("?")
       );
 
+    /*
+       Example URL decomposed in ToplevelNav properties:
+       ---
+              parentModule  ---|          |-currentModule
+                               v          v
+       apis/javascript/latest/belt/mutable-map-int
+     */
+    let urlPath = Sidebar.UrlPath.parse(~base="/apis/javascript", route);
+
+    let toplevelNav =
+      switch (urlPath) {
+      | Some(urlPath) =>
+        open Sidebar;
+        let version = UrlPath.(urlPath.version);
+        let title = urlPath.current->Belt.Option.map(UrlPath.prettyString);
+        let backHref = Some(UrlPath.fullUpLink(urlPath));
+        <Sidebar.ToplevelNav ?title version ?backHref />;
+      | None => React.null
+      };
+
     // Todo: We need to introduce router state to be able to
     //       listen to anchor changes (#get, #map,...)
-    let collapsibleSection =
+    let preludeSection =
       route !== "/apis/javascript/latest/belt"
-        ? <Sidebar.CollapsibleSection headers moduleName /> : React.null;
+        ? <> toplevelNav <Sidebar.CollapsibleSection headers moduleName /> </>
+        : toplevelNav;
 
     let sidebar =
       <Sidebar
         categories
         route={
           router##route;
-        }>
-        collapsibleSection
-      </Sidebar>;
+        }
+        preludeSection
+      />;
 
     <SidebarLayout
       theme=`Js

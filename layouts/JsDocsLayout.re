@@ -183,7 +183,7 @@ module Docs = {
 
     // Todo: We need to introduce router state to be able to
     //       listen to anchor changes (#get, #map,...)
-    let collapsibleSection =
+    let preludeSection =
       route !== "/apis/javascript/latest/js"
         ? <Sidebar.CollapsibleSection headers moduleName /> : React.null;
 
@@ -192,9 +192,9 @@ module Docs = {
         categories
         route={
           router##route;
-        }>
-        collapsibleSection
-      </Sidebar>;
+        }
+        preludeSection
+      />;
 
     <SidebarLayout
       theme=`Js

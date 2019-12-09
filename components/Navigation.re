@@ -184,11 +184,19 @@ module SubNav = {
           </Link>
           <ul className=sectionUl>
             {jsItems
-             ->Belt.Array.map(((title, href)) => {
-                 let active = Js.String2.startsWith(route, href) ? "text-primary-80 hover:text-primary" : "";
-                 <li className="w-1/2 xs:w-1/2 h-10">
+             ->Belt.Array.mapWithIndex((idx, (title, href)) => {
+                 let active =
+                   Js.String2.startsWith(route, href)
+                     ? "text-primary-80 hover:text-primary" : "";
+                 <li
+                   className="w-1/2 xs:w-1/2 h-10"
+                   key={Belt.Int.toString(idx)}>
                    <Link href>
-                     <a className={"text-white-80 hover:text-white hover:cursor-pointer " ++ active}>
+                     <a
+                       className={
+                         "text-white-80 hover:text-white hover:cursor-pointer "
+                         ++ active
+                       }>
                        title->s
                      </a>
                    </Link>
@@ -202,7 +210,7 @@ module SubNav = {
   };
 };
 
-/* isOpen: if the mobile overlay is toggled open */
+/* isOverlayOpen: if the mobile overlay is toggled open */
 [@react.component]
 let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
   let minWidth = "20rem";
@@ -244,7 +252,7 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
     ref={ReactDOMRe.Ref.domRef(outerRef)}
     id="header"
     style={Style.make(~minWidth, ())}
-    className="fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base">
+    className="fixed flex justify-center z-20 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base">
     <div
       className="flex justify-between pl-4 items-center h-full w-full max-w-xl">
       <div className="h-8 w-8 md:w-20 md:mb-3 ">

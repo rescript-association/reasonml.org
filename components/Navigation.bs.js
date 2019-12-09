@@ -167,11 +167,12 @@ function Navigation$SubNav$ApiLinks(Props) {
                           }, Util.ReactStuff.s("JavaScript"))
                     }), React.createElement("ul", {
                       className: "flex flex-wrap mt-8 list-primary list-inside lg:w-auto max-w-md"
-                    }, Util.ReactStuff.ate(Belt_Array.map(jsItems, (function (param) {
+                    }, Util.ReactStuff.ate(Belt_Array.mapWithIndex(jsItems, (function (idx, param) {
                                 var href = param[1];
                                 var match = route.startsWith(href);
                                 var active = match ? "text-primary-80 hover:text-primary" : "";
                                 return React.createElement("li", {
+                                            key: String(idx),
                                             className: "w-1/2 xs:w-1/2 h-10"
                                           }, React.createElement(Link.default, {
                                                 href: href,
@@ -255,7 +256,7 @@ function Navigation(Props) {
   var allowHover = windowWidth !== undefined ? windowWidth > 576 : true;
   return React.createElement("nav", {
               ref: outerRef,
-              className: "fixed flex justify-center z-10 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base",
+              className: "fixed flex justify-center z-20 top-0 w-full h-16 bg-night-dark shadow text-white-80 text-base",
               id: "header",
               style: {
                 minWidth: minWidth

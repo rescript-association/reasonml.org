@@ -79,7 +79,7 @@ module.exports = {
           dark: "var(--color-text-primary-dark)",
           default: "var(--color-text-primary)",
           light: "var(--color-text-primary-light)",
-          "15": "var(--color-text-primary-5)",
+          "15": "var(--color-text-primary-15)",
           "40": "var(--color-text-primary-40)",
           "80": "var(--color-text-primary-80)"
         },
@@ -89,6 +89,9 @@ module.exports = {
       },
       minWidth: {
         "20": "20rem"
+      },
+      inset: {
+        '16': "4rem",
       }
     },
     screens: {
@@ -186,6 +189,7 @@ module.exports = {
     width: ["responsive"],
     border: ["hover", "responsive"],
     borderWidth: ["last"],
+    inset: ["responsive"],
     padding: ["hover", "responsive"]
   },
   plugins: []

@@ -1,6 +1,8 @@
 
 
+import * as Tag from "../components/Tag.bs.js";
 import * as Icon from "../components/Icon.bs.js";
+import * as Meta from "../components/Meta.bs.js";
 import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
@@ -9,6 +11,7 @@ import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
 import * as Navigation from "../components/Navigation.bs.js";
+import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as React$1 from "@mdx-js/react";
 import * as Caml_chrome_debugger from "bs-platform/lib/es6/caml_chrome_debugger.js";
@@ -217,6 +220,17 @@ var ProseMd = {
   components: components$1
 };
 
+function SidebarLayout$Sidebar$Title(Props) {
+  var children = Props.children;
+  return React.createElement("div", {
+              className: "font-sans font-black text-night-dark text-xl mt-5"
+            }, children);
+}
+
+var Title = {
+  make: SidebarLayout$Sidebar$Title
+};
+
 function SidebarLayout$Sidebar$NavItem(Props) {
   var match = Props.isItemActive;
   var isItemActive = match !== undefined ? match : (function (_nav) {
@@ -230,7 +244,7 @@ function SidebarLayout$Sidebar$NavItem(Props) {
             }, Util.ReactStuff.ate(Belt_Array.map(items, (function (m) {
                         var hidden = isHidden ? "hidden" : "block";
                         var match = Curry._1(isItemActive, m);
-                        var active = match ? " bg-primary-15 text-primary-dark rounded -ml-2 px-2 font-bold block " : "";
+                        var active = match ? " bg-primary-15 text-primary-dark rounded -mx-2 px-2 font-bold block " : "";
                         return React.createElement("li", {
                                     key: m[/* name */0],
                                     className: hidden + " leading-5 w-4/5",
@@ -238,7 +252,7 @@ function SidebarLayout$Sidebar$NavItem(Props) {
                                   }, React.createElement(Link.default, {
                                         href: m[/* href */1],
                                         children: React.createElement("a", {
-                                              className: "block text-night hover:text-primary " + active
+                                              className: "block h-8 md:h-auto text-night hover:text-primary " + active
                                             }, Util.ReactStuff.s(m[/* name */0]))
                                       }));
                       }))));
@@ -259,14 +273,96 @@ function SidebarLayout$Sidebar$Category(Props) {
   }
   return React.createElement("div", {
               key: category[/* name */0],
-              className: "my-12 pl-10"
-            }, React.createElement($$Text.Overline.make, {
+              className: "my-12"
+            }, React.createElement(SidebarLayout$Sidebar$Title, {
                   children: Util.ReactStuff.s(category[/* name */0])
                 }), React.createElement(SidebarLayout$Sidebar$NavItem, tmp));
 }
 
 var Category = {
   make: SidebarLayout$Sidebar$Category
+};
+
+function parse(base, route) {
+  var allPaths = route.replace(base + "/", "").split("/");
+  console.log(allPaths);
+  var total = allPaths.length;
+  if (total < 2) {
+    return ;
+  } else {
+    var version = Belt_Array.getExn(allPaths, 0);
+    var match = allPaths.slice(-2, total);
+    var match$1;
+    if (match.length !== 2) {
+      match$1 = /* tuple */[
+        undefined,
+        undefined
+      ];
+    } else {
+      var up = match[0];
+      var current = match[1];
+      var match$2 = up === version;
+      var up$1 = match$2 ? undefined : up;
+      match$1 = /* tuple */[
+        up$1,
+        current
+      ];
+    }
+    var relPaths = allPaths.slice(1, -2);
+    return /* record */Caml_chrome_debugger.record([
+              "base",
+              "version",
+              "relPaths",
+              "up",
+              "current"
+            ], [
+              base,
+              version,
+              relPaths,
+              match$1[0],
+              match$1[1]
+            ]);
+  }
+}
+
+function prettyString(str) {
+  return Util.$$String.capitalize(Util.$$String.camelCase(str));
+}
+
+function fullUpLink(urlPath) {
+  return urlPath[/* base */0] + ("/" + (urlPath[/* version */1] + Belt_Option.mapWithDefault(urlPath[/* up */3], "", (function (str) {
+                    return "/" + str;
+                  }))));
+}
+
+var UrlPath = {
+  parse: parse,
+  prettyString: prettyString,
+  fullUpLink: fullUpLink
+};
+
+function SidebarLayout$Sidebar$ToplevelNav(Props) {
+  var match = Props.title;
+  var title = match !== undefined ? match : "";
+  var backHref = Props.backHref;
+  var version = Props.version;
+  var back = backHref !== undefined ? React.createElement(Link.default, {
+          href: backHref,
+          children: React.createElement("a", undefined, Util.ReactStuff.s("<-"))
+        }) : null;
+  var versionTag = version !== undefined ? React.createElement(Tag.make, {
+          children: version,
+          kind: /* Subtle */-828367219
+        }) : null;
+  return React.createElement("div", {
+              className: "flex"
+            }, back, React.createElement(SidebarLayout$Sidebar$Title, {
+                  children: Util.ReactStuff.s(title)
+                }), versionTag);
+}
+
+var ToplevelNav = {
+  make: SidebarLayout$Sidebar$ToplevelNav
 };
 
 function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
@@ -276,7 +372,7 @@ function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
       });
   var items = Props.items;
   return React.createElement("ul", {
-              className: "mt-2 text-night"
+              className: "mt-3 text-night"
             }, Util.ReactStuff.ate(Belt_Array.map(items, (function (m) {
                         var match = Curry._1(isItemActive, m);
                         var active = match ? " bg-primary-15 text-primary-dark -ml-1 px-2 font-bold block " : "";
@@ -285,7 +381,7 @@ function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
                                     className: "leading-5 w-4/5",
                                     tabIndex: 0
                                   }, React.createElement("a", {
-                                        className: "block pl-3 border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" + active,
+                                        className: "block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" + active,
                                         href: m[/* href */1]
                                       }, Util.ReactStuff.s(m[/* name */0])));
                       }))));
@@ -327,24 +423,22 @@ function SidebarLayout$Sidebar$CollapsibleSection(Props) {
     tmp = React.createElement(SidebarLayout$Sidebar$CollapsibleSection$NavUl, tmp$1);
   }
   return React.createElement("div", {
-              className: "py-8 pl-10 pr-4 border-b border-snow-dark"
-            }, React.createElement($$Text.Overline.make, {
-                  children: React.createElement("a", {
-                        className: "flex justify-between items-center cursor-pointer text-primary hover:text-primary font-overpass font-black text-night-dark text-xl",
-                        href: "#",
-                        onClick: (function (evt) {
-                            evt.preventDefault();
-                            return Curry._1(setCollapsed, (function (isCollapsed) {
-                                          return !isCollapsed;
-                                        }));
-                          })
-                      }, Util.ReactStuff.s(moduleName), React.createElement("span", {
-                            className: "ml-2 block text-primary"
-                          }, React.createElement(Icon.Caret.make, {
-                                size: /* Md */17271,
-                                direction: direction
-                              })))
-                }), tmp);
+              className: "py-3 px-3 bg-primary-15 rounded-lg"
+            }, React.createElement("a", {
+                  className: "flex justify-between items-center cursor-pointer text-primary hover:text-primary text-night-dark text-base",
+                  href: "#",
+                  onClick: (function (evt) {
+                      evt.preventDefault();
+                      return Curry._1(setCollapsed, (function (isCollapsed) {
+                                    return !isCollapsed;
+                                  }));
+                    })
+                }, Util.ReactStuff.s(moduleName), React.createElement("span", {
+                      className: "ml-2 block text-primary"
+                    }, React.createElement(Icon.Caret.make, {
+                          size: /* Md */17271,
+                          direction: direction
+                        }))), tmp);
 }
 
 var CollapsibleSection = {
@@ -352,42 +446,68 @@ var CollapsibleSection = {
   make: SidebarLayout$Sidebar$CollapsibleSection
 };
 
+function SidebarLayout$Sidebar$MobileNavButton(Props) {
+  var hidden = Props.hidden;
+  var onClick = Props.onClick;
+  return React.createElement("button", {
+              className: (
+                hidden ? "hidden" : "md:hidden"
+              ) + " bg-primary rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8",
+              onMouseDown: onClick
+            });
+}
+
+var MobileNavButton = {
+  make: SidebarLayout$Sidebar$MobileNavButton
+};
+
 function SidebarLayout$Sidebar(Props) {
   var categories = Props.categories;
   var route = Props.route;
-  var match = Props.children;
-  var children = match !== undefined ? Caml_option.valFromOption(match) : null;
+  var match = Props.preludeSection;
+  var preludeSection = match !== undefined ? Caml_option.valFromOption(match) : null;
   var isItemActive = function (navItem) {
     return navItem[/* href */1] === route;
   };
-  return React.createElement("div", {
-              className: "flex w-64 h-auto overflow-y-visible block bg-white-80",
-              style: {
-                maxWidth: "17.5rem"
-              }
-            }, React.createElement("aside", {
-                  className: "relative w-full sticky border-r border-snow-dark h-screen block overflow-y-auto scrolling-touch pb-24",
-                  style: {
-                    top: "3rem"
-                  }
-                }, React.createElement("div", {
-                      className: "bg-primary-15"
-                    }, children), React.createElement("div", {
-                      className: "mb-56"
-                    }, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
-                                return React.createElement("div", {
-                                            key: category[/* name */0]
-                                          }, React.createElement(SidebarLayout$Sidebar$Category, {
-                                                isItemActive: isItemActive,
-                                                category: category
-                                              }));
-                              }))))));
+  var match$1 = React.useState((function () {
+          return true;
+        }));
+  var setIsOpen = match$1[1];
+  var isOpen = match$1[0];
+  return React.createElement(React.Fragment, undefined, React.createElement("div", {
+                  className: (
+                    isOpen ? "fixed z-10" : "hidden"
+                  ) + " h-auto w-full overflow-y-visible bg-white md:relative md:block md:w-1/4 md:bg-white-80"
+                }, React.createElement("aside", {
+                      className: "relative top-0 px-4 w-full block md:sticky md:top-16 border-r border-snow-dark h-screen overflow-y-auto scrolling-touch pb-24"
+                    }, React.createElement("div", undefined, preludeSection), React.createElement("div", {
+                          className: "mb-56"
+                        }, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
+                                    return React.createElement("div", {
+                                                key: category[/* name */0]
+                                              }, React.createElement(SidebarLayout$Sidebar$Category, {
+                                                    isItemActive: isItemActive,
+                                                    category: category
+                                                  }));
+                                  })))))), React.createElement(SidebarLayout$Sidebar$MobileNavButton, {
+                  hidden: isOpen,
+                  onClick: (function (evt) {
+                      evt.preventDefault();
+                      return Curry._1(setIsOpen, (function (prev) {
+                                    return !prev;
+                                  }));
+                    })
+                }));
 }
 
 var Sidebar = {
+  Title: Title,
   NavItem: NavItem,
   Category: Category,
+  UrlPath: UrlPath,
+  ToplevelNav: ToplevelNav,
   CollapsibleSection: CollapsibleSection,
+  MobileNavButton: MobileNavButton,
   make: SidebarLayout$Sidebar
 };
 
@@ -403,30 +523,32 @@ function SidebarLayout(Props) {
         }));
   var setIsOpen = match$1[1];
   var theme$1 = ColorTheme.toCN(theme);
-  var minWidth = {
-    minWidth: "20rem"
-  };
-  return React.createElement("div", undefined, React.createElement("div", {
-                  className: "max-w-4xl w-full " + theme$1,
-                  style: minWidth
-                }, React.createElement(Navigation.make, {
-                      isOverlayOpen: match$1[0],
-                      toggle: (function (param) {
-                          return Curry._1(setIsOpen, (function (prev) {
-                                        return !prev;
-                                      }));
-                        }),
-                      route: route
-                    }), React.createElement("div", {
-                      className: "flex mt-12"
-                    }, sidebar, React.createElement("main", {
-                          className: "pt-12 w-4/5 static min-h-screen overflow-visible"
-                        }, React.createElement(React$1.MDXProvider, {
-                              components: components$2,
-                              children: React.createElement("div", {
-                                    className: "pl-8 max-w-md mb-32 text-lg"
-                                  }, children)
-                            })))));
+  return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
+                  className: "mt-16 " + theme$1
+                }, React.createElement("div", {
+                      className: "w-full text-night font-base"
+                    }, React.createElement(Navigation.make, {
+                          isOverlayOpen: match$1[0],
+                          toggle: (function (param) {
+                              return Curry._1(setIsOpen, (function (prev) {
+                                            return !prev;
+                                          }));
+                            }),
+                          route: route
+                        }), React.createElement("div", {
+                          className: "flex justify-center"
+                        }, React.createElement("div", {
+                              className: "min-w-20 lg:align-center w-full max-w-xl"
+                            }, React.createElement(React$1.MDXProvider, {
+                                  components: components$2,
+                                  children: React.createElement("div", {
+                                        className: "flex"
+                                      }, sidebar, React.createElement("div", {
+                                            className: "flex justify-center md:w-3/4"
+                                          }, React.createElement("main", {
+                                                className: "w-5/6 pt-8 mb-32 text-lg"
+                                              }, children)))
+                                }))))));
 }
 
 var Link$1 = 0;

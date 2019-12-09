@@ -413,14 +413,14 @@ function JsDocsLayout$Docs(Props) {
               return data.moduleName;
             })), "?");
   var match$1 = route !== "/apis/javascript/latest/js";
-  var collapsibleSection = match$1 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
+  var preludeSection = match$1 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
           headers: headers,
           moduleName: moduleName
         }) : null;
   var sidebar = React.createElement(SidebarLayout.Sidebar.make, {
         categories: categories,
         route: router.route,
-        children: collapsibleSection
+        preludeSection: preludeSection
       });
   return React.createElement(SidebarLayout.make, {
               theme: /* Js */16617,
