@@ -145,9 +145,11 @@ module Sidebar = {
                // to make non-interactive elements (like div, span or li) tab-able
                // see https://developer.mozilla.org/en-US/docs/Web/Accessibility/Keyboard-navigable_JavaScript_widgets
                tabIndex=0>
-               <a href={m.href} className={{j|hover:text-t-primary|j} ++ active}>
-                 m.name->s
-               </a>
+               <Link href={m.href}>
+                 <a className={{j|hover:text-t-primary|j} ++ active}>
+                   m.name->s
+                 </a>
+               </Link>
              </li>;
            },
          )
