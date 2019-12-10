@@ -56,7 +56,7 @@ function Navigation(Props) {
                   href: "https://github.com/reason-association/reasonml.org",
                   rel: "noopener noreferrer",
                   target: "_blank"
-                }, Util.ReactStuff.s("Github")));
+                }, Util.ReactStuff.s("GitHub")));
 }
 
 function Navigation$ApiDocs(Props) {
@@ -97,7 +97,7 @@ function Navigation$ApiDocs(Props) {
                       href: "https://github.com/reason-association/reasonml.org",
                       rel: "noopener noreferrer",
                       target: "_blank"
-                    }, Util.ReactStuff.s("Github")), versionInfo !== undefined ? React.createElement("a", {
+                    }, Util.ReactStuff.s("GitHub")), versionInfo !== undefined ? React.createElement("a", {
                         className: "bg-light-grey-20 leading-normal ml-6 px-1 rounded text-light-grey text-xs",
                         href: "https://github.com/BuckleScript/bucklescript/releases",
                         rel: "noopener noreferrer",
