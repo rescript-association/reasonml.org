@@ -320,7 +320,7 @@ function SidebarLayout$Sidebar$NavItem(Props) {
                                   }, React.createElement(Link.default, {
                                         href: m[/* href */1],
                                         children: React.createElement("a", {
-                                              className: "block h-8 md:h-auto text-night hover:text-primary " + active
+                                              className: "truncate block h-8 md:h-auto text-night hover:text-primary " + active
                                             }, Util.ReactStuff.s(m[/* name */0]))
                                       }));
                       }))));
@@ -400,7 +400,7 @@ function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
                                     className: "leading-5 w-4/5",
                                     tabIndex: 0
                                   }, React.createElement("a", {
-                                        className: "block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" + active,
+                                        className: "truncate block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" + active,
                                         href: m[/* href */1],
                                         onClick: onItemClick
                                       }, Util.ReactStuff.s(m[/* name */0])));

@@ -281,7 +281,7 @@ module Sidebar = {
                <Link href={m.href}>
                  <a
                    className={
-                     "block h-8 md:h-auto text-night hover:text-primary "
+                     "truncate block h-8 md:h-auto text-night hover:text-primary "
                      ++ active
                    }>
                    m.name->s
@@ -375,7 +375,7 @@ module Sidebar = {
                    href={m.href}
                    onClick=onItemClick
                    className={
-                     "block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark"
+                     "truncate block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark"
                      ++ active
                    }>
                    m.name->s
