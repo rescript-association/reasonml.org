@@ -220,6 +220,74 @@ var ProseMd = {
   components: components$1
 };
 
+function parse(base, route) {
+  var allPaths = route.replace(base + "/", "").split("/");
+  var total = allPaths.length;
+  if (total < 2) {
+    return ;
+  } else {
+    var version = Belt_Array.getExn(allPaths, 0);
+    var match = allPaths.slice(-2, total);
+    var match$1;
+    if (match.length !== 2) {
+      match$1 = /* tuple */[
+        undefined,
+        undefined
+      ];
+    } else {
+      var up = match[0];
+      var current = match[1];
+      var match$2 = up === version;
+      var up$1 = match$2 ? undefined : up;
+      match$1 = /* tuple */[
+        up$1,
+        current
+      ];
+    }
+    var relPaths = allPaths.slice(1, -2);
+    return /* record */Caml_chrome_debugger.record([
+              "base",
+              "version",
+              "relPaths",
+              "up",
+              "current"
+            ], [
+              base,
+              version,
+              relPaths,
+              match$1[0],
+              match$1[1]
+            ]);
+  }
+}
+
+function prettyString(str) {
+  return Util.$$String.capitalize(Util.$$String.camelCase(str));
+}
+
+function fullUpLink(urlPath) {
+  return urlPath[/* base */0] + ("/" + (urlPath[/* version */1] + Belt_Option.mapWithDefault(urlPath[/* up */3], "", (function (str) {
+                    return "/" + str;
+                  }))));
+}
+
+var UrlPath = {
+  parse: parse,
+  prettyString: prettyString,
+  fullUpLink: fullUpLink
+};
+
+function SidebarLayout$BreadCrumbs(Props) {
+  Props.base;
+  Props.version;
+  Props.relPaths;
+  return React.createElement("div", undefined);
+}
+
+var BreadCrumbs = {
+  make: SidebarLayout$BreadCrumbs
+};
+
 function SidebarLayout$Sidebar$Title(Props) {
   var children = Props.children;
   return React.createElement("div", {
@@ -283,64 +351,6 @@ var Category = {
   make: SidebarLayout$Sidebar$Category
 };
 
-function parse(base, route) {
-  var allPaths = route.replace(base + "/", "").split("/");
-  console.log(allPaths);
-  var total = allPaths.length;
-  if (total < 2) {
-    return ;
-  } else {
-    var version = Belt_Array.getExn(allPaths, 0);
-    var match = allPaths.slice(-2, total);
-    var match$1;
-    if (match.length !== 2) {
-      match$1 = /* tuple */[
-        undefined,
-        undefined
-      ];
-    } else {
-      var up = match[0];
-      var current = match[1];
-      var match$2 = up === version;
-      var up$1 = match$2 ? undefined : up;
-      match$1 = /* tuple */[
-        up$1,
-        current
-      ];
-    }
-    var relPaths = allPaths.slice(1, -2);
-    return /* record */Caml_chrome_debugger.record([
-              "base",
-              "version",
-              "relPaths",
-              "up",
-              "current"
-            ], [
-              base,
-              version,
-              relPaths,
-              match$1[0],
-              match$1[1]
-            ]);
-  }
-}
-
-function prettyString(str) {
-  return Util.$$String.capitalize(Util.$$String.camelCase(str));
-}
-
-function fullUpLink(urlPath) {
-  return urlPath[/* base */0] + ("/" + (urlPath[/* version */1] + Belt_Option.mapWithDefault(urlPath[/* up */3], "", (function (str) {
-                    return "/" + str;
-                  }))));
-}
-
-var UrlPath = {
-  parse: parse,
-  prettyString: prettyString,
-  fullUpLink: fullUpLink
-};
-
 function SidebarLayout$Sidebar$ToplevelNav(Props) {
   var match = Props.title;
   var title = match !== undefined ? match : "";
@@ -348,17 +358,25 @@ function SidebarLayout$Sidebar$ToplevelNav(Props) {
   var version = Props.version;
   var back = backHref !== undefined ? React.createElement(Link.default, {
           href: backHref,
-          children: React.createElement("a", undefined, Util.ReactStuff.s("<-"))
+          children: React.createElement("a", {
+                className: "w-5 h-5"
+              }, React.createElement(Icon.CornerLeftUp.make, {
+                    className: "w-full h-full"
+                  }))
         }) : null;
   var versionTag = version !== undefined ? React.createElement(Tag.make, {
-          children: version,
+          text: version,
           kind: /* Subtle */-828367219
         }) : null;
   return React.createElement("div", {
-              className: "flex"
-            }, back, React.createElement(SidebarLayout$Sidebar$Title, {
-                  children: Util.ReactStuff.s(title)
-                }), versionTag);
+              className: "flex items-center justify-between my-4 w-full"
+            }, React.createElement("div", {
+                  className: "flex items-center w-2/3"
+                }, back, React.createElement("span", {
+                      className: "ml-2 font-sans font-black text-night-dark text-xl"
+                    }, Util.ReactStuff.s(title))), React.createElement("div", {
+                  className: "ml-auto"
+                }, versionTag));
 }
 
 var ToplevelNav = {
@@ -366,6 +384,7 @@ var ToplevelNav = {
 };
 
 function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
+  var onItemClick = Props.onItemClick;
   var match = Props.isItemActive;
   var isItemActive = match !== undefined ? match : (function (_nav) {
         return false;
@@ -382,7 +401,8 @@ function SidebarLayout$Sidebar$CollapsibleSection$NavUl(Props) {
                                     tabIndex: 0
                                   }, React.createElement("a", {
                                         className: "block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark" + active,
-                                        href: m[/* href */1]
+                                        href: m[/* href */1],
+                                        onClick: onItemClick
                                       }, Util.ReactStuff.s(m[/* name */0])));
                       }))));
 }
@@ -392,6 +412,7 @@ var NavUl = {
 };
 
 function SidebarLayout$Sidebar$CollapsibleSection(Props) {
+  var onHeaderClick = Props.onHeaderClick;
   var isItemActive = Props.isItemActive;
   var headers = Props.headers;
   var moduleName = Props.moduleName;
@@ -415,6 +436,7 @@ function SidebarLayout$Sidebar$CollapsibleSection(Props) {
     tmp = null;
   } else {
     var tmp$1 = {
+      onItemClick: onHeaderClick,
       items: items
     };
     if (isItemActive !== undefined) {
@@ -451,10 +473,10 @@ function SidebarLayout$Sidebar$MobileNavButton(Props) {
   var onClick = Props.onClick;
   return React.createElement("button", {
               className: (
-                hidden ? "hidden" : "md:hidden"
-              ) + " bg-primary rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8",
+                hidden ? "hidden" : ""
+              ) + " md:hidden flex justify-center block shadow-md bg-primary text-snow hover:text-white rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8",
               onMouseDown: onClick
-            });
+            }, React.createElement(Icon.Table.make, { }));
 }
 
 var MobileNavButton = {
@@ -464,23 +486,35 @@ var MobileNavButton = {
 function SidebarLayout$Sidebar(Props) {
   var categories = Props.categories;
   var route = Props.route;
-  var match = Props.preludeSection;
-  var preludeSection = match !== undefined ? Caml_option.valFromOption(match) : null;
+  var match = Props.toplevelNav;
+  var toplevelNav = match !== undefined ? Caml_option.valFromOption(match) : null;
+  var match$1 = Props.preludeSection;
+  var preludeSection = match$1 !== undefined ? Caml_option.valFromOption(match$1) : null;
+  var isOpen = Props.isOpen;
+  var toggle = Props.toggle;
   var isItemActive = function (navItem) {
     return navItem[/* href */1] === route;
   };
-  var match$1 = React.useState((function () {
-          return true;
-        }));
-  var setIsOpen = match$1[1];
-  var isOpen = match$1[0];
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   className: (
-                    isOpen ? "fixed z-10" : "hidden"
-                  ) + " h-auto w-full overflow-y-visible bg-white md:relative md:block md:w-1/4 md:bg-white-80"
+                    isOpen ? "fixed w-full left-0 h-full z-10 min-w-20" : "hidden "
+                  ) + " md:block md:w-1/4 md:h-auto md:relative overflow-y-visible bg-white md:relative"
                 }, React.createElement("aside", {
-                      className: "relative top-0 px-4 w-full block md:sticky md:top-16 border-r border-snow-dark h-screen overflow-y-auto scrolling-touch pb-24"
-                    }, React.createElement("div", undefined, preludeSection), React.createElement("div", {
+                      className: "relative top-0 px-4 w-full block md:top-16 md:sticky border-r border-snow-dark overflow-y-auto scrolling-touch pb-24",
+                      style: {
+                        height: "calc(100vh - 4rem"
+                      }
+                    }, React.createElement("div", {
+                          className: "flex justify-between"
+                        }, React.createElement("div", {
+                              className: "w-3/4 md:w-full"
+                            }, toplevelNav), React.createElement("button", {
+                              className: "md:hidden",
+                              onClick: (function (evt) {
+                                  evt.preventDefault();
+                                  return Curry._1(toggle, /* () */0);
+                                })
+                            }, React.createElement(Icon.Close.make, { }))), preludeSection, React.createElement("div", {
                           className: "mb-56"
                         }, Util.ReactStuff.ate(Belt_Array.map(categories, (function (category) {
                                     return React.createElement("div", {
@@ -493,9 +527,7 @@ function SidebarLayout$Sidebar(Props) {
                   hidden: isOpen,
                   onClick: (function (evt) {
                       evt.preventDefault();
-                      return Curry._1(setIsOpen, (function (prev) {
-                                    return !prev;
-                                  }));
+                      return Curry._1(toggle, /* () */0);
                     })
                 }));
 }
@@ -504,7 +536,6 @@ var Sidebar = {
   Title: Title,
   NavItem: NavItem,
   Category: Category,
-  UrlPath: UrlPath,
   ToplevelNav: ToplevelNav,
   CollapsibleSection: CollapsibleSection,
   MobileNavButton: MobileNavButton,
@@ -544,7 +575,7 @@ function SidebarLayout(Props) {
                                   children: React.createElement("div", {
                                         className: "flex"
                                       }, sidebar, React.createElement("div", {
-                                            className: "flex justify-center md:w-3/4"
+                                            className: "flex justify-center w-full md:w-3/4 "
                                           }, React.createElement("main", {
                                                 className: "w-5/6 pt-8 mb-32 text-lg"
                                               }, children)))
@@ -559,6 +590,8 @@ export {
   Link$1 as Link,
   ApiMd ,
   ProseMd ,
+  UrlPath ,
+  BreadCrumbs ,
   Sidebar ,
   make ,
   

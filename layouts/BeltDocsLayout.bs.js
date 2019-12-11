@@ -349,19 +349,25 @@ function BeltDocsLayout$Docs(Props) {
   var moduleName = Belt_Option.getWithDefault(Belt_Option.map(Js_dict.get(indexData, route), (function (data) {
               return data.moduleName;
             })), "?");
-  var urlPath = Curry._2(SidebarLayout.Sidebar.UrlPath.parse, "/apis/javascript", route);
+  var match$1 = React.useState((function () {
+          return false;
+        }));
+  var setSidebarOpen = match$1[1];
+  var toggleSidebar = function (param) {
+    return Curry._1(setSidebarOpen, (function (prev) {
+                  return !prev;
+                }));
+  };
+  var urlPath = SidebarLayout.UrlPath.parse("/apis/javascript", route);
   var toplevelNav;
   if (urlPath !== undefined) {
     var urlPath$1 = urlPath;
     var version = urlPath$1[/* version */1];
-    var title = Belt_Option.map(urlPath$1[/* current */4], SidebarLayout.Sidebar.UrlPath.prettyString);
-    var backHref = Curry._1(SidebarLayout.Sidebar.UrlPath.fullUpLink, urlPath$1);
+    var backHref = SidebarLayout.UrlPath.fullUpLink(urlPath$1);
     var tmp = {
+      title: "Belt",
       version: version
     };
-    if (title !== undefined) {
-      tmp.title = Caml_option.valFromOption(title);
-    }
     if (backHref !== undefined) {
       tmp.backHref = Caml_option.valFromOption(backHref);
     }
@@ -369,15 +375,23 @@ function BeltDocsLayout$Docs(Props) {
   } else {
     toplevelNav = null;
   }
-  var match$1 = route !== "/apis/javascript/latest/belt";
-  var preludeSection = match$1 ? React.createElement(React.Fragment, undefined, toplevelNav, React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
-              headers: headers,
-              moduleName: moduleName
-            })) : toplevelNav;
+  var match$2 = route !== "/apis/javascript/latest/belt";
+  var preludeSection = match$2 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
+          onHeaderClick: (function (param) {
+              return Curry._1(setSidebarOpen, (function (param) {
+                            return false;
+                          }));
+            }),
+          headers: headers,
+          moduleName: moduleName
+        }) : null;
   var sidebar = React.createElement(SidebarLayout.Sidebar.make, {
         categories: categories,
         route: router.route,
-        preludeSection: preludeSection
+        toplevelNav: toplevelNav,
+        preludeSection: preludeSection,
+        isOpen: match$1[0],
+        toggle: toggleSidebar
       });
   return React.createElement(SidebarLayout.make, {
               theme: /* Js */16617,
@@ -408,6 +422,8 @@ var Link = 0;
 
 var Sidebar = 0;
 
+var UrlPath = 0;
+
 var NavItem = 0;
 
 var Category = 0;
@@ -417,6 +433,7 @@ export {
   indexData ,
   $$package ,
   Sidebar ,
+  UrlPath ,
   NavItem ,
   Category ,
   overviewNavs ,

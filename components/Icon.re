@@ -1,3 +1,5 @@
+open Util.ReactStuff;
+
 module Github = {
   [@react.component]
   let make = (~className: string) => {
@@ -111,6 +113,71 @@ module DrawerDots = {
       <circle cx="2" cy="2" r="2" />
       <circle cx="2" cy="2" r="2" transform="translate(9)" />
       <circle cx="2" cy="2" r="2" transform="translate(18)" />
+    </svg>;
+  };
+};
+
+module CornerLeftUp = {
+  [@react.component]
+  let make = (~className: string=?) => {
+    <svg
+      className={"stroke-current " ++ className}
+      width="18.414"
+      height="18"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2px">
+      <path d="M11.414 6l-5-5-5 5" />
+      <path d="M17.414 17h-7a4 4 0 01-4-4V1" />
+    </svg>;
+  };
+};
+
+module Table = {
+  [@react.component]
+  let make = (~className: string=?) => {
+    <svg className={"stroke-current " ++ className} width="25" height="23">
+      <defs>
+        <style>
+          ".prefix__a,.prefix__b,.prefix__d{fill:none}.prefix__a,.prefix__b{stroke-width:1.5px}.prefix__c{stroke:none}"
+          ->s
+        </style>
+      </defs>
+      <g className="prefix__a">
+        <rect className="prefix__c" width="10" height="23" rx="2" />
+        <rect
+          className="prefix__d"
+          x="0.75"
+          y="0.75"
+          width="8.5"
+          height="21.5"
+          rx="1.25"
+        />
+      </g>
+      <g className="prefix__a">
+        <rect className="prefix__c" width="25" height="23" rx="2" />
+        <rect
+          className="prefix__d"
+          x="0.75"
+          y="0.75"
+          width="23.5"
+          height="21.5"
+          rx="1.25"
+        />
+      </g>
+      <path className="prefix__b" d="M2.5 6.5h5M2.5 10.5h5" />
+    </svg>;
+  };
+};
+
+module Close = {
+  [@react.component]
+  let make = (~className: string=?) => {
+    <svg
+      className={"fill-current " ++ className} width="12.728" height="12.728">
+      <path d="M12.728 11.313l-1.414 1.414L0 1.414 1.414-.001z" />
+      <path d="M11.314 0l1.414 1.414L1.415 12.728 0 11.314z" />
     </svg>;
   };
 };

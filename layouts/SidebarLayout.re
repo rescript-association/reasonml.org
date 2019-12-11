@@ -171,6 +171,75 @@ module ProseMd = {
     );
 };
 
+module UrlPath = {
+  /*
+      Example base: /apis/javascript
+      Example route: /apis/javascript/latest/belt/something/mutable-map-int
+
+      would parse into following `t`:
+      {
+       base: "/apis/javascript",
+       version: "latest",
+       relPaths: [|"something"|],
+       up: Some("belt"),
+       current: "mutable-map-int"
+      }
+   */
+  type t = {
+    base: string,
+    version: string,
+    relPaths: array(string),
+    up: option(string),
+    current: option(string),
+  };
+
+  let parse = (~base: string, route: string): option(t) => {
+    let allPaths =
+      Js.String2.replace(route, base ++ "/", "")->Js.String2.split("/");
+
+    let total = Belt.Array.length(allPaths);
+    if (total < 2) {
+      None;
+    } else {
+      let version = Belt.Array.getExn(allPaths, 0);
+      let (up, current) =
+        switch (Js.Array2.slice(allPaths, ~end_=total, ~start=-2)) {
+        | [|up, current|] =>
+          let up = up === version ? None : Some(up);
+          (up, Some(current));
+        | _ => (None, None)
+        };
+
+      let relPaths = Js.Array.slice(allPaths, ~start=1, ~end_=-2);
+
+      Some({base, relPaths, version, up, current});
+    };
+  };
+
+  /* Beautifies current titles from the url representation */
+  let prettyString = (str: string) => {
+    Util.String.(str->camelCase->capitalize);
+  };
+
+  let fullUpLink = (urlPath: t): string => {
+    let {base, up, version} = urlPath;
+    base
+    ++ "/"
+    ++ version
+    ++ up->Belt.Option.mapWithDefault("", str => "/" ++ str);
+  };
+  /*let toBreadCrumbHrefs = (urlPath: t): array(string) => {*/
+  /*};*/
+};
+
+module BreadCrumbs = {
+  // See UrlPath for more details on the parameters
+  [@react.component]
+  let make = (~base: string, ~version: string, ~relPaths: array(string)) => {
+    <div />;
+  };
+};
+
 module Sidebar = {
   module Title = {
     [@react.component]
@@ -241,82 +310,35 @@ module Sidebar = {
     };
   };
 
-  module UrlPath = {
-    /*
-        Example base: /apis/javascript
-        Example route: /apis/javascript/latest/belt/something/mutable-map-int
-
-        would parse into following `t`:
-        {
-         base: "/apis/javascript/latest",
-         version: "latest",
-         relPaths: [|"something"|],
-         up: Some("belt"),
-         current: "mutable-map-int"
-        }
-     */
-    type t = {
-      base: string,
-      version: string,
-      relPaths: array(string),
-      up: option(string),
-      current: option(string),
-    };
-
-    let parse = (~base: string, route: string): option(t) => {
-      let allPaths =
-        Js.String2.replace(route, base ++ "/", "")->Js.String2.split("/");
-
-      Js.log(allPaths);
-      let total = Belt.Array.length(allPaths);
-      if (total < 2) {
-        None;
-      } else {
-        let version = Belt.Array.getExn(allPaths, 0);
-        let (up, current) =
-          switch (Js.Array2.slice(allPaths, ~end_=total, ~start=-2)) {
-          | [|up, current|] =>
-            let up = up === version ? None : Some(up);
-            (up, Some(current));
-          | _ => (None, None)
-          };
-
-        let relPaths = Js.Array.slice(allPaths, ~start=1, ~end_=-2);
-
-        Some({base, relPaths, version, up, current});
-      };
-    };
-
-    /* Beautifies current titles from the url representation */
-    let prettyString = (str: string) => {
-      Util.String.(str->camelCase->capitalize);
-    };
-
-    let fullUpLink = (urlPath: t): string => {
-      let {base, up, version} = urlPath;
-      base
-      ++ "/"
-      ++ version
-      ++ up->Belt.Option.mapWithDefault("", str => "/" ++ str);
-    };
-  };
-
   module ToplevelNav = {
     [@react.component]
     let make = (~title="", ~backHref=?, ~version=?) => {
       let back =
         switch (backHref) {
-        | Some(href) => <Link href> <a> "<-"->s </a> </Link>
+        | Some(href) =>
+          <Link href>
+            <a className="w-5 h-5">
+              <Icon.CornerLeftUp className="w-full h-full" />
+            </a>
+          </Link>
         | None => React.null
         };
 
       let versionTag =
         switch (version) {
-        | Some(version) => <Tag kind=`Subtle> version </Tag>
+        | Some(version) => <Tag kind=`Subtle text=version />
         | None => React.null
         };
 
-      <div className="flex"> back <Title> title->s </Title> versionTag </div>;
+      <div className="flex items-center justify-between my-4 w-full">
+        <div className="flex items-center w-2/3">
+          back
+          <span className="ml-2 font-sans font-black text-night-dark text-xl">
+            title->s
+          </span>
+        </div>
+        <div className="ml-auto"> versionTag </div>
+      </div>;
     };
   };
 
@@ -329,7 +351,12 @@ module Sidebar = {
       };
 
       [@react.component]
-      let make = (~isItemActive: t => bool=_nav => false, ~items: array(t)) => {
+      let make =
+          (
+            ~onItemClick: ReactEvent.Mouse.t => unit=?,
+            ~isItemActive: t => bool=_nav => false,
+            ~items: array(t),
+          ) => {
         <ul className="mt-3 text-night">
           {Belt.Array.map(
              items,
@@ -346,6 +373,7 @@ module Sidebar = {
                  tabIndex=0>
                  <a
                    href={m.href}
+                   onClick=onItemClick
                    className={
                      "block pl-3 h-8 md:h-auto border-l-2 border-night-10 block text-night hover:pl-4 hover:text-night-dark"
                      ++ active
@@ -361,7 +389,12 @@ module Sidebar = {
     };
     [@react.component]
     let make =
-        (~isItemActive=?, ~headers: array(string), ~moduleName: string) => {
+        (
+          ~onHeaderClick: ReactEvent.Mouse.t => unit=?,
+          ~isItemActive=?,
+          ~headers: array(string),
+          ~moduleName: string,
+        ) => {
       let (collapsed, setCollapsed) = React.useState(() => false);
       let items =
         Belt.Array.map(headers, header =>
@@ -384,7 +417,7 @@ module Sidebar = {
           </span>
         </a>
         {if (!collapsed) {
-           <NavUl ?isItemActive items />;
+           <NavUl ?isItemActive onItemClick=onHeaderClick items />;
          } else {
            React.null;
          }}
@@ -397,11 +430,12 @@ module Sidebar = {
     let make = (~hidden: bool, ~onClick) => {
       <button
         className={
-          (hidden ? "hidden" : "md:hidden")
-          ++ " bg-primary rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8"
+          (hidden ? "hidden" : "")
+          ++ " md:hidden flex justify-center block shadow-md bg-primary text-snow hover:text-white rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8"
         }
-        onMouseDown=onClick
-      />;
+        onMouseDown=onClick>
+        <Icon.Table />
+      </button>;
     };
   };
 
@@ -411,24 +445,36 @@ module Sidebar = {
       (
         ~categories: array(Category.t),
         ~route: string,
+        ~toplevelNav=React.null,
         ~preludeSection=React.null,
+        ~isOpen: bool,
+        ~toggle: unit => unit,
       ) => {
     let isItemActive = (navItem: NavItem.t) => {
       navItem.href === route;
     };
 
-    /* Used for mobile sidebar navigation */
-    let (isOpen, setIsOpen) = React.useState(() => true);
-
     <>
       <div
         className={
-          (isOpen ? "fixed z-10" : "hidden")
-          ++ " h-auto w-full overflow-y-visible bg-white md:relative md:block md:w-1/4 md:bg-white-80"
+          (isOpen ? "fixed w-full left-0 h-full z-10 min-w-20" : "hidden ")
+          ++ " md:block md:w-1/4 md:h-auto md:relative overflow-y-visible bg-white md:relative"
         }>
         <aside
-          className="relative top-0 px-4 w-full block md:sticky md:top-16 border-r border-snow-dark h-screen overflow-y-auto scrolling-touch pb-24">
-          <div> preludeSection </div>
+          className="relative top-0 px-4 w-full block md:top-16 md:sticky border-r border-snow-dark overflow-y-auto scrolling-touch pb-24"
+          style={Style.make(~height="calc(100vh - 4rem", ())}>
+          <div className="flex justify-between">
+            <div className="w-3/4 md:w-full"> toplevelNav </div>
+            <button
+              onClick={evt => {
+                ReactEvent.Mouse.preventDefault(evt);
+                toggle();
+              }}
+              className="md:hidden">
+              <Icon.Close />
+            </button>
+          </div>
+          preludeSection
           /* Firefox ignores padding in scroll containers, so we need margin
                to make a bottom gap for the sidebar.
                See https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
@@ -448,13 +494,17 @@ module Sidebar = {
         hidden=isOpen
         onClick={evt => {
           ReactEvent.Mouse.preventDefault(evt);
-          setIsOpen(prev => !prev);
+          toggle();
         }}
       />
     </>;
   };
 };
 
+/*
+    sidebarOpen: shows if sidebar is open for mobile view
+    toggleSidebar: toggles sidebar for mobile view
+ */
 [@react.component]
 let make =
     (
@@ -482,7 +532,7 @@ let make =
             <Mdx.Provider components>
               <div className="flex">
                 sidebar
-                <div className="flex justify-center md:w-3/4">
+                <div className="flex justify-center w-full md:w-3/4 ">
                   <main className="w-5/6 pt-8 mb-32 text-lg"> children </main>
                 </div>
               </div>

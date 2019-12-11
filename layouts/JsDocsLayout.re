@@ -26,6 +26,7 @@ let package: {. "dependencies": {. "bs-platform": string}} = [%raw
 ];
 
 module Sidebar = SidebarLayout.Sidebar;
+module UrlPath = SidebarLayout.UrlPath;
 module NavItem = Sidebar.NavItem;
 module Category = Sidebar.Category;
 
@@ -181,6 +182,19 @@ module Docs = {
         ->getWithDefault("?")
       );
 
+    let (isSidebarOpen, setSidebarOpen) = React.useState(_ => false);
+    let toggleSidebar = () => setSidebarOpen(prev => !prev);
+    let urlPath = UrlPath.parse(~base="/apis/javascript", route);
+
+    let toplevelNav =
+      switch (urlPath) {
+      | Some(urlPath) =>
+        let version = UrlPath.(urlPath.version);
+        let backHref = Some(UrlPath.fullUpLink(urlPath));
+        <Sidebar.ToplevelNav title="Js Module" version ?backHref />;
+      | None => React.null
+      };
+
     // Todo: We need to introduce router state to be able to
     //       listen to anchor changes (#get, #map,...)
     let preludeSection =
@@ -189,11 +203,14 @@ module Docs = {
 
     let sidebar =
       <Sidebar
+        isOpen=isSidebarOpen
+        toggle=toggleSidebar
         categories
         route={
           router##route;
         }
         preludeSection
+        toplevelNav
       />;
 
     <SidebarLayout

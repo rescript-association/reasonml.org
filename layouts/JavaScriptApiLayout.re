@@ -34,8 +34,13 @@ module Docs = {
       },
     |];
 
+    let (isSidebarOpen, setSidebarOpen) = React.useState(_ => false);
+    let toggleSidebar = () => setSidebarOpen(prev => !prev);
+
     let sidebar =
       <Sidebar
+        isOpen=isSidebarOpen
+        toggle=toggleSidebar
         categories
         route={
           router##route;

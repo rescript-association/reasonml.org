@@ -42,7 +42,8 @@ module.exports = {
           dark: "#0A0D2F",
           default: "#3E4057",
           light: "#727489",
-          "10": "rgba(62, 64, 87, 0.10)"
+          "10": "rgba(62, 64, 87, 0.10)",
+          "60": "rgba(62, 64, 87, 0.60)"
         },
         snow: {
           dark: "#EAEBED",

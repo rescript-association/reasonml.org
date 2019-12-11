@@ -1,5 +1,6 @@
 
 
+import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
@@ -412,15 +413,44 @@ function JsDocsLayout$Docs(Props) {
   var moduleName = Belt_Option.getWithDefault(Belt_Option.map(Js_dict.get(indexData, route), (function (data) {
               return data.moduleName;
             })), "?");
-  var match$1 = route !== "/apis/javascript/latest/js";
-  var preludeSection = match$1 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
+  var match$1 = React.useState((function () {
+          return false;
+        }));
+  var setSidebarOpen = match$1[1];
+  var toggleSidebar = function (param) {
+    return Curry._1(setSidebarOpen, (function (prev) {
+                  return !prev;
+                }));
+  };
+  var urlPath = SidebarLayout.UrlPath.parse("/apis/javascript", route);
+  var toplevelNav;
+  if (urlPath !== undefined) {
+    var urlPath$1 = urlPath;
+    var version = urlPath$1[/* version */1];
+    var backHref = SidebarLayout.UrlPath.fullUpLink(urlPath$1);
+    var tmp = {
+      title: "Js Module",
+      version: version
+    };
+    if (backHref !== undefined) {
+      tmp.backHref = Caml_option.valFromOption(backHref);
+    }
+    toplevelNav = React.createElement(SidebarLayout.Sidebar.ToplevelNav.make, tmp);
+  } else {
+    toplevelNav = null;
+  }
+  var match$2 = route !== "/apis/javascript/latest/js";
+  var preludeSection = match$2 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
           headers: headers,
           moduleName: moduleName
         }) : null;
   var sidebar = React.createElement(SidebarLayout.Sidebar.make, {
         categories: categories,
         route: router.route,
-        preludeSection: preludeSection
+        toplevelNav: toplevelNav,
+        preludeSection: preludeSection,
+        isOpen: match$1[0],
+        toggle: toggleSidebar
       });
   return React.createElement(SidebarLayout.make, {
               theme: /* Js */16617,
@@ -451,6 +481,8 @@ var Link = 0;
 
 var Sidebar = 0;
 
+var UrlPath = 0;
+
 var NavItem = 0;
 
 var Category = 0;
@@ -460,6 +492,7 @@ export {
   indexData ,
   $$package ,
   Sidebar ,
+  UrlPath ,
   NavItem ,
   Category ,
   overviewNavs ,

@@ -26,6 +26,7 @@ let package: {. "dependencies": {. "bs-platform": string}} = [%raw
 ];
 
 module Sidebar = SidebarLayout.Sidebar;
+module UrlPath = SidebarLayout.UrlPath;
 module NavItem = Sidebar.NavItem;
 module Category = Sidebar.Category;
 
@@ -143,23 +144,17 @@ module Docs = {
         ->getWithDefault("?")
       );
 
-    /*
-       Example URL decomposed in ToplevelNav properties:
-       ---
-              parentModule  ---|          |-currentModule
-                               v          v
-       apis/javascript/latest/belt/mutable-map-int
-     */
-    let urlPath = Sidebar.UrlPath.parse(~base="/apis/javascript", route);
+    let (isSidebarOpen, setSidebarOpen) = React.useState(_ => false);
+    let toggleSidebar = () => setSidebarOpen(prev => !prev);
+
+    let urlPath = UrlPath.parse(~base="/apis/javascript", route);
 
     let toplevelNav =
       switch (urlPath) {
       | Some(urlPath) =>
-        open Sidebar;
         let version = UrlPath.(urlPath.version);
-        let title = urlPath.current->Belt.Option.map(UrlPath.prettyString);
         let backHref = Some(UrlPath.fullUpLink(urlPath));
-        <Sidebar.ToplevelNav ?title version ?backHref />;
+        <Sidebar.ToplevelNav title="Belt" version ?backHref />;
       | None => React.null
       };
 
@@ -167,15 +162,22 @@ module Docs = {
     //       listen to anchor changes (#get, #map,...)
     let preludeSection =
       route !== "/apis/javascript/latest/belt"
-        ? <> toplevelNav <Sidebar.CollapsibleSection headers moduleName /> </>
-        : toplevelNav;
+        ? <Sidebar.CollapsibleSection
+            onHeaderClick={_ => setSidebarOpen(_ => false)}
+            headers
+            moduleName
+          />
+        : React.null;
 
     let sidebar =
       <Sidebar
+        isOpen=isSidebarOpen
+        toggle=toggleSidebar
         categories
         route={
           router##route;
         }
+        toplevelNav
         preludeSection
       />;
 

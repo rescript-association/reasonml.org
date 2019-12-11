@@ -1,5 +1,6 @@
 
 
+import * as Util from "../common/Util.bs.js";
 import * as React from "react";
 
 function Icon$Github(Props) {
@@ -134,6 +135,88 @@ var DrawerDots = {
   make: Icon$DrawerDots
 };
 
+function Icon$CornerLeftUp(Props) {
+  var className = Props.className;
+  return React.createElement("svg", {
+              className: "stroke-current " + className,
+              height: "18",
+              width: "18.414",
+              fill: "none",
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              strokeWidth: "2px"
+            }, React.createElement("path", {
+                  d: "M11.414 6l-5-5-5 5"
+                }), React.createElement("path", {
+                  d: "M17.414 17h-7a4 4 0 01-4-4V1"
+                }));
+}
+
+var CornerLeftUp = {
+  make: Icon$CornerLeftUp
+};
+
+function Icon$Table(Props) {
+  var className = Props.className;
+  return React.createElement("svg", {
+              className: "stroke-current " + className,
+              height: "23",
+              width: "25"
+            }, React.createElement("defs", undefined, React.createElement("style", undefined, Util.ReactStuff.s(".prefix__a,.prefix__b,.prefix__d{fill:none}.prefix__a,.prefix__b{stroke-width:1.5px}.prefix__c{stroke:none}"))), React.createElement("g", {
+                  className: "prefix__a"
+                }, React.createElement("rect", {
+                      className: "prefix__c",
+                      height: "23",
+                      width: "10",
+                      rx: "2"
+                    }), React.createElement("rect", {
+                      className: "prefix__d",
+                      height: "21.5",
+                      width: "8.5",
+                      rx: "1.25",
+                      x: "0.75",
+                      y: "0.75"
+                    })), React.createElement("g", {
+                  className: "prefix__a"
+                }, React.createElement("rect", {
+                      className: "prefix__c",
+                      height: "23",
+                      width: "25",
+                      rx: "2"
+                    }), React.createElement("rect", {
+                      className: "prefix__d",
+                      height: "21.5",
+                      width: "23.5",
+                      rx: "1.25",
+                      x: "0.75",
+                      y: "0.75"
+                    })), React.createElement("path", {
+                  className: "prefix__b",
+                  d: "M2.5 6.5h5M2.5 10.5h5"
+                }));
+}
+
+var Table = {
+  make: Icon$Table
+};
+
+function Icon$Close(Props) {
+  var className = Props.className;
+  return React.createElement("svg", {
+              className: "fill-current " + className,
+              height: "12.728",
+              width: "12.728"
+            }, React.createElement("path", {
+                  d: "M12.728 11.313l-1.414 1.414L0 1.414 1.414-.001z"
+                }), React.createElement("path", {
+                  d: "M11.314 0l1.414 1.414L1.415 12.728 0 11.314z"
+                }));
+}
+
+var Close = {
+  make: Icon$Close
+};
+
 export {
   Github ,
   Twitter ,
@@ -141,6 +224,9 @@ export {
   MagnifierGlass ,
   Caret ,
   DrawerDots ,
+  CornerLeftUp ,
+  Table ,
+  Close ,
   
 }
 /* react Not a pure module */

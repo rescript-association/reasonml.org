@@ -1,5 +1,6 @@
 
 
+import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
@@ -61,9 +62,20 @@ function JavaScriptApiLayout$Docs(Props) {
         ]
       ])
   ];
+  var match$1 = React.useState((function () {
+          return false;
+        }));
+  var setSidebarOpen = match$1[1];
+  var toggleSidebar = function (param) {
+    return Curry._1(setSidebarOpen, (function (prev) {
+                  return !prev;
+                }));
+  };
   var sidebar = React.createElement(SidebarLayout.Sidebar.make, {
         categories: categories,
-        route: router.route
+        route: router.route,
+        isOpen: match$1[0],
+        toggle: toggleSidebar
       });
   return React.createElement(SidebarLayout.make, {
               theme: /* Js */16617,
