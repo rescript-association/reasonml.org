@@ -555,7 +555,7 @@ function SidebarLayout(Props) {
   var setIsOpen = match$1[1];
   var theme$1 = ColorTheme.toCN(theme);
   return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
-                  className: "mt-16 " + theme$1
+                  className: "mt-16 min-w-20 " + theme$1
                 }, React.createElement("div", {
                       className: "w-full text-night font-base"
                     }, React.createElement(Navigation.make, {
@@ -569,7 +569,7 @@ function SidebarLayout(Props) {
                         }), React.createElement("div", {
                           className: "flex justify-center"
                         }, React.createElement("div", {
-                              className: "min-w-20 lg:align-center w-full max-w-xl"
+                              className: "lg:align-center w-full max-w-xl"
                             }, React.createElement(React$1.MDXProvider, {
                                   components: components$2,
                                   children: React.createElement("div", {

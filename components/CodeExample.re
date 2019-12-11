@@ -18,7 +18,7 @@ let make = (~code: string, ~lang) => {
     );
 
   <div
-    className="flex flex-col rounded-lg bg-night-dark py-3 px-3 mt-10 overflow-x-auto text-snow-dark">
+    className="flex flex-col -mx-8 xs:mx-0 rounded-none xs:rounded-lg bg-night-dark py-3 px-3 mt-10 overflow-x-auto text-snow-dark">
     <div
       className="font-montserrat text-sm mb-3 font-bold text-fire">
       {Js.String2.toUpperCase(lang)->s}

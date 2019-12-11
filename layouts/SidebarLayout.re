@@ -520,7 +520,7 @@ let make =
 
   <>
     <Meta />
-    <div className={"mt-16 " ++ theme}>
+    <div className={"mt-16 min-w-20 " ++ theme}>
       <div className="w-full text-night font-base">
         <Navigation
           isOverlayOpen=isOpen
@@ -528,7 +528,7 @@ let make =
           route
         />
         <div className="flex justify-center">
-          <div className="min-w-20 lg:align-center w-full max-w-xl">
+          <div className="lg:align-center w-full max-w-xl">
             <Mdx.Provider components>
               <div className="flex">
                 sidebar
