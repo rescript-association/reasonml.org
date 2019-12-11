@@ -199,7 +199,12 @@ module Docs = {
     //       listen to anchor changes (#get, #map,...)
     let preludeSection =
       route !== "/apis/javascript/latest/js"
-        ? <Sidebar.CollapsibleSection headers moduleName /> : React.null;
+        ? <Sidebar.CollapsibleSection
+            onHeaderClick={_ => setSidebarOpen(_ => false)}
+            headers
+            moduleName
+          />
+        : React.null;
 
     let sidebar =
       <Sidebar

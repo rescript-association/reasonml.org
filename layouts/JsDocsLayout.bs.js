@@ -441,6 +441,11 @@ function JsDocsLayout$Docs(Props) {
   }
   var match$2 = route !== "/apis/javascript/latest/js";
   var preludeSection = match$2 ? React.createElement(SidebarLayout.Sidebar.CollapsibleSection.make, {
+          onHeaderClick: (function (param) {
+              return Curry._1(setSidebarOpen, (function (param) {
+                            return false;
+                          }));
+            }),
           headers: headers,
           moduleName: moduleName
         }) : null;
