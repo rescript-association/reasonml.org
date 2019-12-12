@@ -84,6 +84,13 @@ module.exports = {
           "40": "var(--color-text-primary-40)",
           "80": "var(--color-text-primary-80)"
         },
+        code: {
+          "1": "#DE935F",
+          "2": "#81A2BE",
+          "3": "#60915F",
+          "4": "#999999",
+          "5": "#D1BC72",
+        },
         "light-grey": "rgba(245, 245, 245, 0.5)",
         "light-grey-20": "rgba(245, 245, 245, 0.2)",
         "ghost-white": "#F8F7F9"

@@ -16,11 +16,11 @@ function CodeExample(Props) {
         }
       }, /* array */[]);
   return React.createElement("div", {
-              className: "flex flex-col -mx-8 xs:mx-0 rounded-none xs:rounded-lg bg-night-dark py-3 px-3 mt-10 overflow-x-auto text-snow-dark"
+              className: "flex flex-col -mx-8 xs:mx-0 rounded-none xs:rounded-lg bg-night-dark py-3 px-3 mt-10 text-snow-dark"
             }, React.createElement("div", {
                   className: "font-montserrat text-sm mb-3 font-bold text-fire"
                 }, Util.ReactStuff.s(lang.toUpperCase())), React.createElement("div", {
-                  className: "pl-5 text-base pb-4"
+                  className: "pl-5 text-base pb-4 overflow-x-auto"
                 }, children));
 }
 

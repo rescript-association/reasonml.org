@@ -575,7 +575,7 @@ function SidebarLayout(Props) {
                                   children: React.createElement("div", {
                                         className: "flex"
                                       }, sidebar, React.createElement("div", {
-                                            className: "flex justify-center w-full md:w-3/4 "
+                                            className: "flex justify-center w-full md:w-3/4 overflow-hidden"
                                           }, React.createElement("main", {
                                                 className: "w-5/6 pt-8 mb-32 text-lg"
                                               }, children)))

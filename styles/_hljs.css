@@ -15,11 +15,11 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
 }
 
 .hljs-operator, .hljs-literal {
-  @apply text-fire
+  @apply text-code-5  
 }
 
 .hljs-comment {
-  color: #5c6e5a;
+  @apply text-code-4;
 }
 
 .hljs-selector-tag,
@@ -38,7 +38,7 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
 .hljs-number,
 .hljs-string,
 .hljs-doctag {
-  color: #38bcd5;
+  @apply text-code-2;
 }
 
 .hljs-selector-id,
@@ -111,10 +111,10 @@ Docco style used in http://jashkenas.github.com/docco/ converted by Simon Madine
   color: #50a14f;
 }
 .hljs-module-identifier {
-  color: #C732B8;
+  @apply text-berry;
 }
 .hljs-constructor {
-  color: #e45649;
+  @apply text-code-1;
 }
 
 /* purgecss end ignore */
