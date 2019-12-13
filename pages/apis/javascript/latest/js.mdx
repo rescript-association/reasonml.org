@@ -11,9 +11,14 @@ or the JavaScript
 [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 classes.
 
-When a correpsonding module is available in the [Belt](belt_docs) standard library,
+It is meant as a zero-abstraction interop layer and therefore directly exposes
+JavaScript functions as they are, even when their behavior should be considered unsafe
+(e.g. modifying an array in place using [Js.Array.push](/js_docs/array#push)).
+
+Therefore, when a correpsonding module is available in the [Belt](belt_docs) standard library,
 it is recommended to use the Belt version rather than the Js version.
-For example, you should prefer [Belt.Array](belt_docs/array) to [Js.Array](js_docs/array).
+For example, you should prefer [Belt.Array](belt_docs/array) to [Js.Array](js_docs/array)
+and [Belt.Map.String](http://localhost:3000/belt_docs/map-string) to [Js.Dict](/js_docs/dict).
 
 ## Argument Order
 
