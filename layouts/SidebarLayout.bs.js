@@ -567,7 +567,7 @@ function SidebarLayout$Sidebar(Props) {
                         }, React.createElement("div", {
                               className: "w-3/4 md:w-full"
                             }, toplevelNav), React.createElement("button", {
-                              className: "md:hidden",
+                              className: "md:hidden h-16",
                               onClick: (function (evt) {
                                   evt.preventDefault();
                                   return Curry._1(toggle, /* () */0);
