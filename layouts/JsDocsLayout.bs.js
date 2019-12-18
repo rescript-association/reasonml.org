@@ -423,6 +423,30 @@ function JsDocsLayout$Docs(Props) {
                 }));
   };
   var urlPath = SidebarLayout.UrlPath.parse("/apis/javascript", route);
+  var breadcrumbs = Belt_Option.map(urlPath, (function (v) {
+          var prefix_000 = /* record */Caml_chrome_debugger.record([
+              "name",
+              "href"
+            ], [
+              "API",
+              "/apis"
+            ]);
+          var prefix_001 = /* :: */Caml_chrome_debugger.simpleVariant("::", [
+              /* record */Caml_chrome_debugger.record([
+                  "name",
+                  "href"
+                ], [
+                  "JavaScript",
+                  "/apis/javascript/" + v[/* version */1]
+                ]),
+              /* [] */0
+            ]);
+          var prefix = /* :: */Caml_chrome_debugger.simpleVariant("::", [
+              prefix_000,
+              prefix_001
+            ]);
+          return SidebarLayout.UrlPath.toBreadCrumbs(prefix, v);
+        }));
   var toplevelNav;
   if (urlPath !== undefined) {
     var urlPath$1 = urlPath;
@@ -457,13 +481,17 @@ function JsDocsLayout$Docs(Props) {
         isOpen: match$1[0],
         toggle: toggleSidebar
       });
-  return React.createElement(SidebarLayout.make, {
-              theme: /* Js */16617,
-              components: components,
-              sidebar: sidebar,
-              route: router.route,
-              children: children
-            });
+  var tmp$1 = {
+    theme: /* Js */16617,
+    components: components,
+    sidebar: sidebar,
+    route: router.route,
+    children: children
+  };
+  if (breadcrumbs !== undefined) {
+    tmp$1.breadcrumbs = Caml_option.valFromOption(breadcrumbs);
+  }
+  return React.createElement(SidebarLayout.make, tmp$1);
 }
 
 var Docs = {

@@ -149,6 +149,20 @@ module Docs = {
 
     let urlPath = UrlPath.parse(~base="/apis/javascript", route);
 
+    let breadcrumbs =
+      Belt.Option.map(
+        urlPath,
+        v => {
+          let {UrlPath.version} = v;
+          let prefix =
+            UrlPath.[
+              {name: "API", href: "/apis"},
+              {name: "JavaScript", href: "/apis/javascript/" ++ version},
+            ];
+          UrlPath.toBreadCrumbs(~prefix, v);
+        },
+      );
+
     let toplevelNav =
       switch (urlPath) {
       | Some(urlPath) =>
@@ -185,6 +199,7 @@ module Docs = {
       theme=`Js
       components
       sidebar
+      ?breadcrumbs
       route={
         router##route;
       }>

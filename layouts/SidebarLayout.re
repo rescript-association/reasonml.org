@@ -228,15 +228,73 @@ module UrlPath = {
     ++ version
     ++ up->Belt.Option.mapWithDefault("", str => "/" ++ str);
   };
-  /*let toBreadCrumbHrefs = (urlPath: t): array(string) => {*/
-  /*};*/
+
+  type breadcrumb = {
+    name: string,
+    href: string,
+  };
+
+  /*
+      Example to represent:
+      Api / JavaScript / latest / Belt / Array
+
+      ~prefix=[{name: "API", href="apis"}, {name: "JavaScript", href="apis/javascript/latest"}]
+
+   */
+  let toBreadCrumbs =
+      (~prefix: list(breadcrumb)=[], urlPath: t): list(breadcrumb) => {
+    let {base, version, relPaths, up} = urlPath;
+
+    let upCrumb =
+      Belt.Option.mapWithDefault(up, [], up =>
+        [{name: prettyString(up), href: fullUpLink(urlPath)}]
+      );
+
+    let calculatedCrumbs =
+      Belt.List.(
+        concat(
+          fromArray(relPaths),
+          urlPath.current
+          ->Belt.Option.mapWithDefault([], current => [current]),
+        )
+        ->map(path => {
+            let upPath = Belt.Option.mapWithDefault(up, "", up => up ++ "/");
+            {
+              name: prettyString(path),
+              href: base ++ "/" ++ version ++ "/" ++ upPath ++ path,
+            };
+          })
+      );
+    Belt.List.(concatMany([|prefix, upCrumb, calculatedCrumbs|]));
+  };
 };
 
 module BreadCrumbs = {
   // See UrlPath for more details on the parameters
   [@react.component]
-  let make = (~base: string, ~version: string, ~relPaths: array(string)) => {
-    <div />;
+  let make = (~crumbs: list(UrlPath.breadcrumb)) => {
+    <div className="text-xs text-night mb-10">
+      {Belt.List.mapWithIndex(
+         crumbs,
+         (i, crumb) => {
+           let item =
+             if (i === Belt.List.length(crumbs) - 1) {
+               <span key={Belt.Int.toString(i)}> crumb.name->s </span>;
+             } else {
+               <Link key={Belt.Int.toString(i)} href={crumb.href}>
+                 <a> crumb.name->s </a>
+               </Link>;
+             };
+           if (i > 0) {
+             <span key={Belt.Int.toString(i)}> " / "->s item </span>;
+           } else {
+             item;
+           };
+         },
+       )
+       ->Belt.List.toArray
+       ->ate}
+    </div>;
   };
 };
 
@@ -459,7 +517,7 @@ module Sidebar = {
         className={
           (isOpen ? "fixed w-full left-0 h-full z-10 min-w-20" : "hidden ")
           ++ " md:block md:w-1/4 md:h-auto md:relative overflow-y-visible bg-white md:relative"
-        } >
+        }>
         <aside
           className="relative top-0 px-4 w-full block md:top-16 md:sticky border-r border-snow-dark overflow-y-auto scrolling-touch pb-24"
           style={Style.make(~height="calc(100vh - 4rem", ())}>
@@ -511,12 +569,18 @@ let make =
       ~theme: ColorTheme.t,
       ~components=ApiMd.components,
       ~sidebar: React.element,
+      ~breadcrumbs: option(list(UrlPath.breadcrumb))=?,
       ~route: string,
       ~children,
     ) => {
   let (isOpen, setIsOpen) = React.useState(() => false);
 
   let theme = ColorTheme.toCN(theme);
+
+  let breadcrumbs =
+    breadcrumbs->Belt.Option.mapWithDefault(React.null, crumbs =>
+      <BreadCrumbs crumbs />
+    );
 
   <>
     <Meta />
@@ -532,8 +596,12 @@ let make =
             <Mdx.Provider components>
               <div className="flex">
                 sidebar
-                <div className="flex justify-center w-full md:w-3/4 overflow-hidden">
-                  <main className="w-5/6 pt-8 mb-32 text-lg"> children </main>
+                <div
+                  className="flex justify-center w-full md:w-3/4 overflow-hidden">
+                  <main className="w-5/6 pt-8 mb-32 text-lg">
+                    breadcrumbs
+                    children
+                  </main>
                 </div>
               </div>
             </Mdx.Provider>

@@ -7,6 +7,7 @@ import * as $$Text from "../components/Text.bs.js";
 import * as Util from "../common/Util.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
+import * as Belt_List from "bs-platform/lib/es6/belt_List.js";
 import * as Link from "next/link";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as ColorTheme from "../common/ColorTheme.bs.js";
@@ -271,17 +272,74 @@ function fullUpLink(urlPath) {
                   }))));
 }
 
+function toBreadCrumbs($staropt$star, urlPath) {
+  var prefix = $staropt$star !== undefined ? $staropt$star : /* [] */0;
+  var up = urlPath[/* up */3];
+  var version = urlPath[/* version */1];
+  var base = urlPath[/* base */0];
+  var upCrumb = Belt_Option.mapWithDefault(up, /* [] */0, (function (up) {
+          return /* :: */Caml_chrome_debugger.simpleVariant("::", [
+                    /* record */Caml_chrome_debugger.record([
+                        "name",
+                        "href"
+                      ], [
+                        prettyString(up),
+                        fullUpLink(urlPath)
+                      ]),
+                    /* [] */0
+                  ]);
+        }));
+  var calculatedCrumbs = Belt_List.map(Belt_List.concat(Belt_List.fromArray(urlPath[/* relPaths */2]), Belt_Option.mapWithDefault(urlPath[/* current */4], /* [] */0, (function (current) {
+                  return /* :: */Caml_chrome_debugger.simpleVariant("::", [
+                            current,
+                            /* [] */0
+                          ]);
+                }))), (function (path) {
+          var upPath = Belt_Option.mapWithDefault(up, "", (function (up) {
+                  return up + "/";
+                }));
+          return /* record */Caml_chrome_debugger.record([
+                    "name",
+                    "href"
+                  ], [
+                    prettyString(path),
+                    base + ("/" + (version + ("/" + (upPath + path))))
+                  ]);
+        }));
+  return Belt_List.concatMany(/* array */[
+              prefix,
+              upCrumb,
+              calculatedCrumbs
+            ]);
+}
+
 var UrlPath = {
   parse: parse,
   prettyString: prettyString,
-  fullUpLink: fullUpLink
+  fullUpLink: fullUpLink,
+  toBreadCrumbs: toBreadCrumbs
 };
 
 function SidebarLayout$BreadCrumbs(Props) {
-  Props.base;
-  Props.version;
-  Props.relPaths;
-  return React.createElement("div", undefined);
+  var crumbs = Props.crumbs;
+  return React.createElement("div", {
+              className: "text-xs text-night mb-10"
+            }, Util.ReactStuff.ate(Belt_List.toArray(Belt_List.mapWithIndex(crumbs, (function (i, crumb) {
+                            var item = i === (Belt_List.length(crumbs) - 1 | 0) ? React.createElement("span", {
+                                    key: String(i)
+                                  }, Util.ReactStuff.s(crumb[/* name */0])) : React.createElement(Link.default, {
+                                    href: crumb[/* href */1],
+                                    children: React.createElement("a", undefined, Util.ReactStuff.s(crumb[/* name */0])),
+                                    key: String(i)
+                                  });
+                            if (i > 0) {
+                              return React.createElement("span", {
+                                          key: String(i)
+                                        }, Util.ReactStuff.s(" / "), item);
+                            } else {
+                              return item;
+                            }
+                          })))));
 }
 
 var BreadCrumbs = {
@@ -547,6 +605,7 @@ function SidebarLayout(Props) {
   var match = Props.components;
   var components$2 = match !== undefined ? Caml_option.valFromOption(match) : components;
   var sidebar = Props.sidebar;
+  var breadcrumbs = Props.breadcrumbs;
   var route = Props.route;
   var children = Props.children;
   var match$1 = React.useState((function () {
@@ -554,6 +613,11 @@ function SidebarLayout(Props) {
         }));
   var setIsOpen = match$1[1];
   var theme$1 = ColorTheme.toCN(theme);
+  var breadcrumbs$1 = Belt_Option.mapWithDefault(breadcrumbs, null, (function (crumbs) {
+          return React.createElement(SidebarLayout$BreadCrumbs, {
+                      crumbs: crumbs
+                    });
+        }));
   return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
                   className: "mt-16 min-w-20 " + theme$1
                 }, React.createElement("div", {
@@ -578,7 +642,7 @@ function SidebarLayout(Props) {
                                             className: "flex justify-center w-full md:w-3/4 overflow-hidden"
                                           }, React.createElement("main", {
                                                 className: "w-5/6 pt-8 mb-32 text-lg"
-                                              }, children)))
+                                              }, breadcrumbs$1, children)))
                                 }))))));
 }
 
