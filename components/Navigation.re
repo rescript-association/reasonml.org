@@ -150,7 +150,58 @@ module SubNav = {
   module DocsLinks = {
     [@react.component]
     let make = (~route: string) => {
-      <div> "Docsi Items"->s </div>;
+      let jsTheme = ColorTheme.toCN(`Js);
+      let reTheme = ColorTheme.toCN(`Reason);
+
+      let jsItems = [|
+        ("Belt Stdlib", "/apis/javascript/latest/belt"),
+        ("Js Module", "/apis/javascript/latest/js"),
+        /*("Module 3", "/apis/javascript/latest/mod3"),*/
+        /*("Module 4", "/apis/javascript/latest/mod4"),*/
+      |];
+
+      let sectionClass = "pb-12 mt-12 border-b border-night last:border-b-0 lg:w-1/4";
+      let overlineClass = "font-black uppercase text-sm tracking-wide text-primary-80";
+
+      let sectionUl = "flex flex-wrap mt-8 list-primary list-inside lg:w-auto max-w-md";
+
+      <div className="lg:flex lg:flex-row px-4 max-w-xl">
+        <div className={reTheme ++ " " ++ sectionClass}>
+          /*<Link href="/apis">*/
+            /*<a className=overlineClass> "Language Manual"->s </a>*/
+          /*</Link>*/
+          <div className=overlineClass> "Language Manual"->s </div>
+          <ul className=sectionUl> <li> "Coming soon"->s </li> </ul>
+        </div>
+        <div className={reTheme ++ " " ++ sectionClass}>
+          /*<Link href="/apis/javascript/latest">*/
+            /*<a className=overlineClass> "Tools"->s </a>*/
+          /*</Link>*/
+          <div className=overlineClass> "Tools"->s </div>
+          <ul className=sectionUl>
+             <li> "Coming soon"->s </li> </ul>
+            /*{jsItems*/
+            /*->Belt.Array.mapWithIndex((idx, (title, href)) => {*/
+            /*let active =*/
+            /*Js.String2.startsWith(route, href)*/
+            /*? "text-primary-80 hover:text-primary" : "";*/
+            /*<li*/
+            /*className="w-1/2 xs:w-1/2 h-10"*/
+            /*key={Belt.Int.toString(idx)}>*/
+            /*<Link href>*/
+            /*<a*/
+            /*className={*/
+            /*"text-white-80 hover:text-white hover:cursor-pointer "*/
+            /*++ active*/
+            /*}>*/
+            /*title->s*/
+            /*</a>*/
+            /*</Link>*/
+            /*</li>;*/
+            /*})*/
+            /*->ate}*/
+        </div>
+      </div>;
     };
   };
 
