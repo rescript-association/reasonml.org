@@ -489,7 +489,7 @@ module Sidebar = {
       <button
         className={
           (hidden ? "hidden" : "")
-          ++ " md:hidden flex justify-center block shadow-md bg-primary text-snow hover:text-white rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8"
+          ++ " md:hidden flex justify-center items-center block shadow-md bg-primary text-snow hover:text-white rounded-full w-12 h-12 fixed bottom-0 right-0 mr-8 mb-8"
         }
         onMouseDown=onClick>
         <Icon.Table />
