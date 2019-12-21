@@ -21,7 +21,7 @@ function MainLayout(Props) {
     minWidth: "20rem"
   };
   var match$1 = React.useState((function () {
-          return true;
+          return false;
         }));
   var setIsOpen = match$1[1];
   return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
