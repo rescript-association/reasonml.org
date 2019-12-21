@@ -168,40 +168,41 @@ module SubNav = {
       <div className="lg:flex lg:flex-row px-4 max-w-xl">
         <div className={reTheme ++ " " ++ sectionClass}>
           /*<Link href="/apis">*/
-            /*<a className=overlineClass> "Language Manual"->s </a>*/
+          /*<a className=overlineClass> "Language Manual"->s </a>*/
           /*</Link>*/
-          <div className=overlineClass> "Language Manual"->s </div>
-          <ul className=sectionUl> <li> "Coming soon"->s </li> </ul>
-        </div>
+
+            <div className=overlineClass> "Language Manual"->s </div>
+            <ul className=sectionUl> <li> "Coming soon"->s </li> </ul>
+          </div>
         <div className={reTheme ++ " " ++ sectionClass}>
           /*<Link href="/apis/javascript/latest">*/
-            /*<a className=overlineClass> "Tools"->s </a>*/
+          /*<a className=overlineClass> "Tools"->s </a>*/
           /*</Link>*/
-          <div className=overlineClass> "Tools"->s </div>
-          <ul className=sectionUl>
-             <li> "Coming soon"->s </li> </ul>
-            /*{jsItems*/
-            /*->Belt.Array.mapWithIndex((idx, (title, href)) => {*/
-            /*let active =*/
-            /*Js.String2.startsWith(route, href)*/
-            /*? "text-primary-80 hover:text-primary" : "";*/
-            /*<li*/
-            /*className="w-1/2 xs:w-1/2 h-10"*/
-            /*key={Belt.Int.toString(idx)}>*/
-            /*<Link href>*/
-            /*<a*/
-            /*className={*/
-            /*"text-white-80 hover:text-white hover:cursor-pointer "*/
-            /*++ active*/
-            /*}>*/
-            /*title->s*/
-            /*</a>*/
-            /*</Link>*/
-            /*</li>;*/
-            /*})*/
-            /*->ate}*/
-        </div>
+
+            <div className=overlineClass> "Tools"->s </div>
+            <ul className=sectionUl> <li> "Coming soon"->s </li> </ul>
+          </div>
       </div>;
+      /*{jsItems*/
+      /*->Belt.Array.mapWithIndex((idx, (title, href)) => {*/
+      /*let active =*/
+      /*Js.String2.startsWith(route, href)*/
+      /*? "text-primary-80 hover:text-primary" : "";*/
+      /*<li*/
+      /*className="w-1/2 xs:w-1/2 h-10"*/
+      /*key={Belt.Int.toString(idx)}>*/
+      /*<Link href>*/
+      /*<a*/
+      /*className={*/
+      /*"text-white-80 hover:text-white hover:cursor-pointer "*/
+      /*++ active*/
+      /*}>*/
+      /*title->s*/
+      /*</a>*/
+      /*</Link>*/
+      /*</li>;*/
+      /*})*/
+      /*->ate}*/
     };
   };
 
@@ -258,6 +259,66 @@ module SubNav = {
         </div>
       </div>;
     };
+  };
+};
+
+module MobileNav = {
+  [@react.component]
+  let make = (~route: string) => {
+    let base = "font-light mx-4 py-5 text-white-80 border-b border-night";
+    let extLink = "block hover:cursor-pointer hover:text-white text-night-light";
+    <div className="border-night border-t">
+      <ul>
+        <li className=base>
+          <Link href="/try">
+            <a className={linkOrActiveLink(~target="/try", ~route)}>
+              "Playground"->s
+            </a>
+          </Link>
+        </li>
+        <li className=base>
+          <Link href="/blog">
+            <a className={linkOrActiveLink(~target="/blog", ~route)}>
+              "Blog"->s
+            </a>
+          </Link>
+        </li>
+        <li className=base>
+          <Link href="/community">
+            <a className={linkOrActiveLink(~target="/community", ~route)}>
+              "Community"->s
+            </a>
+          </Link>
+        </li>
+        <li className=base>
+          <a
+            href="https://twitter.com/reasonml"
+            rel="noopener noreferrer"
+            target="_blank"
+            className=extLink>
+            "Twitter"->s
+          </a>
+        </li>
+        <li className=base>
+          <a
+            href="https://discord.gg/reasonml"
+            rel="noopener noreferrer"
+            target="_blank"
+            className=extLink>
+            "Discord"->s
+          </a>
+        </li>
+        <li className=base>
+          <a
+            href="https://github.com/reason-association/reasonml.org"
+            rel="noopener noreferrer"
+            target="_blank"
+            className=extLink>
+            "Github"->s
+          </a>
+        </li>
+      </ul>
+    </div>;
   };
 };
 
@@ -436,7 +497,7 @@ let make = (~isOverlayOpen=false, ~toggle=() => (), ~route="/") => {
         (isOverlayOpen ? "flex" : "hidden")
         ++ " sm:hidden flex-col fixed top-0 left-0 h-full w-full sm:w-9/12 bg-night-dark sm:h-auto sm:flex sm:relative sm:flex-row sm:justify-between"
       }>
-      <div className="border-night border-t"> "mobile"->s </div>
+      <MobileNav route />
     </div>
   </nav>;
 };

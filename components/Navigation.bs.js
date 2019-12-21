@@ -210,6 +210,61 @@ var SubNav = {
   ApiLinks: ApiLinks
 };
 
+function Navigation$MobileNav(Props) {
+  var route = Props.route;
+  var base = "font-light mx-4 py-5 text-white-80 border-b border-night";
+  var extLink = "block hover:cursor-pointer hover:text-white text-night-light";
+  return React.createElement("div", {
+              className: "border-night border-t"
+            }, React.createElement("ul", undefined, React.createElement("li", {
+                      className: base
+                    }, React.createElement(Link.default, {
+                          href: "/try",
+                          children: React.createElement("a", {
+                                className: linkOrActiveLink("/try", route)
+                              }, Util.ReactStuff.s("Playground"))
+                        })), React.createElement("li", {
+                      className: base
+                    }, React.createElement(Link.default, {
+                          href: "/blog",
+                          children: React.createElement("a", {
+                                className: linkOrActiveLink("/blog", route)
+                              }, Util.ReactStuff.s("Blog"))
+                        })), React.createElement("li", {
+                      className: base
+                    }, React.createElement(Link.default, {
+                          href: "/community",
+                          children: React.createElement("a", {
+                                className: linkOrActiveLink("/community", route)
+                              }, Util.ReactStuff.s("Community"))
+                        })), React.createElement("li", {
+                      className: base
+                    }, React.createElement("a", {
+                          className: extLink,
+                          href: "https://twitter.com/reasonml",
+                          rel: "noopener noreferrer",
+                          target: "_blank"
+                        }, Util.ReactStuff.s("Twitter"))), React.createElement("li", {
+                      className: base
+                    }, React.createElement("a", {
+                          className: extLink,
+                          href: "https://discord.gg/reasonml",
+                          rel: "noopener noreferrer",
+                          target: "_blank"
+                        }, Util.ReactStuff.s("Discord"))), React.createElement("li", {
+                      className: base
+                    }, React.createElement("a", {
+                          className: extLink,
+                          href: "https://github.com/reason-association/reasonml.org",
+                          rel: "noopener noreferrer",
+                          target: "_blank"
+                        }, Util.ReactStuff.s("Github")))));
+}
+
+var MobileNav = {
+  make: Navigation$MobileNav
+};
+
 function Navigation(Props) {
   var match = Props.isOverlayOpen;
   var isOverlayOpen = match !== undefined ? match : false;
@@ -409,9 +464,9 @@ function Navigation(Props) {
                     minWidth: minWidth,
                     top: "4rem"
                   }
-                }, React.createElement("div", {
-                      className: "border-night border-t"
-                    }, Util.ReactStuff.s("mobile"))));
+                }, React.createElement(Navigation$MobileNav, {
+                      route: route
+                    })));
 }
 
 var Link$1 = 0;
@@ -427,6 +482,7 @@ export {
   useOutsideClick ,
   useWindowWidth ,
   SubNav ,
+  MobileNav ,
   make ,
   
 }
