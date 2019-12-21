@@ -3,7 +3,7 @@ export default Prose.make;
 
 # Js
 
-The [Js](/js_docs) module mostly contains Reason bindings to _standard JavaScript APIs_
+The Js module mostly contains Reason bindings to _standard JavaScript APIs_
 like [console.log](https://developer.mozilla.org/en-US/docs/Web/API/Console/log),
 or the JavaScript
 [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String),
@@ -11,7 +11,7 @@ or the JavaScript
 [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 classes.
 
-It is meant as a zero-abstraction interop layer and therefore directly exposes
+It is meant as a zero-abstraction interop layer and directly exposes
 JavaScript functions as they are, even when their behavior should be considered unsafe
 (e.g. modifying an array in place using [Js.Array.push](/js_docs/array#push)).
 
@@ -22,7 +22,7 @@ and [Belt.Map.String](http://localhost:3000/belt_docs/map-string) to [Js.Dict](/
 
 ## Argument Order
 
-For historical reasons, some APIs in the [Js](/js_docs) namespace (e.g. [Js.String](/js_docs/string)) are
+For historical reasons, some APIs in the Js namespace (e.g. [Js.String](/js_docs/string)) are
 using the data-last argument order whereas others (e.g. [Js.Date](js_docs/date)) are using data-first.
 
 For more information about these argument orders and the trade-offs between them, see
