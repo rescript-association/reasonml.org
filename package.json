@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Patrick Stapfer <ryyppy@users.noreply.github.com>",
   "license": "MIT",
+  "engines": { "node": "12.x" },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^1.2.0",
     "@glennsl/bs-json": "^3.0.0",
