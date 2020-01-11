@@ -12,37 +12,37 @@ Specalized when key type is `int`, more efficient than the generic type
 
 ## key
 
-```
+```re sig
 type key = int;
 ```
 
 ## t
 
-```
+```re sig
 type t('b);
 ```
 
 ## make
 
-```
+```re sig
 let make: (~hintSize: int) => t('b);
 ```
 
 ## clear
 
-```
+```re sig
 let clear: t('b) => unit;
 ```
 
 ## isEmpty
 
-```
+```re sig
 let isEmpty: t('a) => bool;
 ```
 
 ## set
 
-```
+```re sig
 let set: (t('a), key, 'a) => unit;
 ```
 
@@ -50,108 +50,108 @@ let set: (t('a), key, 'a) => unit;
 
 ## copy
 
-```
+```re sig
 let copy: t('a) => t('a);
 ```
 
 ## get
 
-```
+```re sig
 let get: (t('a), key) => option('a);
 ```
 
 ## has
 
-```
+```re sig
 let has: (t('b), key) => bool;
 ```
 
 ## remove
 
-```
+```re sig
 let remove: (t('a), key) => unit;
 ```
 
 ## forEachU
 
-```
+```re sig
 let forEachU: (t('b), [@bs] ((key, 'b) => unit)) => unit;
 ```
 
 ## forEach
 
-```
+```re sig
 let forEach: (t('b), (key, 'b) => unit) => unit;
 ```
 
 ## reduceU
 
-```
+```re sig
 let reduceU: (t('b), 'c, [@bs] (('c, key, 'b) => 'c)) => 'c;
 ```
 
 ## reduce
 
-```
+```re sig
 let reduce: (t('b), 'c, ('c, key, 'b) => 'c) => 'c;
 ```
 
 ## keepMapInPlaceU
 
-```
+```re sig
 let keepMapInPlaceU: (t('a), [@bs] ((key, 'a) => option('a))) => unit;
 ```
 
 ## keepMapInPlace
 
-```
+```re sig
 let keepMapInPlace: (t('a), (key, 'a) => option('a)) => unit;
 ```
 
 ## size
 
-```
+```re sig
 let size: t('a) => int;
 ```
 
 ## toArray
 
-```
+```re sig
 let toArray: t('a) => array((key, 'a));
 ```
 
 ## keysToArray
 
-```
+```re sig
 let keysToArray: t('a) => array(key);
 ```
 
 ## valuesToArray
 
-```
+```re sig
 let valuesToArray: t('a) => array('a);
 ```
 
 ## fromArray
 
-```
+```re sig
 let fromArray: array((key, 'a)) => t('a);
 ```
 
 ## mergeMany
 
-```
+```re sig
 let mergeMany: (t('a), array((key, 'a))) => unit;
 ```
 
 ## getBucketHistogram
 
-```
+```re sig
 let getBucketHistogram: t('a) => array(int);
 ```
 
 ## logStats
 
-```
+```re sig
 let logStats: t('a) => unit;
 ```
