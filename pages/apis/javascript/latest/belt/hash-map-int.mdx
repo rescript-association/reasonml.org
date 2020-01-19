@@ -301,7 +301,12 @@ Belt.HashMap.Int.toArray(hMap) == [|(1, "value1"), (2, "value2")|];
 let mergeMany: (t('a), array((key, 'a))) => unit;
 ```
 
-<!-- TODO: examples -->
+Merges many key value pairs into hash map.
+
+```re example
+let hMap = Belt.HashMap.Int.make(~hintSize=10);
+Belt.HashMap.Int.mergeMany(hMap, [|(1, "value1"), (2, "value2")|]);
+```
 
 ## getBucketHistogram
 
