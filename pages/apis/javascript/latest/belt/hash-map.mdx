@@ -186,6 +186,8 @@ Belt.HashMap.has(s0, 2) == false;
 let remove: (t('key, 'value, 'id), 'key) => unit;
 ```
 
+If bound exists, removes it from the hash map.
+
 ```re example
 module IntHash =
   Belt.Id.MakeHashable({
@@ -199,8 +201,6 @@ Belt.HashMap.set(s0, 1, "value1");
 Belt.HashMap.remove(s0, 1);
 Belt.HashMap.has(s0, 1) == false;
 ```
-
-If bound exists, removes it from the hash map.
 
 ## forEachU
 
@@ -420,14 +420,21 @@ Belt.HashMap.toArray(s0) == [|(1, "value1"), (2, "value2")|];
 let mergeMany: (t('key, 'value, 'id), array(('key, 'value))) => unit;
 ```
 
+<!-- TODO: example -->
+
 ## getBucketHistogram
 
 ```re sig
 let getBucketHistogram: t('a, 'b, 'c) => array(int);
 ```
 
+<!-- TODO: example -->
+
+
 ## logStats
 
 ```re sig
 let logStats: t('a, 'b, 'c) => unit;
 ```
+
+<!-- TODO: example -->
