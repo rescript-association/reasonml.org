@@ -438,7 +438,18 @@ Belt.HashMap.mergeMany(hMap, [|(1, "1"), (2, "2")|])
 let getBucketHistogram: t('a, 'b, 'c) => array(int);
 ```
 
-<!-- TODO: example -->
+```re example
+module IntHash =
+  Belt.Id.MakeHashable({
+    type t = int;
+    let hash = a => a;
+    let eq = (a, b) => a == b;
+  });
+let hMap = Belt.HashMap.make(~hintSize=10, ~id=(module IntHash));
+Belt.HashMap.set(hMap, 1, "1");
+
+Belt.HashMap.getBucketHistogram(hMap);
+```
 
 ## logStats
 
@@ -446,4 +457,15 @@ let getBucketHistogram: t('a, 'b, 'c) => array(int);
 let logStats: t('a, 'b, 'c) => unit;
 ```
 
-<!-- TODO: example -->
+```re example
+module IntHash =
+  Belt.Id.MakeHashable({
+    type t = int;
+    let hash = a => a;
+    let eq = (a, b) => a == b;
+  });
+let hMap = Belt.HashMap.make(~hintSize=10, ~id=(module IntHash));
+Belt.HashMap.set(hMap, 1, "1");
+
+Belt.HashMap.logStats(hMap);
+```

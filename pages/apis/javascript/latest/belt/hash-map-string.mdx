@@ -324,8 +324,12 @@ Belt.HashMap.String.mergeMany(hMap, [|("1", "value1"), ("2", "value2")|]);
 let getBucketHistogram: t('a) => array(int);
 ```
 
-<!-- TODO: example -->
+```re example
+let hMap = Belt.HashMap.String.make(~hintSize=10);
+Belt.HashMap.String.set(hMap, "1", "1");
 
+Belt.HashMap.String.getBucketHistogram(hMap);
+```
 
 ## logStats
 
@@ -333,4 +337,9 @@ let getBucketHistogram: t('a) => array(int);
 let logStats: t('a) => unit;
 ```
 
-<!-- TODO: example -->
+```re example
+let hMap = Belt.HashMap.String.make(~hintSize=10);
+Belt.HashMap.String.set(hMap, "1", "1");
+
+Belt.HashMap.String.logStats(hMap);
+```
