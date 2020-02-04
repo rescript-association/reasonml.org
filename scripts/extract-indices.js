@@ -97,19 +97,19 @@ const createIndex = result => {
   }, {});
 };
 
-const BELT_MD_DIR = path.join(__dirname, "../pages/apis/javascript/latest/belt");
+const BELT_MD_DIR = path.join(__dirname, "../pages/apis/javascript/latest/");
 const BELT_INDEX_FILE = path.join(
   __dirname,
   "../index_data/belt_api_index.json"
 );
-const beltFiles = glob.sync(`${BELT_MD_DIR}/*.md?(x)`);
+const beltFiles = glob.sync(`${BELT_MD_DIR}{belt/*.md?(x),belt.mdx}`);
 const beltResult = beltFiles.map(processFile);
 const beltIndex = createIndex(beltResult);
 fs.writeFileSync(BELT_INDEX_FILE, JSON.stringify(beltIndex), "utf8");
 
-const JS_MD_DIR = path.join(__dirname, "../pages/apis/javascript/latest/js");
+const JS_MD_DIR = path.join(__dirname, "../pages/apis/javascript/latest/");
 const JS_INDEX_FILE = path.join(__dirname, "../index_data/js_api_index.json");
-const jsFiles = glob.sync(`${JS_MD_DIR}/*.md?(x)`);
+const jsFiles = glob.sync(`${JS_MD_DIR}{js/*.md?(x),js.mdx}`);
 const jsResult = jsFiles.map(processFile);
 const jsIndex = createIndex(jsResult);
 fs.writeFileSync(JS_INDEX_FILE, JSON.stringify(jsIndex), "utf8");

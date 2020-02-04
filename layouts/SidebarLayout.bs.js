@@ -618,7 +618,9 @@ function SidebarLayout(Props) {
                       crumbs: crumbs
                     });
         }));
-  return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
+  return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, {
+                  title: ""
+                }), React.createElement("div", {
                   className: "mt-16 min-w-20 " + theme$1
                 }, React.createElement("div", {
                       className: "w-full text-night font-base"

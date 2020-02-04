@@ -236,10 +236,11 @@ module Docs = {
       theme=`Js
       components
       sidebar
-      breadcrumbs=?breadcrumbs
+      ?breadcrumbs
       route={
         router##route;
       }>
+      <Meta title={moduleName ++ " - ReasonML"} />
       children
     </SidebarLayout>;
   };

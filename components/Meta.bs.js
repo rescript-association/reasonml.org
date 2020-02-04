@@ -1,9 +1,11 @@
 
 
+import * as Util from "../common/Util.bs.js";
 import * as React from "react";
 import * as Head from "next/head";
 
 function Meta(Props) {
+  var title = Props.title;
   return React.createElement(Head.default, {
               children: null
             }, React.createElement("meta", {
@@ -11,7 +13,7 @@ function Meta(Props) {
                 }), React.createElement("meta", {
                   content: "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, minimal-ui",
                   name: "viewport"
-                }));
+                }), React.createElement("title", undefined, Util.ReactStuff.s(title)));
 }
 
 var Head$1 = 0;

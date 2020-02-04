@@ -203,6 +203,7 @@ module Docs = {
       route={
         router##route;
       }>
+      <Meta title={moduleName ++ " - ReasonML"} />
       children
     </SidebarLayout>;
   };

@@ -10,7 +10,7 @@ let make = (~children, ~components=Mdx.Components.default) => {
   let (isOpen, setIsOpen) = React.useState(() => false);
 
   <>
-    <Meta />
+    <Meta title="ReasonML" />
     <div className="mb-32 mt-16">
       <div className="w-full text-night font-base">
         <Navigation

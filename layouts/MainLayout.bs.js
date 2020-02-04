@@ -24,7 +24,9 @@ function MainLayout(Props) {
           return false;
         }));
   var setIsOpen = match$1[1];
-  return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, { }), React.createElement("div", {
+  return React.createElement(React.Fragment, undefined, React.createElement(Meta.make, {
+                  title: "ReasonML"
+                }), React.createElement("div", {
                   className: "mb-32 mt-16"
                 }, React.createElement("div", {
                       className: "w-full text-night font-base"

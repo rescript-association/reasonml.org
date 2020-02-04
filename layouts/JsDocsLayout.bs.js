@@ -1,5 +1,6 @@
 
 
+import * as Meta from "../components/Meta.bs.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
@@ -486,12 +487,14 @@ function JsDocsLayout$Docs(Props) {
     components: components,
     sidebar: sidebar,
     route: router.route,
-    children: children
+    children: null
   };
   if (breadcrumbs !== undefined) {
     tmp$1.breadcrumbs = Caml_option.valFromOption(breadcrumbs);
   }
-  return React.createElement(SidebarLayout.make, tmp$1);
+  return React.createElement(SidebarLayout.make, tmp$1, React.createElement(Meta.make, {
+                  title: moduleName + " - ReasonML"
+                }), children);
 }
 
 var Docs = {
