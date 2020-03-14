@@ -159,7 +159,7 @@ let circle = drawCircle(~color, ());
 
 ### Signatures and Type Annotations
 
-Functions with optional labeled arguments can be confusing when it comes to signature and type annotations. Indeed, an optional labeled argument is seen as wrapped in an `option` inside the function body, but is called unwrapped but when you apply the function.
+Functions with optional labeled arguments can be confusing when it comes to signature and type annotations. Indeed, the type of an optional labeled argument looks different depending on whether you're calling the function, or working inside the function body. Outside the function, a raw value is either passed in (`int`, for example), or left off entirely. Inside the function, the parameter is always there, but its value is an option (`option(int)`). This means that the type signature is different, depending on whether you're writing out the function type, or the parameter type annotation. The first being a raw value, and the second being an option.
 
 If we get back to our previous example and both add a signature and type annotations to its argument, we get this:
 ```reason
