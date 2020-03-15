@@ -525,14 +525,12 @@ var myBook = new Book();
 
 ### `[@bs.deriving accessors]`
 
-Reason records were represented as arrays in JS in BuckleScript versions < v7. `bs.deriving accessors` makes it more convenient to access records when you or your library consumers need to be on an older BuckleScript version.
+`bs.deriving accessors` makes it more convenient to access records.
 
 <Info>
 
-As records are compiled to JS objects since BuckleScript v7, you may not need this decorator anymore, except if you need to stay compatible for users with older BuckleScript versions (such as library authors).
-Since [records](common-data-types.md#records) are a shared data type, it is pretty safe (and much more straightforward) to use them directly. 
-However, if you have a lot of optional fields, it is still recommended to use `bs.deriving accessors`, since in records you need to explicitly initialize every field whereas `bs.deriving accessors` gives
-you a record creation function where you can omit every optional argument.
+**Hint:** Since BuckleScript v7, records are compiled to plain JS objects, so you might not need `[@bs.deriving accessors]`.
+More about this [here](/docs/reason-compiler/latest/object#records-as-objects).
 
 </Info>
 
@@ -639,14 +637,12 @@ let actions = [
 
 ### `[@bs.deriving abstract]`
 
-Reason records were represented as arrays in JS in BuckleScript versions < v7. `bs.deriving abstract` makes it more convenient to access records when you or your library consumers need to be on an older BuckleScript version.
+`bs.deriving abstract` makes it more convenient to access records.
 
 <Info>
 
-As records are compiled to JS objects since BuckleScript v7, you may not need this decorator anymore, except if you need to stay compatible for users with older BuckleScript versions (such as library authors).
-Since [records](common-data-types.md#records) are a shared data type, it is pretty safe (and much more straightforward) to use them directly.
-However, if you have a lot of optional fields, it is still recommended to use `bs.deriving abstract`, since in records you need to explicitly initialize every field whereas `bs.deriving abstract` gives
-you a record creation function where you can omit every optional argument.
+**Hint:** Since BuckleScript v7, records are compiled to plain JS objects, so you might not need `[@bs.deriving abstract]`.
+More about this [here](/docs/reason-compiler/latest/object#records-as-objects).
 
 </Info>
 
@@ -768,7 +764,7 @@ var misha = {
 
 ## `[@bs.as]`
 
-`bs.as` can be used with [`bs.deriving abstract`](#bsderiving-abstract) or records (starting with BuckleScript v7) to rename fields. This is useful when field names are valid in JS, but not in BS.
+`bs.as` can be used with [`bs.deriving abstract`](#bsderiving-abstract) or records (BuckleScript v7 and above) to rename fields. This is useful when field names are valid in JS, but not in BS.
 
 For example:
 
@@ -848,17 +844,98 @@ log(404, "NOT_FOUND", "this", "page", "is", "not", "found");
 ```
 
 ## `[@bs.inline]`
-TODO
+
+A binding marked with `[@bs.inline]` will tell the compiler to copy (inline) its value in every place the binding is being used.
+This is especially useful for cases where e.g. string constants can't be used as variables, but need to be present as constant values.
+
+Suppose you have a list of allowed colors which are represented as strings in JS:
+
+```reason
+/* Colors.re */
+[@bs.inline]
+let green = "green";
+
+[@bs.inline]
+let red = "red";
+```
+
+You can use them in another module:
+
+```reason
+let allowedColors = [|Colors.green, Colors.red|];
+```
+
+the corresponding values get inlined directly in the JS code:
+
+```js
+var allowedColors = [
+  "green",
+  "red"
+];
+```
+
+If you omitted the [@bs.inline] statements in the example above, the resulting JS code would look like this:
+
+```js
+var allowedColors = [
+  Colors.green,
+  Colors.red
+];
+```
+
+which is not zero-cost. Currently `bs.inline` works for `string`, `int` and `bool`. `float` cannot be inlined (yet).
+
+A more advanced, but pretty common use-case is to inline the `NODE_ENV` strings:
+
+```reason
+/* NodeEnv.re */
+[@bs.val] [@bs.scope "process.env"] external env: string = "NODE_ENV";
+
+[@bs.inline]
+let development = "development";
+[@bs.inline]
+let production = "production";
+```
+
+Invoke them in another module: 
+
+```reason
+if (NodeEnv.env === NodeEnv.development) {
+  Js.log("development");
+}
+```
 
 ## `[@bs.meth]`
 
-To call a method of a `Js.t` field, use `bs.meth` to avoid issues with a curried object where the reference to `this` may be incorrect.
+If you want to use a function which needs to bind to a JS object's `this` context, you need to use `bs.meth`, to avoid issues with currying.
+
+For instance, take the following JS object:
+
+```js
+var john = { 
+  say: (a, b) => console.log(a, b)
+};
+```
+
+The shape of the `john` object could be typed as follows:
 
 ```reason
 type person = {. [@bs.meth] "say": (string, string) => unit};
-[@bs.val] external john : person = "john";
+[@bs.val] external john: person = "john";
+```
 
+and the `say` method can be called with the JS object access notation (`##`):
+
+```reason
 john##say("hey", "jude");
 ```
+
+which compiles to 
+
+```js
+john.say("hey", "jude");
+```
+
+When you forget to use `[@bs.meth]` in the function signature, the type checker will error, because it is ensured by the compiler to enforce only fully applied functions in `Js.t` objects. 
 
 Refer to the [Object 2](object-2.md#call) section for a more detailed explanation.
