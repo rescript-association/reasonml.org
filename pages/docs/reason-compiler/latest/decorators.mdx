@@ -525,7 +525,16 @@ var myBook = new Book();
 
 ### `[@bs.deriving accessors]`
 
-Reason records are represented as arrays in JS.
+Reason records were represented as arrays in JS in BuckleScript versions < v7. `bs.deriving accessors` makes it more convenient to access records when you or your library consumers need to be on an older BuckleScript version.
+
+<Info>
+
+As records are compiled to JS objects since BuckleScript v7, you may not need this decorator anymore, except if you need to stay compatible for users with older BuckleScript versions (such as library authors).
+Since [records](common-data-types.md#records) are a shared data type, it is pretty safe (and much more straightforward) to use them directly. 
+However, if you have a lot of optional fields, it is still recommended to use `bs.deriving accessors`, since in records you need to explicitly initialize every field whereas `bs.deriving accessors` gives
+you a record creation function where you can omit every optional argument.
+
+</Info>
 
 For example:
 
@@ -630,7 +639,16 @@ let actions = [
 
 ### `[@bs.deriving abstract]`
 
-Reason records are represented as arrays in JS:
+Reason records were represented as arrays in JS in BuckleScript versions < v7. `bs.deriving abstract` makes it more convenient to access records when you or your library consumers need to be on an older BuckleScript version.
+
+<Info>
+
+As records are compiled to JS objects since BuckleScript v7, you may not need this decorator anymore, except if you need to stay compatible for users with older BuckleScript versions (such as library authors).
+Since [records](common-data-types.md#records) are a shared data type, it is pretty safe (and much more straightforward) to use them directly.
+However, if you have a lot of optional fields, it is still recommended to use `bs.deriving abstract`, since in records you need to explicitly initialize every field whereas `bs.deriving abstract` gives
+you a record creation function where you can omit every optional argument.
+
+</Info>
 
 ```reason
 type person = {
@@ -750,7 +768,7 @@ var misha = {
 
 ## `[@bs.as]`
 
-`bs.as` can be used with [`bs.deriving abstract`](#bsderiving-abstract) to rename fields. This is useful when field names are valid in JS, but not in BS.
+`bs.as` can be used with [`bs.deriving abstract`](#bsderiving-abstract) or records (starting with BuckleScript v7) to rename fields. This is useful when field names are valid in JS, but not in BS.
 
 For example:
 
@@ -772,6 +790,28 @@ var submitButton = {
   "aria-label": "Submit"
 };
 ```
+
+<Info>
+
+**Note:** Since BuckleScript 7, `bs.as` can also be used in records: 
+
+```reason
+type action = {
+  [@bs.as "type"] _type: string,
+};
+```
+
+will be compiled to:
+
+```js
+var action = {
+  type: "ADD_USER"
+};
+```
+
+Refer to the [Records as Objects](object.md#records-as-objects) section for a detailed explanation.
+
+</Info>
 
 ## `[@bs.variadic]`
 
