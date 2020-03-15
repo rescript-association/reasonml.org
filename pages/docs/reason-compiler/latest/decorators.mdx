@@ -851,4 +851,14 @@ log(404, "NOT_FOUND", "this", "page", "is", "not", "found");
 TODO
 
 ## `[@bs.meth]`
-TODO
+
+To call a method of a `Js.t` field, use `bs.meth` to avoid issues with a curried object where the reference to `this` may be incorrect.
+
+```reason
+type person = {. [@bs.meth] "say": (string, string) => unit};
+[@bs.val] external john : person = "john";
+
+john##say("hey", "jude");
+```
+
+Refer to the [Object 2](object-2.md#call) section for a more detailed explanation.
