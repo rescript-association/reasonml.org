@@ -525,14 +525,14 @@ var myBook = new Book();
 
 ### `[@bs.deriving accessors]`
 
-`bs.deriving accessors` makes it more convenient to access records.
-
 <Info>
 
 **Hint:** Since BuckleScript v7, records are compiled to plain JS objects, so you might not need `[@bs.deriving accessors]`.
 More about this [here](/docs/reason-compiler/latest/object#records-as-objects).
 
 </Info>
+
+The `[@bs.deriving accessors]` can be used to either generate getter functions for a decorated **record type**, or to generate creator functions for **variant type constructors**.
 
 For example:
 
@@ -637,8 +637,6 @@ let actions = [
 
 ### `[@bs.deriving abstract]`
 
-`bs.deriving abstract` makes it more convenient to access records.
-
 <Info>
 
 **Hint:** Since BuckleScript v7, records are compiled to plain JS objects, so you might not need `[@bs.deriving abstract]`.
@@ -646,21 +644,16 @@ More about this [here](/docs/reason-compiler/latest/object#records-as-objects).
 
 </Info>
 
-```reason
-type person = {
-  name: string,
-  age: int
-};
+`bs.deriving abstract` is used to convert a **record type definition** into the following functions:
 
-let misha: person = {
-  name: "Misha",
-  age: 18
-};
+- A creator function, where labeled arguments represent the attributes of the record
+- An abstract type representing the "abstract record"
+- A set of setter / getter functions for each record attribute
 
-Js.log(misha); /* => ["Misha",18] */
-```
+When using this decorator, the original record type will not be usable as a Reason record anymore since it will be replaced by the generated functions.
 
-To represent them as objects, add `bs.deriving abstract`:
+
+For example an annotated record type `person`...
 
 ```reason
 [@bs.deriving abstract]
@@ -668,6 +661,21 @@ type person = {
   name: string,
   age: int
 };
+```
+
+...would expand to the following code (we only describe the signatures of the generated functions, the implementation is hidden, that's why it's called "abstract"):
+
+```reason
+/* The abstract type */
+type person;
+
+/* Getters */
+let nameGet: (~name: string, ~age: int) => person;
+let ageGet: (person) => int;
+
+/* Setters */
+let nameSet: (person, string) => person;
+let ageSet: (person, int) => person;
 ```
 
 `bs.deriving abstract` converts a record to an abstract type, and also creates a creation function:
@@ -680,25 +688,26 @@ Js.log(misha); /* => {"name":"Misha","age":18} */
 
 You can also mark fields as optional with [`bs.optional`](#bsoptional) and rename fields with [`bs.as`](#bsas).
 
-#### Getters
+#### Creator 
 
-`bs.deriving abstract` generates a getter function for every field.
+If we would like to create a `person` type, we would now use the creation function:
 
-Continuing the example above:
+```reason
+let misha = person(~name="Misha", ~age=18);
+Js.log(misha); /* => {"name":"Misha","age":18} */
+```
+
+#### Getter
+
+Will retrieve the value of an abstract type attribute.
+Continuing the previous example:
 
 ```reason
 Js.log(nameGet(misha)); /* => "Misha" */
-Js.log(ageGet(misha));  /* => undefined */
+Js.log(ageGet(misha));  /* => 18 */
 ```
 
-or, equivalently:
-
-```reason
-Js.log(misha->nameGet); /* => "Misha" */
-Js.log(misha->ageGet);  /* => undefined */
-```
-
-#### Setters
+#### Setter
 
 Field values can't be updated unless marked with `mutable`.
 
@@ -907,13 +916,17 @@ if (NodeEnv.env === NodeEnv.development) {
 
 ## `[@bs.meth]`
 
-If you want to use a function which needs to bind to a JS object's `this` context, you need to use `bs.meth`, to avoid issues with currying.
+If you want to call a function of a `Js.t` object, you need to use `bs.meth`, to avoid issues with currying.
 
 For instance, take the following JS object:
 
 ```js
+function say (a, b) {
+  console.log(a, b);
+};
+
 var john = { 
-  say: (a, b) => console.log(a, b)
+  say
 };
 ```
 
