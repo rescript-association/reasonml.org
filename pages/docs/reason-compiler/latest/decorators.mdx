@@ -525,6 +525,10 @@ var myBook = new Book();
 
 ### `[@bs.deriving accessors]`
 
+`[@bs.deriving accessors]` can be used to either generate getter functions for
+a decorated **record type**, or to generate creator functions for constructors of a **variant
+type**.
+
 <Info>
 
 **Hint:** Since BuckleScript v7, records are compiled to plain JS objects, so
@@ -532,10 +536,6 @@ you might not need `[@bs.deriving accessors]` for record types.  More about
 this [here](/docs/reason-compiler/latest/object#records-as-objects).
 
 </Info>
-
-`[@bs.deriving accessors]` can be used to either generate getter functions for
-a decorated **record type**, or to generate creator functions for constructors of a **variant
-type**.
 
 #### Record Accessors
 
@@ -620,7 +620,7 @@ When using this decorator, the original record type will be removed. You'll
 need to use the newly created functions to create / get / set values of this
 type.
 
-Refer to the [Abstract Record Mode](/latest/object#abstract-record-mode)
+Refer to the [Abstract Record Mode](/docs/reason-compiler/latest/object#abstract-record-mode)
 section for a detailed explanation.
 
 
