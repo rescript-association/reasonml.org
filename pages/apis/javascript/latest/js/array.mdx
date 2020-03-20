@@ -355,8 +355,8 @@ Removes `~count` elements from the given array starting at position `~pos`, retu
 
 ```re example
 let arr = [|"a", "b", "c", "d", "e", "f"|];
-Js.log(Js.Array.removeCountInPlace(~pos=2, ~count=3, arr) == [|"c", "d", "e"|]);
-Js.log(arr == [|"a", "b", "f"|]);
+Js.Array.removeCountInPlace(~pos=2, ~count=3, arr) == [|"c", "d", "e"|];
+arr == [|"a", "b", "f"|];
 ```
 
 ## unshift
