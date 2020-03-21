@@ -582,7 +582,7 @@ Js.Array2.filter( [|"abc", "", "", "def", "ghi"|], nonEmpty)
 ```re sig
 let filteri: (t('a), ('a, int) => bool) => t('a);
 ```
-Each element of the given array are passed to the predicate function. The return value is an array of all those elements for which the predicate functin returned `true`.  See [`Array.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) on MDN.
+Each element of the given array are passed to the predicate function. The return value is an array of all those elements for which the predicate function returned `true`.  See [`Array.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) on MDN.
 
 ```re example
 // keep only positive elements at odd indices
@@ -814,7 +814,7 @@ Js.Array2.some([|3, 7, 5, 1, 9|], isEven) == false;
 ```re sig
 let somei: (t('a), ('a, int) => bool) => bool;
 ```
-Returns `true` if the predicate function given as the second argument to `some()` returns `true` for any element in the array; `false` otherwise. The predicate function has two arguments: an item from the array and the index value
+Returns `true` if the predicate function given as the second argument to `somei()` returns `true` for any element in the array; `false` otherwise. The predicate function has two arguments: an item from the array and the index value
 
 ```re example
 // Does any string in the array
