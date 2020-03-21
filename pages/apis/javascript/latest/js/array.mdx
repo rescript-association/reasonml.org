@@ -70,7 +70,7 @@ Creates a new array by applying a function (the second argument) to each item in
 ```re example
 let strArr = Js.String.castToArrayLike("abcd");
 let code = (s) => {Js.String.charCodeAt(0, s)};
-Js.log(Js.Array.fromMap(strArr, code) == [|97.0, 98.0, 99.0, 100.0|]);
+Js.Array.fromMap(strArr, code) == [|97.0, 98.0, 99.0, 100.0|];
 ```
 
 ## isArray
@@ -139,7 +139,6 @@ Js.Array.copyWithinFromRange(~start=2, ~end_=5, ~to_=1, arr)
   == [|100, 102, 103, 104, 104, 105|];
 arr == [|100, 102, 103, 104, 104, 105|];
 ```
-
 
 ## fillInPlace
 
@@ -933,10 +932,13 @@ Sets the value at the given position in the array if the position is in bounds. 
 let arr = [|100, 101, 102, 103|];
 Js.Array.unsafe_set(arr, 3, 99);
 // result is [|100, 101, 102, 99|];
+
 Js.Array.unsafe_set(arr, 4, 88);
 // result is [|100, 101, 102, 99, 88|]
+
 Js.Array.unsafe_set(arr, 6, 77);
 // result is [|100, 101, 102, 99, 88, <1 empty item>, 77|]
+
 Js.Array.unsafe_set(arr, -1, 66);
 // you don't want to know.
 ```
