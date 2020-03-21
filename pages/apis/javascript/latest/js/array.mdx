@@ -600,7 +600,7 @@ Js.Array.toLocaleString([|Js.Date.make()|]);
 let every: ('a => bool, t('a)) => bool;
 ```
 
-The first argument to `every` is a predicate function that returns a boolean. The `every` function returns `true` if the predicate function is true for all items in the given array. If given an empty array, returns `true`. See [`Array.every`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every) on MDN.
+The first argument to `every()` is a predicate function that returns a boolean. The `every()` function returns `true` if the predicate function is true for all items in the given array. If given an empty array, returns `true`. See [`Array.every`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every) on MDN.
 
 ```re example
 let isEven = (x) => {x mod 2 == 0};
@@ -614,7 +614,7 @@ Js.Array.every(isEven, [|6, 22, 7, 4|]) == false;
 let everyi: (('a, int) => bool, t('a)) => bool;
 ```
 
-The first argument to `every` is a predicate function with two arguments: an array element and that element’s index; it returns a boolean. The `every` function returns `true` if the predicate function is true for all items in the given array. If given an empty array, returns `true`. See [`Array.every`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every) on MDN.
+The first argument to `everyi()` is a predicate function with two arguments: an array element and that element’s index; it returns a boolean. The `everyi()` function returns `true` if the predicate function is true for all items in the given array. If given an empty array, returns `true`. See [`Array.every`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every) on MDN.
 
 ```re example
 // determine if all even-index items are positive
@@ -646,7 +646,7 @@ Js.Array.filter(nonEmpty, [|"abc", "", "", "def", "ghi"|])
 let filteri: (('a, int) => bool, t('a)) => t('a);
 ```
 
-Each element of the given array are passed to the predicate function. The return value is an array of all those elements for which the predicate functin returned `true`.  See [`Array.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) on MDN.
+Each element of the given array are passed to the predicate function. The return value is an array of all those elements for which the predicate function returned `true`.  See [`Array.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) on MDN.
 
 ```re example
 // keep only positive elements at odd indices
@@ -891,7 +891,7 @@ Js.Array.some(isEven, [|3, 7, 5, 1, 9|]) == false;
 let somei: (('a, int) => bool, t('a)) => bool;
 ```
 
-Returns `true` if the predicate function given as the first argument to `some()` returns `true` for any element in the array; `false` otherwise. The predicate function has two arguments: an item from the array and the index value
+Returns `true` if the predicate function given as the first argument to `somei()` returns `true` for any element in the array; `false` otherwise. The predicate function has two arguments: an item from the array and the index value
 
 ```re example
 // Does any string in the array
