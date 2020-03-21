@@ -69,7 +69,7 @@ Creates a new array by applying a function (the second argument) to each item in
 ```re example
 let strArr = Js.String.castToArrayLike("abcd");
 let code = (s) => {Js.String.charCodeAt(0, s)};
-Js.log(Js.Array2.fromMap(strArr, code) == [|97.0, 98.0, 99.0, 100.0|]);
+Js.Array2.fromMap(strArr, code) == [|97.0, 98.0, 99.0, 100.0|];
 ```
 
 ## isArray
