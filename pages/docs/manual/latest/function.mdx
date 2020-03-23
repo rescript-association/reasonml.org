@@ -209,13 +209,37 @@ let drawCircle = (~radius=1, ~color, ()) => {
 };
 ```
 
-### Recursive Functions
+## Recursive Functions
 
 By default, a value can't see a binding that points to it, but including the `rec` keyword in a `let` binding makes this possible. This allows functions to see and call themselves, giving us the power of recursion.
 
 ```reason
 let rec neverTerminate = () => neverTerminate();
 ```
+
+In imperative languages, including JavaScript, recursive functions are rarely used. In Reason, recursive functions are common, and can typically replace an imperative loop.
+
+A simple recursive function may look like this:
+
+```reason
+/**
+ * Recursively check every item on the list until one equals the `item`
+ * argument. If a match is found, return `true`, otherwise return `false`.
+ */
+let rec listHas = (list, item) =>
+  switch (list) {
+  | [] => false
+  | [a, ...rest] => a == item || has(rest, item)
+  };
+```
+
+### Tail Recursion
+
+The reason why recursive functions are avoided in many languages, such as JavaScript, is those languages don't support "tail call optimization." That means that calling a recursive function is in danger of blowing the stack. Fortunately for us, the Reason compiler is able to detect when tail recursion is needed, and it can perform  necessary optimizations.
+
+For example, if you take our `listHas` function and compile it to JavaScript, you'll see that it removes the tail-calls by compiling into a `while` loop! Reason gives us the best of both worlds.
+
+For writing `for` or `while` loops instead of recursive functions, see: [Imperative Loops](imperative-loops.mdx).
 
 ### Mutually Recursive Functions
 
