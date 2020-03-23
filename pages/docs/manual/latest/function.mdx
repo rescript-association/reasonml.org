@@ -229,7 +229,7 @@ A simple recursive function may look like this:
 let rec listHas = (list, item) =>
   switch (list) {
   | [] => false
-  | [a, ...rest] => a == item || has(rest, item)
+  | [a, ...rest] => a == item || listHas(rest, item)
   };
 ```
 
