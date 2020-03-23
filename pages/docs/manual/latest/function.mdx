@@ -237,7 +237,9 @@ Using recursion with a `switch` statement is a powerful combination that can som
 
 ### Tail Recursion
 
-The reason why recursive functions are avoided in many languages, such as JavaScript, is those languages don't support "tail call optimization." That means that calling a recursive function is in danger of blowing the stack. Fortunately for us, the Reason compiler is able to detect when tail recursion is needed, and it can perform  necessary optimizations.
+The reason why recursive functions are avoided in many languages, such as JavaScript, is those languages don't support "tail call optimization." This means that each time the function recurses, the previous call to the function is held in memory, which can lead to a stack overflow.
+
+When the recursion happens in the tail position (meaning that the recursive call is the last step performed in the function), this can be optimized in a way that is stack safe. Fortunately for us, the Reason compiler is able to detect and perform this optimization.
 
 For example, if you take our `listHas` function and compile it to JavaScript, you'll see that it removes the tail-calls by compiling into a `while` loop! Reason gives us the best of both worlds.
 
