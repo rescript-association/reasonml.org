@@ -233,6 +233,8 @@ let rec listHas = (list, item) =>
   };
 ```
 
+Using recursion with a `switch` statement is a powerful combination that can sometimes produce code simpler than a standard library function like `fold` or `reduce`. In fact, if you dig into the Reason standard library's source code, you'll see that its implementations of `fold` or `reduce` are actually just recursive functions and `switch` statements!
+
 ### Tail Recursion
 
 The reason why recursive functions are avoided in many languages, such as JavaScript, is those languages don't support "tail call optimization." That means that calling a recursive function is in danger of blowing the stack. Fortunately for us, the Reason compiler is able to detect when tail recursion is needed, and it can perform  necessary optimizations.
