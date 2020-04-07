@@ -126,8 +126,8 @@ One common confusion comes from the way Belt handles array access. It differs fr
 
 ```reason
 let letters = [|"a", "b", "c"|];
-let a = letters[0];
-let capitalA = Js.String2.toUpperCase(a);
+let a = letters[0]; /* a == "a" */
+let capitalA = Js.String.toUpperCase(a);
 let k = letters[10]; /* Raises an exception! The 10th index doesn't exist. */
 ```
 
@@ -136,8 +136,8 @@ Because Belt avoids exceptions and returns `options` instead, this code behaves 
 ```reason
 open Belt;
 let letters = [|"a", "b", "c"|];
-let a = letters[0];
-let captialA = Js.String2.toUpperCase(a); /* Type error! This code will not compile. */
+let a = letters[0]; /* a == Some("a") */
+let captialA = Js.String.toUpperCase(a); /* Type error! This code will not compile. */
 let k = letters[10]; /* k == None */
 ```
 
@@ -157,12 +157,12 @@ let a = letters[0];
 /* Use a switch statement: */
 let capitalA =
   switch(a) {
-    | Some(a) => Some(Js.String2.toUpperCase(a))
+    | Some(a) => Some(Js.String.toUpperCase(a))
     | None => None
   };
   
 /* Alternatively, use the Option module: */
-let capitalA = a->Option.map(Js.String2.toUpperCase);
+let capitalA = a->Option.map(Js.String.toUpperCase);
 
 let k = letters[10]; /* k == None */
 ```
