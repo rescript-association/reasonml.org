@@ -144,7 +144,7 @@ let k = letters[10]; /* k == None */
 Although we've fixed the problem where `k` raises an exception, we now have a type error when trying to capitalize `a`. There are a few things going on here:
 
 - Reason transforms array index access to the function `Array.get`. So `letters[0]` is the same as `Array.get(letters, 0)`. 
-- This compiles to use whichever `Array` module is in scope. If you `open Belt`, then it uses `Belt.Array`.
+- The compiler uses whichever `Array` module is in scope. If you `open Belt`, then it uses `Belt.Array`.
 - `Belt.Array.get` returns values wrapped in options, so `letters[0] == Some("a")`. 
 
 Fortunately, this is easy to fix:
@@ -167,7 +167,7 @@ let capitalA = a->Option.map(Js.String2.toUpperCase);
 let k = letters[10]; /* k == None */
 ```
 
-With that little bit of tweaking, our code now compiles successfully and is 100% type safe!
+With that little bit of tweaking, our code now compiles successfully and is 100% free of runtime errors!
 
 ### A special encoding for collection safety
 
