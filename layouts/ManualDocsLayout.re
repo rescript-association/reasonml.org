@@ -45,6 +45,7 @@ let basicNavs = [|
   {name: "Function", href: "/docs/manual/latest/function"},
   {name: "If-Else", href: "/docs/manual/latest/if-else"},
   {name: "Pipe First", href: "/docs/manual/latest/pipe-first"},
+  {name: "Pipe Last", href: "/docs/manual/latest/pipe-last"},
   {name: "More on Type", href: "/docs/manual/latest/more-on-type"},
   {name: "Destructuring", href: "/docs/manual/latest/destructuring"},
   {name: "Pattern Matching", href: "/docs/manual/latest/pattern-matching"},
