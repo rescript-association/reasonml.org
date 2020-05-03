@@ -129,7 +129,13 @@ module Docs = {
     let version = "v3.6";
 
     <DocsLayout
-      theme=`Reason components categories version title ?activeToc ?breadcrumbs>
+      theme=`Reason
+      components
+      categories
+      version
+      title
+      ?activeToc
+      ?breadcrumbs>
       children
     </DocsLayout>;
   };
