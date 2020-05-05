@@ -38,15 +38,15 @@ Mixing both pipe operators might lead to confusion, since the pipe-first operato
 ```reason
 let maybeGreeting = Some("hello");
 
-maybeGreeting |> Belt.Option.getExn -> Js.log;
+maybeGreeting |> Belt.Option.isSome -> Js.log;
 ```
 
-will not compile, since the compiler will process the `->` pipe first (`Belt.Option.getExn -> Js.log`)
-before applying `maybeGreeting` to `Belt.Option.Exn`. A fix for the example above would involve
+will not compile, since the compiler will process the `->` first (`Belt.Option.isSome -> Js.log`)
+before applying `maybeGreeting` to `Belt.Option.isSome`. A fix for the example above would involve
 using parenthesis, like this:
 
 ```reason
 let maybeGreeting = Some("hello");
 
-(maybeGreeting |> Belt.Option.getExn) -> Js.log;
+(maybeGreeting |> Belt.Option.isSome) -> Js.log;
 ```
