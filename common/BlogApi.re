@@ -200,8 +200,6 @@ module RssFeed = {
         };
       })
     ->Js.Array2.slice(~start=0, ~end_=max);
-    Js.log("Found following items:");
-    Js.log(items);
     items;
   };
 
