@@ -235,13 +235,9 @@ module RssFeed = {
           acc
           ++ {j|
       <item>
-        <title> <![CDATA[$title}}]]></title>
-        <link>
-          $href
-        </link>
-        <guid>
-          $href
-        </guid>
+        <title> <![CDATA[$title]]></title>
+        <link> $href </link>
+        <guid> $href </guid>
         $descriptionElement
 
         <pubDate>$dateStr</pubDate>
