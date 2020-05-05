@@ -171,7 +171,7 @@ module RssFeed = {
   // Retrieves the most recent [max] blog post feed items
   let getLatest = (~max=10, ~baseUrl="https://reasonml.org", ()): array(item) => {
     let authors = BlogFrontmatter.Author.getAllAuthors();
-    getAllPosts()
+    let items = getAllPosts()
     ->Belt.Array.reduce([||], (acc, next) => {
         switch (BlogFrontmatter.decode(~authors, next.frontmatter)) {
         | Ok(fm) =>
@@ -200,7 +200,11 @@ module RssFeed = {
         };
       })
     ->Js.Array2.slice(~start=0, ~end_=max);
+    Js.log("Found following items:");
+    Js.log(items);
+    items;
   };
+
 
   let toXmlString =
       (~siteTitle="ReasonML Blog", ~siteDescription="", items: array(item)) => {
