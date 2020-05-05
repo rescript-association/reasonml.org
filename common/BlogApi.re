@@ -235,7 +235,7 @@ module RssFeed = {
           acc
           ++ {j|
       <item>
-        <title>$title</title>
+        <title> <![CDATA[$title}}]]></title>
         <link>
           $href
         </link>
@@ -250,7 +250,7 @@ module RssFeed = {
         },
       );
 
-    let ret = {j|<?xml version="1.0" ?>
+    let ret = {j|<?xml version="1.0" encoding="utf-8" ?>
   <rss version="2.0">
     <channel>
         <title>$siteTitle</title>
