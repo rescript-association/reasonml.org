@@ -209,7 +209,8 @@ module RssFeed = {
       ->Belt.Option.map(item => {
           let latestPubDateStr = item.pubDate->dateToUTCString;
           {j|<lastBuildDate>$latestPubDateStr</lastBuildDate>|j};
-        });
+        })
+      ->Belt.Option.getWithDefault("");
 
     let itemsStr =
       Belt.Array.reduce(
