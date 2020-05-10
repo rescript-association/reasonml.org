@@ -47,6 +47,8 @@ let helloWorld = {j|你好，$world|j}; /* Supports Unicode and interpolation va
 
 BuckleScript's special pre-processor can then look for such `js` and `j` markers around the string and transforms it into something else.
 
+Note that if you want to try out unicode characters and interpolation interactively, you'll need to use [nit.sketch.sh](https://nit.sketch.sh/) because [sketch.sh](https://sketch.sh) and [rtop](https://opam.ocaml.org/packages/rtop/) do not support [the necessary BuckleScript extensions](https://bucklescript.github.io/bucklescript/Manual.html#_bucklescript_annotations_for_unicode_and_js_ffi_support).
+
 ### Usage
 
 [More string operations can be found in the standard library](/apis/javascript/latest/js/string). For JS compilation, see the familiar `Js.String` API in the [BuckleScript API docs](/apis/javascript/latest/js/string). Since a Reason string maps to a JavaScript string, you can mix & match the string operations in both standard libraries.
