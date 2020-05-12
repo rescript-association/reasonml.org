@@ -15,7 +15,7 @@ import Image from "components/Image.bs";
 
 In [part 2](/blog/state-of-reasonml-org-2020-q2-pt2) of this blog series, we talked about the automation process for quality assurance within the documentation platform itself, and how we want to improve the collaboration process for our contributors.
 
-This article will cover some exciting features and ideas we have been working on for quite a while now.
+This article will cover some features and exciting ideas we have been working on for quite a while now. Even though these features are not fully implemented yet, we still think it's important to communicate the whole spectrum of the project.
 
 
 ## Generating Full API Docs
@@ -24,7 +24,7 @@ As we already mentioned in our previous posts, the API documentation is currentl
 
 This will change as soon as our [doc-tools](https://github.com/reason-association/doc-tools) are ready to be used.
  
-The `doc-tools` project includes a CLI that enables us to easily run the odoc toolchain on the BuckleScript repository to generate JSON data, which will be our foundation for statically generating good looking and interactive doc pages within NextJS (see [SSG](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation)). The project is managed and developed by [rizo](https://github.com/rizo). You can find more information about it [here](https://www.reason-association.org/projects/doc-tools).
+The `doc-tools` project includes a CLI that enables us to easily run the odoc toolchain on the BuckleScript repository to generate JSON data, which will be our foundation for statically generated, good looking, and interactive doc pages within NextJS (see [SSG](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation)). The project is managed and developed by [rizo](https://github.com/rizo). You can find more information about it [here](https://www.reason-association.org/projects/doc-tools).
 
 We are aware that there is more software doing similar things, such as `redoc` or `bs-doc`, the latter acting as the driver for odoc within a BuckleScript project. Since our goal is to have a battle-tested, well-integrated and easy to use tool for odoc JSON generation, we will first start testing `doc-tools` by generating the API docs for `reasonml.org` before making it available to the broader community.
 
@@ -56,7 +56,7 @@ Design & UX will play an important role here. Users should be able to use the pl
 
 ## Conclusion
 
-We gave you a glimpse on what new features to expect in the near future for `reasonml.org`, such as the new Reason Playground or the `doc-tools` project for extracting JSON data from module documentation in BuckleScript projects. We hope you are as excited as we are!
+You now know what new features to expect for `reasonml.org`, such as the new Reason Playground or the `doc-tools` project for extracting JSON data from module documentation in BuckleScript projects and we hope you are as excited as we are!
 
 In case you have any questions or comments, make sure to let us know in the [Reason Discord](https://discord.gg/reasonml) `#docs` channel!
 
