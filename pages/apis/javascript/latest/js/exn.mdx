@@ -2,15 +2,21 @@
 
 <Intro>
 
-Provide utilities for dealing with JS exceptions.
+Provide utilities for dealing with JavaScript exceptions.
 
 </Intro>
+
+JavaScript exceptions and ReasonML/OCaml exceptions are very different. [This article](https://reasonml.org/docs/reason-compiler/latest/exceptions) describes those differences in detail. [A description with even more detail](https://reasonml.org/blog/a-story-of-exception-encoding) is also available.
+
+If you are in a ReasonML environment, use its exception handling; it is more versatile and type-safe. If you are writing modules that will be used by JavaScript developers, then you may want to use the functions in this module. See [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) for information about JavaScript exceptions.
 
 ## t
 
 ```re sig
   type t;
 ```
+
+The type used to describe a JavaScript Exception.
 
 ## exn
 
@@ -26,11 +32,14 @@ Provide utilities for dealing with JS exceptions.
 let asJsExn: exn => option(t);
 ```
 
+Returns `Some(exn)` as a JavaScript exception if its argument is an OCaml `Error`, `None` otherwise. *Someone needs to check this; I am not really sure this is an accurate description.*
+
 ## stack
 
 ```re sig
 let stack: t => option(string);
 ```
+Returns the stack trace for the exception as `Some(value)` if available; `None` otherwise. This is a non-standard property. See [`Error.stack`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/stack) on MDN.
 
 ## message
 
@@ -38,23 +47,29 @@ let stack: t => option(string);
 let message: t => option(string);
 ```
 
+Returns the message associated with the exception as `Some(value)` if available; `None` otherwise. See [`Error.message`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/message) on MDN.
+
 ## name
 
 ```re sig
 let name: t => option(string);
 ```
+Returns the name of the exception as `Some(value)` if available; `None` otherwise. See [`Error.name`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/name) on MDN.
 
 ## fileName
 
 ```re sig
 let fileName: t => option(string);
 ```
+Returns the path name of the file that raised the exception as `Some(value)` if available; `None` otherwise. This is a non-standard property. See [`Error.fileName`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/fileName) on MDN.
+
 
 ## isCamlExceptionOrOpenVariant
 
 ```re sig
 let isCamlExceptionOrOpenVariant: 'a => bool;
 ```
+Returns `true` if the exception came from OCaml, `false` otherwise. The “open variant“ comes from OCaml’s definition of [exceptions as *extensible variants*](https://reasonml.org/docs/manual/latest/exception#design-decisions).
 
 Internal use only.
 
@@ -64,7 +79,7 @@ Internal use only.
 let raiseError: string => 'a;
 ```
 
-Raise Js exception Error object with stacktrace.
+Raise a generic JavaScript `Error` exception object with stacktrace and the given string as its message. See [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) on MDN.
 
 ## raiseEvalError
 
@@ -72,11 +87,15 @@ Raise Js exception Error object with stacktrace.
 let raiseEvalError: string => 'a;
 ```
 
+Raise a JavaScript `EvalError` exception object with stacktrace and the given string as its message. This exception is no longer thrown by JavaScript’s `eval()` function, but is retained for compatibility. See [`EvalError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError) on MDN.
+
 ## raiseRangeError
 
 ```re sig
 let raiseRangeError: string => 'a;
 ```
+
+Raise a JavaScript `RangeError` exception object with stacktrace and the given string as its message. Normally used when a function is given arguments outside its intended range. See [`RangeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) on MDN.
 
 ## raiseReferenceError
 
@@ -84,20 +103,25 @@ let raiseRangeError: string => 'a;
 let raiseReferenceError: string => 'a;
 ```
 
+Raise a JavaScript `ReferenceError` exception object with stacktrace and the given string as its message. Normally used when attempting to reference a non-existent object. See [`ReferenceError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) on MDN.
+
 ## raiseSyntaxError
 
 ```re sig
 let raiseSyntaxError: string => 'a;
 ```
+Raise a JavaScript `SyntaxError` exception object with stacktrace and the given string as its message. Normally thrown by the JavaScript engine when attempting to interpret syntactically invalid code. See [`SyntaxError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError) on MDN.
 
 ## raiseTypeError
 
 ```re sig
 let raiseTypeError: string => 'a;
 ```
+Raise a JavaScript `TypeError` exception object with stacktrace and the given string as its message. Normally thrown when a value for an assignment or function is not of the expected type. See [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) on MDN.
 
 ## raiseUriError
 
 ```re sig
 let raiseUriError: string => 'a;
 ```
+Raise a JavaScript `URIError` exception object with stacktrace and the given string as its message. Normally thrown when attempting to process an invalid URI. See [`URIError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError) on MDN.
