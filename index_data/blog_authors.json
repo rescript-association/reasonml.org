@@ -1,5 +1,12 @@
 [
   {
+    "username": "rescript-team",
+    "fullname": "ReScript Team",
+    "role": "Prev. BuckleScript",
+    "img_url": null,
+    "twitter": null
+  },
+  {
     "username": "hongbo",
     "fullname": "Hongbo Zhang",
     "role": "Compiler Team",
