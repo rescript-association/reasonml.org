@@ -137,50 +137,13 @@ let make = (props: props): React.element => {
   let component = props##"Component";
   let pageProps = props##pageProps;
 
-  let router = Next.Router.useRouter();
-
   let content = React.createElement(component, pageProps);
 
-  let url = router.route->Url.parse;
 
-  switch (url) {
-  // docs routes
-  | {base: [|"docs", "manual"|], version: Latest} =>
-    <ManualDocsLayout.Prose> content </ManualDocsLayout.Prose>
-  | {base: [|"docs", "reason-compiler"|], version: Latest} =>
-    <ReasonCompilerDocsLayout> content </ReasonCompilerDocsLayout>
-  | {base: [|"docs", "reason-react"|], version: Latest} =>
-    <ReasonReactDocsLayout> content </ReasonReactDocsLayout>
-  | {base: [|"docs", "gentype"|], version: Latest} =>
-    <GenTypeDocsLayout> content </GenTypeDocsLayout>
-  // apis routes
-  | {base: [|"apis", "javascript"|], version: Latest, pagepath} =>
-    switch (Belt.Array.length(pagepath), Belt.Array.get(pagepath, 0)) {
-    | (0, _) => <JavaScriptApiLayout.Docs> content </JavaScriptApiLayout.Docs>
-    | (1, Some("js")) => <JsDocsLayout.Prose> content </JsDocsLayout.Prose>
-    | (1, Some("belt")) =>
-      <BeltDocsLayout.Prose> content </BeltDocsLayout.Prose>
-    | (_, Some("js")) => <JsDocsLayout.Docs> content </JsDocsLayout.Docs>
-    | (_, Some("belt")) =>
-      <BeltDocsLayout.Docs> content </BeltDocsLayout.Docs>
-    | _ => React.null
-    }
-  // common routes
-  | {base} =>
-    switch (Belt.List.fromArray(base)) {
-    | ["community", ..._rest] => <CommunityLayout> content </CommunityLayout>
-    | ["blog"] => content // Blog implements its own layout as well
-    | ["blog", ..._rest] =>
-      // Here, the layout will be handled by the Blog_Article component
-      // to keep the frontmatter parsing etc in one place
-      content
-    | _ =>
-      <MainLayout>
-        <Meta />
-        <div className="flex justify-center">
-          <div className="max-w-705 w-full"> content </div>
-        </div>
-      </MainLayout>
-    }
-  };
+  <MainLayout>
+    <Meta />
+    <div className="flex justify-center">
+      <div className="max-w-705 w-full"> content </div>
+    </div>
+  </MainLayout>;
 };
