@@ -37,7 +37,7 @@
   "scripts": {
     "dev": "next -p 3001",
     "build": "bsb -make-world && next build",
-    "test": "",
+    "test": "echo 'do nothing'",
     "check-dead-code": "reanalyze -dce",
     "check-for-exceptions": "reanalyze -exception",
     "update-index": "node scripts/extract-indices.js && node scripts/extract-tocs.js && node -r esm scripts/generate_feed.bs.js > public/blog/feed.xml",
