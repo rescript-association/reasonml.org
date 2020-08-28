@@ -167,7 +167,6 @@ let default = (props: props) => {
         description,
         canonical,
         articleImg,
-        previewImg,
         category,
       }) =>
       <div className="w-full">
@@ -175,7 +174,6 @@ let default = (props: props) => {
           title={title ++ " | Reason Blog"}
           description=?{description->Js.Null.toOption}
           canonical=?{canonical->Js.Null.toOption}
-          ogImage=?{previewImg->Js.Null.toOption}
         />
         <div className="mb-10 md:mb-20">
           <BlogHeader
