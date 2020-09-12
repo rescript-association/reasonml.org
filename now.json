@@ -4,5 +4,29 @@
   "github": {
     "silent": true
   },
+  "headers": [
+    {
+      "source": "/blog/feed.xml",
+      "headers" : [
+        {
+          "key" : "Content-Type",
+          "value" : "application/rss+xml; charset=utf-8"
+        },
+        {
+          "key" : "Cache-Control",
+          "value" : "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/blog/(.*)",
+      "headers" : [
+        {
+          "key" : "Content-Type",
+          "value" : "text/html; charset=utf-8"
+        }
+      ]
+    }
+  ],
   "builds": [{ "src": "next.config.js", "use": "@now/next" }]
 }
